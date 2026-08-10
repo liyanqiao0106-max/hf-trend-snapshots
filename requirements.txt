@@ -1,0 +1,2 @@
+huggingface_hub>=0.32.0,<2
+
