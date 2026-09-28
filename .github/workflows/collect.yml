@@ -1,4 +1,4 @@
-name: Collect Hugging Face model snapshot
+name: Collect weekly AI sources
 
 on:
   schedule:
@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: hf-model-snapshot
+  group: weekly-ai-sources
   cancel-in-progress: false
 
 jobs:
@@ -20,7 +20,6 @@ jobs:
       dashboard_ready: ${{ steps.dashboard.outputs.ready }}
     runs-on: ubuntu-latest
     timeout-minutes: 90
-
     steps:
       - uses: actions/checkout@v4
 
@@ -36,6 +35,23 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python collector.py --output-dir dist
+
+      - name: Collect GitHub Trending snapshot
+        id: github_collect
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set +e
+          python github_collector.py --output dist/github_snapshot.json
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -eq 0 ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "GitHub collector failed; the dashboard will restore the last successful snapshot."
+          fi
 
       - name: Read release metadata
         id: meta
@@ -58,6 +74,35 @@ jobs:
               --notes "Official Hugging Face Hub API model metadata snapshot." \
               --latest=false
           fi
+
+      - name: Publish GitHub snapshot release
+        if: steps.github_collect.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: github-snapshot-${{ steps.meta.outputs.stamp }}
+        shell: bash
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/github_snapshot.json --clobber
+          else
+            gh release create "$TAG" dist/github_snapshot.json \
+              --title "GitHub Trending snapshot ${{ steps.meta.outputs.stamp }}" \
+              --notes "GitHub Trending page and official REST API metadata." \
+              --latest=false
+          fi
+
+      - name: Keep the newest 52 GitHub snapshot releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          mapfile -t OLD_TAGS < <(
+            gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
+              --jq '.[].tag_name' | grep '^github-snapshot-' | sort -r | tail -n +53
+          )
+          for tag in "${OLD_TAGS[@]}"; do
+            gh release delete "$tag" --yes --cleanup-tag
+          done
 
       - name: Keep the newest 52 snapshot releases
         env:
@@ -84,16 +129,22 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --cache-dir history \
             --output site/data/hugging-face/latest.json
-          STATUS=$?
+          HF_STATUS=$?
+          python github_dashboard.py \
+            $([ -f dist/github_snapshot.json ] && echo "--input dist/github_snapshot.json" || echo "--repo $GITHUB_REPOSITORY --restore-to dist/github_snapshot.json") \
+            --allow-empty \
+            --output site/data/github/latest.json
+          GH_STATUS=$?
           set -e
-
-          if [ "$STATUS" -eq 0 ]; then
+          if [ "$GH_STATUS" -ne 0 ]; then
+            exit "$GH_STATUS"
+          elif [ "$HF_STATUS" -eq 0 ]; then
             echo "ready=true" >> "$GITHUB_OUTPUT"
-          elif [ "$STATUS" -eq 3 ]; then
+          elif [ "$HF_STATUS" -eq 3 ]; then
             echo "ready=false" >> "$GITHUB_OUTPUT"
             echo "Dashboard is waiting for three weekly snapshots."
           else
-            exit "$STATUS"
+            exit "$HF_STATUS"
           fi
 
       - name: Configure GitHub Pages
@@ -110,15 +161,12 @@ jobs:
     needs: collect
     if: needs.collect.outputs.dashboard_ready == 'true'
     runs-on: ubuntu-latest
-
     permissions:
       pages: write
       id-token: write
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Deploy dashboard
         id: deployment
