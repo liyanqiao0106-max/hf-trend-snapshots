@@ -7,6 +7,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: hf-model-snapshot
@@ -14,8 +16,11 @@ concurrency:
 
 jobs:
   collect:
+    outputs:
+      dashboard_ready: ${{ steps.dashboard.outputs.ready }}
     runs-on: ubuntu-latest
     timeout-minutes: 90
+
     steps:
       - uses: actions/checkout@v4
 
@@ -54,15 +59,67 @@ jobs:
               --latest=false
           fi
 
-      - name: Keep the newest 16 snapshot releases
+      - name: Keep the newest 52 snapshot releases
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           mapfile -t OLD_TAGS < <(
             gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
-              --jq '.[].tag_name' | grep '^snapshot-' | sort -r | tail -n +17
+              --jq '.[].tag_name' | grep '^snapshot-' | sort -r | tail -n +53
           )
           for tag in "${OLD_TAGS[@]}"; do
             gh release delete "$tag" --yes --cleanup-tag
           done
+
+      - name: Build dashboard data
+        id: dashboard
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set +e
+          python weekly_dashboard.py \
+            --current-dir dist \
+            --repo "$GITHUB_REPOSITORY" \
+            --cache-dir history \
+            --output site/data/hugging-face/latest.json
+          STATUS=$?
+          set -e
+
+          if [ "$STATUS" -eq 0 ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          elif [ "$STATUS" -eq 3 ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Dashboard is waiting for three weekly snapshots."
+          else
+            exit "$STATUS"
+          fi
+
+      - name: Configure GitHub Pages
+        if: steps.dashboard.outputs.ready == 'true'
+        uses: actions/configure-pages@v5
+
+      - name: Upload dashboard artifact
+        if: steps.dashboard.outputs.ready == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy-dashboard:
+    needs: collect
+    if: needs.collect.outputs.dashboard_ready == 'true'
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy dashboard
+        id: deployment
+        uses: actions/deploy-pages@v4
