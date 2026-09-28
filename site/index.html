@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Hugging Face 模型周度趋势看板" />
-    <title>Hugging Face 周度趋势看板</title>
+    <meta name="description" content="AI 行业周度数据看板" />
+    <title>AI 行业周度趋势看板</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -12,39 +12,44 @@
       <header class="hero">
         <div>
           <p class="eyebrow">AI INDUSTRY RESEARCH · WEEKLY</p>
-          <h1>Hugging Face 周度趋势</h1>
+          <h1>AI 行业周度趋势</h1>
           <p id="status" class="status" aria-live="polite">正在读取最新数据…</p>
         </div>
-        <a class="source-link" href="https://huggingface.co/models" target="_blank" rel="noreferrer">Hugging Face Models ↗</a>
+        <a id="source-link" class="source-link" href="https://huggingface.co/models" target="_blank" rel="noreferrer">Hugging Face Models ↗</a>
       </header>
 
+      <nav class="tabs" aria-label="数据来源">
+        <button class="tab active" data-source="hugging-face">Hugging Face 模型</button>
+        <button class="tab" data-source="github">GitHub 热门项目</button>
+      </nav>
+
       <section class="cards" aria-label="本周概览">
-        <article><span>完整历史模型</span><strong id="exact-count">—</strong><small>可计算周度增量</small></article>
-        <article><span>新上榜观察</span><strong id="watch-count">—</strong><small>历史快照不足三期</small></article>
-        <article><span>异常累计值</span><strong id="invalid-count">—</strong><small>已从排名中排除</small></article>
+        <article><span id="card-one-label">完整历史模型</span><strong id="card-one">—</strong><small id="card-one-note">可计算周度增量</small></article>
+        <article><span id="card-two-label">新上榜观察</span><strong id="card-two">—</strong><small id="card-two-note">历史快照不足三期</small></article>
+        <article><span id="card-three-label">异常累计值</span><strong id="card-three">—</strong><small id="card-three-note">已从排名中排除</small></article>
       </section>
 
       <section class="panel">
         <div class="panel-heading">
           <div>
-            <h2>周度下载加速度排行</h2>
+            <h2 id="panel-title">周度下载加速度排行</h2>
             <p id="period">—</p>
           </div>
           <p id="row-count" class="row-count">—</p>
         </div>
         <div class="filters">
-          <label>搜索模型<input id="search" type="search" placeholder="模型名或机构" autocomplete="off" /></label>
+          <label><span id="search-label">搜索模型</span><input id="search" type="search" placeholder="模型名或机构" autocomplete="off" /></label>
           <label>状态<select id="status-filter"><option value="all">全部</option><option value="exact">完整历史</option><option value="watch">新上榜观察</option></select></label>
           <label>类型<select id="category-filter"><option value="all">全部类型</option></select></label>
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>排名</th><th>模型</th><th>类型</th><th>本期下载</th><th>上期下载</th><th>下载加速度</th><th>点赞</th><th>说明</th></tr></thead>
+            <thead id="table-head"></thead>
             <tbody id="rows"><tr><td colspan="8">正在读取数据…</td></tr></tbody>
           </table>
         </div>
       </section>
-      <p class="footnote">数据源：Hugging Face Hub 官方 API。周度值由累计下载量快照差分计算；非 7 日间隔会换算为 7 日等效值。</p>
+      <p id="footnote" class="footnote">数据源：Hugging Face Hub 官方 API。周度值由累计下载量快照差分计算；非 7 日间隔会换算为 7 日等效值。</p>
     </main>
     <script src="app.js" defer></script>
   </body>

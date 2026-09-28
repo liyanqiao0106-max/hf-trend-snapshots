@@ -14,6 +14,8 @@ from pathlib import Path
 PROJECT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT))
 import weekly_dashboard as WEEKLY
+import github_collector as GITHUB_COLLECTOR
+import github_dashboard as GITHUB_DASHBOARD
 
 
 def model(model_id: str, downloads: int, *, pipeline: str = "text-generation", likes: int = 1, trend: float = 1) -> dict[str, str]:
@@ -30,6 +32,15 @@ def snapshot(day: date, rows: dict[str, dict[str, str]]) -> object:
 
 
 class WeeklyDashboardTests(unittest.TestCase):
+    def test_github_snapshot_parser_and_payload_contract(self):
+        page = '<article class="Box-row"><h2><a href="/owner/repo">owner/repo</a></h2><p>Agent toolkit</p><span itemprop="programmingLanguage">Python</span><a href="/owner/repo/stargazers">1,234</a><span>567 stars this week</span></article>'
+        rows = GITHUB_COLLECTOR.parse_trending(page, "https://github.com/trending?since=weekly", "2026-09-28T00:00:00Z")
+        rows[0].update({"stars": 1234, "forks": 3, "topics": ["agent"], "domain": "AI Agent", "description_raw": "Agent toolkit", "use_case_zh": "主要用于AI Agent；仓库简介：Agent toolkit"})
+        payload = GITHUB_DASHBOARD.build_payload({"dataset": "github_trending_weekly", "snapshot_date": "2026-09-28", "captured_at_utc": "2026-09-28T00:00:00Z", "generated_at_utc": "2026-09-28T00:00:00Z", "source": "test", "rows": rows})
+        GITHUB_DASHBOARD.validate(payload)
+        self.assertEqual(payload["count"], 1)
+        self.assertIn("AI Agent", payload["rows"][0]["use_case_zh"])
+
     def test_deltas_are_normalized_and_ranked(self):
         earlier = snapshot(date(2026, 7, 1), {"org/a": model("org/a", 100)})
         previous = snapshot(date(2026, 7, 15), {"org/a": model("org/a", 1_500)})

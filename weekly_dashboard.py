@@ -186,6 +186,8 @@ def compute_weekly(latest: Snapshot, previous: Snapshot, earlier: Snapshot) -> d
             "remark": category.remark, "downloads_30d": as_int(latest_row.get("downloads_30d")) or 0,
             "trending_score": as_float(latest_row.get("trending_score")),
         }
+        tag_text = ", ".join(parse_tags(latest_row.get("tags"))[:6])
+        common["use_case_zh"] = f"主要用于{category.task_type}；" + (f"标签：{tag_text}" if tag_text else "用途以模型卡片为准，建议打开链接查看 README。")
         previous_row, earlier_row = previous.rows.get(model_id), earlier.rows.get(model_id)
         if not previous_row or not earlier_row:
             watch_rows.append({**common, "status": "watch", "rank": None,
