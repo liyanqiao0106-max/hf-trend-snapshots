@@ -1,83 +1,28 @@
-const state = { source: "hugging-face", data: {} };
-const format = new Intl.NumberFormat("zh-CN");
-const shanghai = new Intl.DateTimeFormat("zh-CN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Shanghai", hour12: false });
-const text = (value) => String(value ?? "");
-const escapeHtml = (value) => text(value).replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[char]));
-const number = (value) => value === undefined || value === null ? "—" : format.format(value);
-const config = {
-  "hugging-face": { file: "data/hugging-face/latest.json", link: "https://huggingface.co/models", linkText: "Hugging Face Models ↗" },
-  github: { file: "data/github/latest.json", link: "https://github.com/trending", linkText: "GitHub Trending ↗" },
-};
-
-function setCards(payload) {
-  const github = state.source === "github";
-  document.querySelector("#card-one-label").textContent = github ? "本期热门项目" : "完整历史模型";
-  document.querySelector("#card-one").textContent = number(github ? payload.count : payload.exact_count);
-  document.querySelector("#card-one-note").textContent = github ? "GitHub Trending 周榜" : "可计算周度增量";
-  document.querySelector("#card-two-label").textContent = github ? "AI 相关项目" : "新上榜观察";
-  document.querySelector("#card-two").textContent = github ? number(payload.rows.filter((row) => row.domain && !row.domain.includes("非AI")).length) : number(payload.watch_count);
-  document.querySelector("#card-two-note").textContent = github ? "按简介、topics、README 初步识别" : "历史快照不足三期";
-  document.querySelector("#card-three-label").textContent = github ? "有项目说明" : "异常累计值";
-  document.querySelector("#card-three").textContent = github ? number(payload.rows.filter((row) => row.use_case_zh).length) : number(payload.invalid_count);
-  document.querySelector("#card-three-note").textContent = github ? "description / README" : "已从排名中排除";
-}
-
-function renderRows() {
-  const payload = state.data[state.source];
-  if (!payload) return;
-  const query = document.querySelector("#search").value.trim().toLowerCase();
-  const status = document.querySelector("#status-filter").value;
-  const category = document.querySelector("#category-filter").value;
-  const github = state.source === "github";
-  const rows = payload.rows.filter((row) => (!github || !query || `${row.full_name} ${row.description_raw} ${row.use_case_zh}`.toLowerCase().includes(query)) && (github || (status === "all" || row.status === status)) && (category === "all" || (github ? row.domain : row.task_type) === category));
-  document.querySelector("#row-count").textContent = `显示 ${format.format(rows.length)} / ${format.format(payload.rows.length)} 条`;
-  document.querySelector("#rows").innerHTML = rows.length ? rows.map((row) => github
-    ? `<tr><td class="number">${row.weekly_rank ?? row.rank ?? "—"}</td><td><a href="${escapeHtml(row.url)}" target="_blank" rel="noreferrer">${escapeHtml(row.full_name)} ↗</a></td><td>${escapeHtml(row.domain)}</td><td class="number">${number(row.stars_this_week)}</td><td class="number">${number(row.stars)}</td><td>${escapeHtml(row.language || "—")}</td><td class="note">${escapeHtml(row.use_case_zh)}</td></tr>`
-    : `<tr><td class="number">${row.rank ?? "—"}</td><td><a href="${escapeHtml(row.model_url)}" target="_blank" rel="noreferrer">${escapeHtml(row.id)} ↗</a></td><td>${escapeHtml(row.task_type)}</td><td class="number">${number(row.downloads_this_period)}</td><td class="number">${number(row.downloads_last_period)}</td><td class="number">${number(row.download_acceleration)}</td><td class="number">${number(row.likes)}</td><td class="note">${escapeHtml(row.use_case_zh || row.download_note)}</td></tr>`).join("") : '<tr><td colspan="8">没有符合条件的数据。</td></tr>';
-}
-
-function populate(payload) {
-  state.data[state.source] = payload;
-  const github = state.source === "github";
-  setCards(payload);
-  document.querySelector("#panel-title").textContent = github ? "GitHub 周度热门项目" : "周度下载加速度排行";
-  document.querySelector("#search-label").textContent = github ? "搜索项目" : "搜索模型";
-  document.querySelector("#search").placeholder = github ? "项目名、简介或用途" : "模型名或机构";
-  document.querySelector("#period").textContent = github ? `快照日期：${payload.snapshot_date || "—"}` : `比较快照：${payload.snapshot_dates.join(" → ")}`;
-  document.querySelector("#status").textContent = `最新成功生成：${shanghai.format(new Date(payload.generated_at_utc))}（上海时间）`;
-  document.querySelector("#footnote").textContent = github ? "数据源：GitHub Trending 页面与官方 REST API。项目用途说明优先取仓库 description，其次取 README 开头；仅作快速研究索引，详情请打开原项目。" : "数据源：Hugging Face Hub 官方 API。周度值由累计下载量快照差分计算；非 7 日间隔会换算为 7 日等效值。";
-  document.querySelector("#table-head").innerHTML = github ? "<tr><th>排名</th><th>项目</th><th>领域</th><th>本周新增 Stars</th><th>总 Stars</th><th>语言</th><th>用途说明</th></tr>" : "<tr><th>排名</th><th>模型</th><th>类型</th><th>本期下载</th><th>上期下载</th><th>下载加速度</th><th>点赞</th><th>说明</th></tr>";
-  const categories = [...new Set(payload.rows.map((row) => github ? row.domain : row.task_type))].filter(Boolean).sort();
-  document.querySelector("#category-filter").innerHTML = `<option value="all">全部${github ? "领域" : "类型"}</option>` + categories.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join("");
-  document.querySelector("#status-filter").style.display = github ? "none" : "block";
-  renderRows();
-}
-
-async function loadSource(source) {
-  try {
-    const response = await fetch(config[source].file, { cache: "no-store" });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const payload = await response.json();
-    if (payload.dataset !== (source === "github" ? "github_trending_weekly" : "hugging_face_weekly") || !Array.isArray(payload.rows)) throw new Error("数据格式不正确");
-    if (state.source === source) populate(payload);
-  } catch (error) {
-    if (state.source === source) {
-      document.querySelector("#status").innerHTML = '<span class="error">该来源最新数据暂不可用，请稍后刷新。</span>';
-      document.querySelector("#rows").innerHTML = '<tr><td colspan="8">无法读取看板数据。</td></tr>';
-    }
-    console.error(`Unable to load ${source}`, error);
-  }
-}
-
-function switchSource(source) {
-  state.source = source;
-  document.querySelectorAll(".tab").forEach((button) => button.classList.toggle("active", button.dataset.source === source));
-  document.querySelector("#source-link").href = config[source].link;
-  document.querySelector("#source-link").textContent = config[source].linkText;
-  if (state.data[source]) populate(state.data[source]); else loadSource(source);
-}
-
-document.querySelectorAll(".tab").forEach((button) => button.addEventListener("click", () => switchSource(button.dataset.source)));
-document.querySelectorAll("#search, #status-filter, #category-filter").forEach((element) => element.addEventListener("input", renderRows));
-loadSource("hugging-face");
-loadSource("github");
+const $=s=>document.querySelector(s), state={module:'news',data:{},inventory:null,loading:false};
+const modules={news:['AI 产业新闻','国内外动态，中文标题与简短摘要。'],'token-usage':['Token 使用量','观察 OpenRouter 平台调用规模与模型分布。'],'token-prices':['模型 API 价格','输入与输出报价分开，追踪推理成本变化。'],'gpu-prices':['GPU 云实例报价','比较同型号 GPU 的云实例报价与区域差异。'],memory:['存储产业动态','HBM、DRAM、NAND 的产业动态与原始资料。'],'hugging-face':['Hugging Face 模型趋势','以累计下载量快照追踪周度增量与加速度。'],github:['GitHub AI 项目','开源项目热度、周新增 Stars 与用途索引。']};
+const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const categoryLabels={'Audio / Speech':'Audio / Speech（音频与语音）','Code':'Code（编程）','Diffusion / Image Generation':'Diffusion / Image Generation（扩散与图像生成）','Embedding / Retrieval':'Embedding / Retrieval（嵌入与检索）','LLM / Text Generation':'LLM / Text Generation（大语言模型与文本生成）','Multimodal / Vision-Language':'Multimodal / Vision-Language（多模态与视觉语言）','Other / Specialized':'Other / Specialized（其他专用模型）','Reranker / Ranking':'Reranker / Ranking（重排序）','Text Classification / NLP':'Text Classification / NLP（文本分类与自然语言处理）','Time Series / Forecasting':'Time Series / Forecasting（时间序列与预测）','Utility / Infrastructure':'Utility / Infrastructure（工具与基础设施）','Vision / Depth Estimation':'Vision / Depth Estimation（视觉深度估计）','Vision / Image Understanding':'Vision / Image Understanding（图像理解）','AI Agent':'AI Agent（智能体）','On-demand':'On-demand（按需）','Spot':'Spot（可中断闲置容量）','Low Priority':'Low Priority（低优先级）'};
+const categoryLabel=x=>categoryLabels[x]||x;
+function link(url,label){try{const u=new URL(url);if(!['https:','http:'].includes(u.protocol))return escapeHtml(label);return `<a href="${escapeHtml(u.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)} ↗</a>`;}catch{return escapeHtml(label);}}
+const number=v=>v==null?'—':new Intl.NumberFormat('zh-CN',{maximumFractionDigits:3}).format(v),money=v=>v==null?'—':'$'+new Intl.NumberFormat('zh-CN',{maximumFractionDigits:4}).format(v);
+function tokens(v){const n=BigInt(v??'0');return n>=1000000000000n?`${Number(n/1000000000n)/1000} 万亿`:n>=100000000n?`${Number(n/100000n)/1000} 亿`:number(n);}
+function date(v){if(!v)return '暂无';const d=new Date(v);return Number.isNaN(d.getTime())?'暂无':new Intl.DateTimeFormat('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',timeZone:'Asia/Shanghai',hour12:false}).format(d);}
+const statuses={ok:'成功',partial:'部分可用',stale:'更新失败 · 保留旧数据',unavailable:'暂无数据',pending_verification:'等待账户验证',no_recent_news:'暂无近期相关新闻',error:'失败'};
+function cards(items){$('#cards').innerHTML=items.map(([l,v,n])=>`<article class="card"><span>${escapeHtml(l)}</span><strong>${escapeHtml(v)}</strong><small>${escapeHtml(n)}</small></article>`).join('');}
+function table(headers,rows){return `<div class="table-wrap"><table><thead><tr>${headers.map(h=>`<th>${escapeHtml(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
+function health(){const rows=state.inventory?.sources||[];$('#health').innerHTML=table(['模块','状态','最近成功','记录数','说明'],rows.map(s=>[escapeHtml(modules[s.module]?.[0]||s.module),escapeHtml(statuses[s.status]||s.status),date(s.last_success_at_utc),number(s.rows),escapeHtml(s.error||(s.translation_pending?`${s.translation_pending} 条国际新闻待翻译`:''))]));const b=state.inventory?.translation_budget;if(b)$('#health').innerHTML+=`<p class="method">MyMemory 翻译请求：滚动24小时 ${number(b.used_characters_24h)} / ${number(b.limit_characters_24h)} 字符；缓存读取不扣量，失败请求计入预算。</p>`;$('#terms').innerHTML=Object.entries(state.inventory?.terms||{}).map(([k,v])=>`<dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd>`).join('');}
+function populateFilter(){const rows=state.data[state.module]?.rows||[],key={news:'region',memory:'source','gpu-prices':'billing','hugging-face':'task_type',github:'domain'}[state.module];let options=[];if(state.module==='token-prices')options=[['paid','收费模型'],['free','免费模型']];else if(key)options=[...new Set(rows.map(r=>r[key]).filter(Boolean))].sort().map(x=>[x,categoryLabel(x)]);$('#filter').innerHTML='<option value="all">全部</option>'+options.map(([v,t])=>`<option value="${escapeHtml(v)}">${escapeHtml(t)}</option>`).join('');$('#filter').hidden=!options.length;}
+function trend(p){const a=p?.history||[];if(!a.length){$('#trend').innerHTML='';return;}const min=Math.min(...a.map(p=>p.median)),max=Math.max(...a.map(p=>p.median)),xy=a.map((p,i)=>[a.length===1?500:i*1000/(a.length-1),85-(p.median-min)/(max-min||1)*70]);$('#trend').innerHTML=`<div class="trend"><p>${escapeHtml(p.history_note)}${a.length===1?' 首日仅有一个观测点，后续每日积累。':''}</p><svg viewBox="0 0 1000 100" role="img" aria-label="报价样本中位数历史趋势"><polyline points="${xy.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--accent)" stroke-width="2"/>${xy.map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="3" fill="var(--accent)"><title>${escapeHtml(a[i].date)}：${money(a[i].median)}</title></circle>`).join('')}</svg><div class="chart-labels"><span>${escapeHtml(a[0].date)}</span><span>${escapeHtml(a.at(-1).date)} · ${money(a.at(-1).median)}</span></div></div>`;}
+function render(){const m=state.module,p=state.data[m],s=state.inventory?.sources?.find(s=>s.module===m);$('#title').textContent=modules[m][0];$('#subtitle').textContent=modules[m][1];$('#date').textContent='数据日 · '+(p?.snapshot_date||state.inventory?.snapshot_date||'暂无');$('#panel-title').textContent=['news','memory'].includes(m)?'最新动态':'数据明细';const old=p?.generated_at_utc&&Date.now()-new Date(p.generated_at_utc).getTime()>36*3600*1000,warn=old||(s?.status&&!['ok','no_recent_news'].includes(s.status));$('#status').innerHTML=`<div class="notice${warn?' warning':''}">${p?`最近成功生成：${date(p.generated_at_utc)}（上海时间）`:'尚无已验证数据'}${warn?' · '+escapeHtml(old?'数据超过36小时，请查看采集状态':statuses[s.status]||s.status):''}${s?.error?' · '+escapeHtml(s.error):''}${s?.translation_pending?` · ${s.translation_pending} 条国际新闻待翻译，未以英文代替中文发布`:''}</div>`;
+if(!p){cards([['数据状态','待接入','仅采用经过验证的数据源'],['采集频率','每日','中午 12:00，周末照常'],['最近结果','—','不会用虚构数字填充']]);$('#content').innerHTML=`<div class="empty">${escapeHtml(s?.error||'该栏目尚未接入数据。')}</div>`;$('#trend').innerHTML='';$('#method').textContent='';return;}
+const q=$('#search').value.trim().toLowerCase(),f=$('#filter').value,k={news:'region',memory:'source','gpu-prices':'billing','hugging-face':'task_type',github:'domain'}[m],rows=p.rows.filter(r=>(!q||JSON.stringify(r).toLowerCase().includes(q))&&(f==='all'||(m==='token-prices'?(f==='free')===r.free:r[k]===f)));
+if(m==='news'||m==='memory'){cards([['近期新闻',number(p.rows.length),'最近七日，按原文去重'],['国内 / 国际',`${p.rows.filter(r=>r.region==='国内').length} / ${p.rows.filter(r=>r.region==='国际').length}`,'国际内容机器翻译后展示'],['最近采集',date(p.generated_at_utc),'每日 12:00，上海时间']]);$('#content').innerHTML='<div class="news-grid">'+rows.map(r=>`<article class="news"><div class="meta"><span class="tag">${escapeHtml(r.region)}</span><span>${escapeHtml(r.source)}</span><time>${date(r.published_at_utc)}</time>${r.translation_status==='machine'?'<span>机器翻译</span>':''}</div><h3>${link(r.url,r.title)}</h3><p>${escapeHtml(r.summary)}</p>${r.language==='en'?`<details><summary>查看英文原文</summary><p>${escapeHtml(r.title_raw)}</p><p>${escapeHtml(r.summary_raw)}</p></details>`:''}</article>`).join('')+'</div>';if(m==='memory')$('#content').innerHTML+=`<p>${link('https://www.dramexchange.com/','DRAMeXchange 原站')} · ${link('https://www.trendforce.com/news/','TrendForce 产业资讯')}</p>`;}
+else if(m==='token-prices'){cards([['报价模型',number(p.rows.length),'可用基础输入/输出报价'],['免费模型',number(p.rows.filter(r=>r.free).length),'输入和输出基础报价均为 0'],['单位','$/百万 Token','缓存与分档需查看原站']]);$('#content').innerHTML=table(['模型','输入价格','输出价格','上下文','说明'],rows.map(r=>[link(r.url,r.name),money(r.input_usd_per_million),money(r.output_usd_per_million),number(r.context_length),escapeHtml([r.free?'免费':'',r.tiered_pricing?'存在分档报价':'',r.modalities?.length>1?'Multimodal（多模态）':''].filter(Boolean).join(' · '))]));}
+else if(m==='gpu-prices'){const on=p.rows.filter(r=>r.billing==='On-demand');cards([['报价观测',number(p.rows.length),'Azure · H100 Linux 实例'],['On-demand 最低',on.length?money(Math.min(...on.map(r=>r.usd_per_gpu_hour))):'—','整机报价 / 8，含 CPU/RAM 分摊'],['覆盖区域',number(new Set(p.rows.map(r=>r.region)).size),'Spot 与 On-demand 分开比较']]);$('#content').innerHTML=table(['GPU / 提供商','区域','计费类型','每 GPU·小时','整机·小时','GPU 数'],rows.map(r=>[link(r.url,`${r.gpu} / ${r.provider}`),escapeHtml(r.region),escapeHtml(categoryLabel(r.billing)),money(r.usd_per_gpu_hour),money(r.instance_usd_hour),number(r.gpu_count)]));}
+else if(m==='hugging-face'){cards([['完整历史模型',number(p.exact_count),'可比较周度增量与加速度'],['新上榜观察',number(p.watch_count),'历史不足，单列观察'],['异常累计值',number(p.invalid_count),'不进入增量排行']]);$('#content').innerHTML=table(['排名','模型','任务类型','本期下载','上期下载','下载加速度','说明'],rows.map(r=>[number(r.rank),link(r.model_url,r.id),escapeHtml(categoryLabel(r.task_type)),number(r.downloads_this_period),number(r.downloads_last_period),number(r.download_acceleration),escapeHtml(r.download_note)]));}
+else if(m==='github'){cards([['AI 项目',number(p.rows.length),'Trending 周榜候选项目'],['周新增 Stars',number(p.rows.reduce((n,r)=>n+(r.stars_this_week||0),0)),'页面统计，仅此候选池'],['快照日期',p.snapshot_date,'每天采集，周榜仍为周口径']]);$('#content').innerHTML=table(['排名','项目','领域','周新增 Stars','总 Stars','净变化','用途'],rows.map(r=>[number(r.weekly_rank),link(r.url,r.full_name),escapeHtml(categoryLabel(r.domain)),number(r.stars_this_week),number(r.stars),number(r.stars_net_change),escapeHtml(r.use_case_zh)]));}
+else if(m==='token-usage'){cards([['平台七日 Token',tokens(p.total_tokens),'输入 + 输出；仅 OpenRouter'],['模型与长尾',number(p.rows.length),'模型值可能遗漏未入日榜日期'],['统计区间',`${p.period.start.slice(5)} — ${p.period.end.slice(5)}`,'UTC 最近七个已结束日期']]);$('#content').innerHTML=table(['模型 / 长尾','累计 Token','覆盖说明'],rows.map(r=>[link(r.url,r.id),tokens(r.tokens),escapeHtml(r.coverage==='long_tail'?'每日日榜之外的长尾合计':'仅日榜观测，可能低估七日值')]));}
+if(!rows.length&&m!=='memory')$('#content').innerHTML='<div class="empty">没有符合条件的数据。</div>';trend(p);$('#method').textContent=(p.methodology||'数据源：'+p.source)+(p.license?' · Licensed under '+p.license+'. Source: OpenRouter (openrouter.ai/rankings), as of '+p.source_as_of+'.':'');}
+function switchModule(m){state.module=modules[m]?m:'news';document.querySelectorAll('[data-module]').forEach(b=>b.classList.toggle('active',b.dataset.module===state.module));$('#search').value='';populateFilter();render();}
+async function reload(){if(state.loading)return;state.loading=true;$('#refresh').disabled=true;try{const r=await fetch(`data/inventory.json?t=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw new Error('无法读取数据清单');const inv=await r.json(),data={...state.data};await Promise.all(Object.keys(modules).map(async m=>{try{const r=await fetch(`data/${m}/latest.json?t=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw new Error('模块文件读取失败');const p=await r.json();if(!Array.isArray(p.rows))throw new Error('数据格式错误');data[m]=p;}catch{const s=inv.sources?.find(s=>s.module===m);if(s?.status==='pending_verification'&&!data[m])return;if(s){s.status=data[m]?'stale':'unavailable';s.error='本次页面读取失败，保留已加载结果；请稍后刷新。';}}}));state.inventory=inv;state.data=data;health();populateFilter();render();}catch(e){$('#status').innerHTML=`<div class="notice warning">${escapeHtml(e.message)}。保留已加载结果，请稍后刷新。</div>`;}finally{state.loading=false;$('#refresh').disabled=false;}}
+document.querySelectorAll('[data-module]').forEach(b=>b.addEventListener('click',()=>{location.hash=b.dataset.module;switchModule(b.dataset.module);}));window.addEventListener('hashchange',()=>switchModule(location.hash.slice(1)));$('#search').addEventListener('input',render);$('#filter').addEventListener('change',render);$('#refresh').addEventListener('click',reload);$('#show-health').addEventListener('click',()=>{$('#health-panel').hidden=false;$('#health-panel').scrollIntoView({behavior:'smooth'});});$('#close-health').addEventListener('click',()=>$('#health-panel').hidden=true);try{document.body.classList.toggle('dark',localStorage.getItem('ai-theme')==='dark');}catch{}$('#theme').addEventListener('click',()=>{document.body.classList.toggle('dark');try{localStorage.setItem('ai-theme',document.body.classList.contains('dark')?'dark':'light');}catch{}});switchModule(location.hash.slice(1));reload();

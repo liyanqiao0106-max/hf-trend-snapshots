@@ -1,8 +1,8 @@
-name: Collect weekly AI sources
+name: Collect daily AI sources
 
 on:
   schedule:
-    - cron: "30 0 * * 1"
+    - cron: "0 4 * * *" # 12:00 Asia/Shanghai, every day including weekends
   workflow_dispatch:
 
 permissions:
@@ -11,155 +11,53 @@ permissions:
   id-token: write
 
 concurrency:
-  group: weekly-ai-sources
+  group: daily-ai-dashboard
   cancel-in-progress: false
 
 jobs:
   collect:
-    outputs:
-      dashboard_ready: ${{ steps.dashboard.outputs.ready }}
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: pip
-
-      - name: Install collector
+      - name: Install free collector dependencies
         run: python -m pip install -r requirements.txt
-
-      - name: Collect and validate snapshot
+      - name: Collect and build independent modules
         env:
+          GH_TOKEN: ${{ github.token }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python collector.py --output-dir dist
-
-      - name: Collect GitHub Trending snapshot
-        id: github_collect
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: python -m dashboard.run_daily --repo "$GITHUB_REPOSITORY"
+      - name: Publish compact daily snapshot
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
-          set +e
-          python github_collector.py --output dist/github_snapshot.json
-          STATUS=$?
-          set -e
-          if [ "$STATUS" -eq 0 ]; then
-            echo "ready=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-            echo "GitHub collector failed; the dashboard will restore the last successful snapshot."
-          fi
-
-      - name: Read release metadata
-        id: meta
-        shell: bash
-        run: cat dist/release.env >> "$GITHUB_OUTPUT"
-
-      - name: Publish release assets
-        env:
-          GH_TOKEN: ${{ github.token }}
-          TAG: snapshot-${{ steps.meta.outputs.stamp }}
-          DATA_FILE: dist/${{ steps.meta.outputs.data_file }}
-          MANIFEST_FILE: dist/${{ steps.meta.outputs.manifest_file }}
-        shell: bash
-        run: |
+          STAMP=$(python -c "import json; print(json.load(open('site/data/inventory.json'))['snapshot_date'].replace('-', ''))")
+          TAG="daily-snapshot-$STAMP"
+          FILE="dist/daily_snapshot_$STAMP.tar.gz"
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" "$DATA_FILE" "$MANIFEST_FILE" --clobber
+            gh release upload "$TAG" "$FILE" dist/storage-report.json --clobber
           else
-            gh release create "$TAG" "$DATA_FILE" "$MANIFEST_FILE" \
-              --title "Hugging Face snapshot ${{ steps.meta.outputs.stamp }}" \
-              --notes "Official Hugging Face Hub API model metadata snapshot." \
-              --latest=false
+            gh release create "$TAG" "$FILE" dist/storage-report.json --title "AI daily snapshot $STAMP" --notes "Validated source snapshots. No credentials, model weights or full news articles." --latest=false
           fi
-
-      - name: Publish GitHub snapshot release
-        if: steps.github_collect.outputs.ready == 'true'
+      - name: Report source health and storage
+        run: python scripts/run_summary.py
+      - name: Retain 90 days of daily snapshots
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: github-snapshot-${{ steps.meta.outputs.stamp }}
-        shell: bash
-        run: |
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" dist/github_snapshot.json --clobber
-          else
-            gh release create "$TAG" dist/github_snapshot.json \
-              --title "GitHub Trending snapshot ${{ steps.meta.outputs.stamp }}" \
-              --notes "GitHub Trending page and official REST API metadata." \
-              --latest=false
-          fi
-
-      - name: Keep the newest 52 GitHub snapshot releases
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          mapfile -t OLD_TAGS < <(
-            gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
-              --jq '.[].tag_name' | grep '^github-snapshot-' | sort -r | tail -n +53
-          )
-          for tag in "${OLD_TAGS[@]}"; do
-            gh release delete "$tag" --yes --cleanup-tag
-          done
-
-      - name: Keep the newest 52 snapshot releases
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          mapfile -t OLD_TAGS < <(
-            gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
-              --jq '.[].tag_name' | grep '^snapshot-' | sort -r | tail -n +53
-          )
-          for tag in "${OLD_TAGS[@]}"; do
-            gh release delete "$tag" --yes --cleanup-tag
-          done
-
-      - name: Build dashboard data
-        id: dashboard
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set +e
-          python weekly_dashboard.py \
-            --current-dir dist \
-            --repo "$GITHUB_REPOSITORY" \
-            --cache-dir history \
-            --output site/data/hugging-face/latest.json
-          HF_STATUS=$?
-          python github_dashboard.py \
-            $([ -f dist/github_snapshot.json ] && echo "--input dist/github_snapshot.json" || echo "--repo $GITHUB_REPOSITORY --restore-to dist/github_snapshot.json") \
-            --allow-empty \
-            --output site/data/github/latest.json
-          GH_STATUS=$?
-          set -e
-          if [ "$GH_STATUS" -ne 0 ]; then
-            exit "$GH_STATUS"
-          elif [ "$HF_STATUS" -eq 0 ]; then
-            echo "ready=true" >> "$GITHUB_OUTPUT"
-          elif [ "$HF_STATUS" -eq 3 ]; then
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-            echo "Dashboard is waiting for three weekly snapshots."
-          else
-            exit "$HF_STATUS"
-          fi
-
-      - name: Configure GitHub Pages
-        if: steps.dashboard.outputs.ready == 'true'
-        uses: actions/configure-pages@v5
-
-      - name: Upload dashboard artifact
-        if: steps.dashboard.outputs.ready == 'true'
-        uses: actions/upload-pages-artifact@v3
+        run: python scripts/prune_daily_releases.py --repo "$GITHUB_REPOSITORY" --apply
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: site
+          retention-days: 1
 
   deploy-dashboard:
     needs: collect
-    if: needs.collect.outputs.dashboard_ready == 'true'
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -168,6 +66,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy dashboard
+      - uses: actions/deploy-pages@v4
         id: deployment
-        uses: actions/deploy-pages@v4
+

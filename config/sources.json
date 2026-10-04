@@ -1,0 +1,41 @@
+{
+  "timezone": "Asia/Shanghai",
+  "schedule": "每天 12:00，周末照常",
+  "history_days": 90,
+  "news_days": 7,
+  "news_limit_per_region": 12,
+  "translation": {"provider": "mymemory", "max_characters_per_24h": 3000, "max_bytes_per_request": 450},
+  "openrouter_usage": {"zero_credit_verified": true, "verification_date": "2026-10-04", "source": "official-data-api"},
+  "feeds": [
+    {"name": "IT之家", "url": "https://www.ithome.com/rss/", "language": "zh", "region": "国内"},
+    {"name": "Google AI", "url": "https://blog.google/technology/ai/rss/", "language": "en", "region": "国际"},
+    {"name": "NVIDIA Blog", "url": "https://blogs.nvidia.com/feed/", "language": "en", "region": "国际"},
+    {"name": "TechCrunch AI", "url": "https://techcrunch.com/category/artificial-intelligence/feed/", "language": "en", "region": "国际"}
+  ],
+  "gpu_skus": [
+    {"sku": "Standard_ND96isr_H100_v5", "gpu": "H100", "gpu_count": 8}
+  ],
+  "terms": {
+    "Token": "模型处理文本的计量单位，不等于单词数",
+    "Anthropic": "Claude 系列模型的开发公司",
+    "Claude Code": "Anthropic 的 AI 编程工具",
+    "Multimodal": "多模态：同时处理文本、图像、音频等信息",
+    "Agent": "智能体：可调用工具执行任务的 AI 系统",
+    "LLM": "大语言模型",
+    "GPU": "图形处理器，也是 AI 计算的重要芯片",
+    "RAM": "随机存取存储器，通常指运行内存",
+    "HBM": "高带宽内存，常用于 AI 加速器",
+    "NAND": "用于 SSD 等产品的闪存",
+    "DRAM": "动态随机存取存储器",
+    "Stars": "GitHub 仓库收藏数，不等于用户数",
+    "Hugging Face": "模型、数据集与 AI 开源工具平台",
+    "Embedding": "嵌入：将文本等内容转为数值向量，用于搜索和相似度比较",
+    "Reranker": "重排序模型：对搜索候选结果重新排序",
+    "Diffusion": "扩散模型，常用于图像生成",
+    "MCP": "Model Context Protocol，模型上下文协议，用于连接工具和数据",
+    "RAG": "检索增强生成：先检索资料，再让模型依据资料回答",
+    "On-demand": "按需实例，按用量计费",
+    "Spot": "闲置容量实例，价格较低但可能被中断",
+    "Low Priority": "低优先级实例，可能被收回"
+  }
+}
