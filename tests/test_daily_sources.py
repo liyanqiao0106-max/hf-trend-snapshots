@@ -15,8 +15,17 @@ from dashboard.news import parse_feed,clean,collect_news,memory_related
 from dashboard.storage import select_spaced,unpack_bundle
 from dashboard.translation import restore_terms,MyMemoryTranslator
 from dashboard.translation_budget import ReleaseBudget
+from dashboard.common import envelope
+from dashboard.storage_market import parse_dramexchange,hbm_rental_rows,attach_history
+from dashboard.usage import aggregate_weeks
 
 class DailySourcesTests(unittest.TestCase):
+    def test_schema_v2_envelope_keeps_nulls_and_source_lineage(self):
+        payload=envelope('sample','Official','https://example.com',[{'value':None}],'test',snapshot_date='2026-10-05')
+        self.assertEqual(payload['schema_version'],2)
+        self.assertIsNone(payload['rows'][0]['value'])
+        self.assertEqual(payload['sources'][0]['name'],'Official')
+
     def test_per_token_prices_and_dynamic_exclusion(self):
         rows=parse_models({'data':[
             {'id':'paid','pricing':{'prompt':'0.000003','completion':'0.000015'}},
@@ -49,6 +58,36 @@ class DailySourcesTests(unittest.TestCase):
         self.assertFalse(memory_related('迷你工作站上市，32GB DDR4内存和1TB SSD，到手6399元'))
         self.assertTrue(memory_related('HBM memory demand rises as GPU makers expand data center capacity'))
         self.assertTrue(memory_related('美光扩大DRAM晶圆产能，应对AI内存需求'))
+
+    def test_public_memory_price_tables_and_ssd_per_tb_are_parsed(self):
+        html=b'''<table><tr><td>DDR5 16Gb (2Gx8) 4800/5600</td><td>9</td><td>7</td><td>9</td><td>7</td><td>8.25</td></tr>
+        <tr><td>Samsung</td><td>PCIe 4.0 X4</td><td>990 Pro</td><td>2 TB</td><td>300</td><td>250</td><td>280</td></tr></table>'''
+        rows=parse_dramexchange(html,'2026-10-05')
+        self.assertEqual(rows[0]['price'],8.25)
+        ssd=next(row for row in rows if row['category']=='SSD')
+        self.assertEqual(ssd['usd_per_tb'],140)
+
+    def test_hbm_rental_is_explicit_compute_inclusive_proxy(self):
+        rows=hbm_rental_rows({'rows':[{'id':'x','provider':'Azure','gpu':'H100','region':'eastus','billing':'On-demand','memory_gb':80,'usd_per_gpu_hour':8,'url':'https://example.com'}]},'2026-10-05')
+        self.assertEqual(rows[0]['price'],0.1)
+        self.assertEqual(rows[0]['quote_type'],'compute_inclusive_rental_proxy')
+
+    def test_storage_history_does_not_turn_missing_change_into_zero(self):
+        rows=[{'id':'x','price':12}]
+        attach_history(rows,{'rows':[{'id':'x','history':[{'date':'2026-10-04','price':None}]}]},'2026-10-05')
+        self.assertIsNone(rows[0]['change_percent'])
+
+    def test_token_natural_weeks_include_complete_and_preview(self):
+        data=[]
+        for offset in range(7):
+            date=(dt.date(2026,9,28)+dt.timedelta(days=offset)).isoformat()
+            data.extend([{'date':date,'model_permaslug':'a','total_tokens':10},{'date':date,'model_permaslug':'other','total_tokens':5}])
+        rows=aggregate_weeks(data,dt.date(2026,9,28),dt.date(2026,10,5),2)
+        self.assertEqual(rows[-2]['label'],'2026-09-28—2026-10-04')
+        self.assertEqual(rows[-2]['status'],'complete')
+        self.assertEqual(rows[-2]['total_tokens'],'105')
+        self.assertEqual(rows[-1]['label'],'2026-10-05—2026-10-11')
+        self.assertEqual(rows[-1]['status'],'preview')
 
     def test_daily_snapshots_use_seven_day_anchors(self):
         days=[dt.date(2026,10,3)-dt.timedelta(days=n) for n in range(20)]

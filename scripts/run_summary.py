@@ -1,13 +1,17 @@
-import json, os
+import json
+import os
 from pathlib import Path
+
 root=Path(__file__).resolve().parents[1]
-inventory=json.loads((root/'site/data/inventory.json').read_text(encoding='utf-8'))
+manifest_path=root/'site/data/manifest.json'
+manifest=json.loads(manifest_path.read_text(encoding='utf-8')) if manifest_path.exists() else json.loads((root/'site/data/inventory.json').read_text(encoding='utf-8'))
 storage=json.loads((root/'dist/storage-report.json').read_text(encoding='utf-8'))
-lines=['## 每日 AI 采集结果','',f"压缩日快照：{storage['bundle_bytes']:,} bytes。每天 12:00 上海时间，周末照常。",'', '| 模块 | 状态 | 记录数 |','|---|---|---|']
-lines.extend(f"| {s['module']} | {s['status']} | {s.get('rows',0)} |" for s in inventory['sources'])
+modules=manifest.get('modules') or {item['module']:item for item in manifest.get('sources',[])}
+lines=['## AI 行业看板采集结果','',f"压缩快照：{storage['bundle_bytes']:,} bytes。范围：{manifest.get('scope','all')}。",'', '| 模块 | 状态 | 记录数 |','|---|---|---|']
+lines.extend(f"| {name} | {item.get('status')} | {item.get('rows',0)} |" for name,item in modules.items())
 text='\n'.join(lines)+'\n'
 if os.environ.get('GITHUB_STEP_SUMMARY'):
-    with open(os.environ['GITHUB_STEP_SUMMARY'],'a',encoding='utf-8') as f:
-        f.write(text)
+    with open(os.environ['GITHUB_STEP_SUMMARY'],'a',encoding='utf-8') as handle:
+        handle.write(text)
 else:
     print(text)

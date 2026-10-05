@@ -1,18 +1,20 @@
-name: Collect daily market data
+name: Finalize weekly ecosystem data
 
 on:
   schedule:
-    - cron: "0 4 * * *" # 12:00 Asia/Shanghai, including weekends
+    - cron: "20 4 * * 2" # Tuesday 12:20 Asia/Shanghai
   workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - "dashboard/**"
-      - "config/**"
-      - "site/**"
-      - "scripts/**"
-      - "requirements.txt"
-      - ".github/workflows/collect.yml"
+      - "collector.py"
+      - "classification.py"
+      - "weekly_dashboard.py"
+      - "github_collector.py"
+      - "github_dashboard.py"
+      - "dashboard/usage.py"
+      - "dashboard/run_daily.py"
+      - ".github/workflows/weekly.yml"
 
 permissions:
   contents: write
@@ -24,31 +26,24 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  collect:
+  collect-weekly:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
-      - uses: actions/cache@v4
-        with:
-          path: history/http-cache
-          key: http-cache-${{ runner.os }}-${{ github.run_id }}
-          restore-keys: http-cache-${{ runner.os }}-
       - name: Install collector dependencies
         run: python -m pip install -r requirements.txt
-      - name: Collect daily market modules
+      - name: Collect Token, Hugging Face and GitHub
         env:
           GH_TOKEN: ${{ github.token }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          RUNPOD_API_KEY: ${{ secrets.RUNPOD_API_KEY }}
-          VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python -m dashboard.run_daily --scope daily --repo "$GITHUB_REPOSITORY"
-      - name: Publish monthly market archive
+        run: python -m dashboard.run_daily --scope weekly --repo "$GITHUB_REPOSITORY"
+      - name: Publish weekly archive in monthly release
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
@@ -57,14 +52,10 @@ jobs:
           TAG="market-${STAMP:0:4}-${STAMP:4:2}"
           FILE="dist/daily_snapshot_$STAMP.tar.gz"
           cp dist/storage-report.json "dist/storage_report_$STAMP.json"
-          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "AI market data ${STAMP:0:6}" --notes "Validated daily market snapshots. No credentials or full news articles." --latest=false
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "AI market data ${STAMP:0:6}" --notes "Validated daily and weekly snapshots." --latest=false
           gh release upload "$TAG" "$FILE" "dist/storage_report_$STAMP.json" --clobber
       - name: Report source health and storage
         run: python scripts/run_summary.py
-      - name: Retain 90 days of market assets
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: python scripts/prune_daily_releases.py --repo "$GITHUB_REPOSITORY" --apply
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -72,7 +63,7 @@ jobs:
           retention-days: 1
 
   deploy-dashboard:
-    needs: collect
+    needs: collect-weekly
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -83,3 +74,4 @@ jobs:
     steps:
       - uses: actions/deploy-pages@v4
         id: deployment
+

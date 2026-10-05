@@ -7,4 +7,9 @@ history/
 __pycache__/
 *.pyc
 site/data/
+node_modules/
+playwright-report/
+test-results/
+*.log
+AI产业看板_Mac迁移完整包_*.zip
 

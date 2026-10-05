@@ -21,6 +21,7 @@ def build_payload(snapshot: dict[str, Any]) -> dict[str, Any]:
             "domain": item.get("domain") or "非AI/待复核", "description_raw": item.get("description_raw") or item.get("page_description") or "",
             "use_case_zh": item.get("use_case_zh") or item.get("description_raw") or item.get("readme_excerpt") or "暂无项目简介，建议查看 README。",
             "use_case_source": item.get("use_case_source") or "GitHub description", "readme_excerpt": item.get("readme_excerpt") or "",
+            "source_type": item.get("source_type") or "trending", "latest_release": item.get("latest_release"),
         })
     rows.sort(key=lambda row: (row["stars_this_week"] is not None, row["stars_this_week"] or -1, -(row["rank"] or 999)), reverse=True)
     for rank, row in enumerate(rows, 1):
@@ -29,7 +30,7 @@ def build_payload(snapshot: dict[str, Any]) -> dict[str, Any]:
 
 
 def validate(payload: dict[str, Any]) -> None:
-    if payload.get("dataset") != "github_trending_weekly" or not isinstance(payload.get("rows"), list):
+    if payload.get("dataset") not in ("github_trending_weekly","github_ai_ecosystem") or not isinstance(payload.get("rows"), list):
         raise RuntimeError("GitHub dashboard payload contract is invalid")
     if payload.get("count") != len(payload["rows"]):
         raise RuntimeError("GitHub dashboard count does not match rows")

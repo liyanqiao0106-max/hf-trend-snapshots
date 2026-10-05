@@ -3,17 +3,24 @@
   "schedule": "每天 12:00，周末照常",
   "history_days": 90,
   "news_days": 7,
-  "news_limit_per_region": 12,
+  "news_limit_per_region": 25,
+  "news_maximum": 50,
   "translation": {"provider": "mymemory", "max_characters_per_24h": 3000, "max_bytes_per_request": 450},
   "openrouter_usage": {"zero_credit_verified": true, "verification_date": "2026-10-04", "source": "official-data-api"},
   "feeds": [
-    {"name": "IT之家", "url": "https://www.ithome.com/rss/", "language": "zh", "region": "国内"},
-    {"name": "Google AI", "url": "https://blog.google/technology/ai/rss/", "language": "en", "region": "国际"},
-    {"name": "NVIDIA Blog", "url": "https://blogs.nvidia.com/feed/", "language": "en", "region": "国际"},
-    {"name": "TechCrunch AI", "url": "https://techcrunch.com/category/artificial-intelligence/feed/", "language": "en", "region": "国际"}
+    {"name": "OpenAI News", "url": "https://openai.com/news/rss.xml", "language": "en", "region": "国际", "tier": 1, "official": true},
+    {"name": "Google AI", "url": "https://blog.google/technology/ai/rss/", "language": "en", "region": "国际", "tier": 1, "official": true},
+    {"name": "NVIDIA Blog", "url": "https://blogs.nvidia.com/feed/", "language": "en", "region": "国际", "tier": 1, "official": true},
+    {"name": "AWS Machine Learning", "url": "https://aws.amazon.com/blogs/machine-learning/feed/", "language": "en", "region": "国际", "tier": 1, "official": true},
+    {"name": "Hugging Face Blog", "url": "https://huggingface.co/blog/feed.xml", "language": "en", "region": "国际", "tier": 1, "official": true},
+    {"name": "GitHub AI/ML Changelog", "url": "https://github.blog/changelog/label/ai-ml/feed/", "language": "en", "region": "国际", "tier": 1, "official": true},
+    {"name": "TrendForce Semiconductors", "url": "https://www.trendforce.com/feed/Semiconductors.html", "language": "en", "region": "国际", "tier": 1, "official": true},
+    {"name": "IT之家", "url": "https://www.ithome.com/rss/", "language": "zh", "region": "国内", "tier": 2},
+    {"name": "TechCrunch AI", "url": "https://techcrunch.com/category/artificial-intelligence/feed/", "language": "en", "region": "国际", "tier": 2}
   ],
   "gpu_skus": [
-    {"sku": "Standard_ND96isr_H100_v5", "gpu": "H100", "gpu_count": 8}
+    {"sku": "Standard_ND96isr_H100_v5", "gpu": "H100", "gpu_count": 8, "memory_gb": 80},
+    {"sku": "Standard_ND96amsr_A100_v4", "gpu": "A100 80GB", "gpu_count": 8, "memory_gb": 80}
   ],
   "terms": {
     "Token": "模型处理文本的计量单位，不等于单词数",

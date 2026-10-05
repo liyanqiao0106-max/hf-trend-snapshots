@@ -1,58 +1,89 @@
-# AI 产业观察：免费个人看板
+# AI 产业观察：免费自动化看板
 
-沿用现有 GitHub Actions、Releases 和 Pages。前端只读 JSON，采集器独立运行，历史快照不进入 Git 仓库。当前为本地待审核版本，未修改线上网站。
+这是一个中文个人投研看板。采集器在 GitHub Actions 中运行，数据以 JSON 和压缩快照保存，GitHub Pages 只负责展示，因此电脑关机后网址仍可访问。公开网址：<https://liyanqiao0106-max.github.io/hf-trend-snapshots/>。
 
-## 已确认的运行方式
+## 运行架构
 
-- 上海时间每天 12:00 触发，包括周末；Actions 可能排队延迟，不保证 12:00 整发布。
-- 每次打开或点击刷新读取最近成功快照；浏览器不直接抓外部 API。
-- 全免费：公开仓库、标准 GitHub runner、免费公开数据，不启用付费兜底。
-- 历史数据采用 Release 压缩附件，保留 90 天每日快照；既有 weekly seed Releases 不删除。
-- 新闻展示标题、订阅源短导语和原文链接；国际新闻翻译成功后进入中文页面。
-- 国际新闻采用 MyMemory 匿名免费接口，滚动24小时最多3000字符。缓存不扣量，失败请求计量，无自动重试和付费兜底。Actions 先将额度预留保存至专用 Release 账本，失败重跑不重复获得额度。两款未通过测试的离线模型已清理。
-- iOS AI App 和产品指数不纳入；RAM 改为存储产业动态与原站链接。
+```mermaid
+flowchart LR
+  A[公开 API / RSS / 网页表格] --> B[独立 Python 适配器]
+  B --> C[统一 JSON 契约与校验]
+  C --> D[GitHub Release 月度归档<br/>保留最近 90 天]
+  C --> E[GitHub Pages 最新快照]
+  E --> F[中文 HTML 看板]
+```
 
-## 栏目口径
+- 每天上海时间 12:00 采集新闻、模型报价、GPU 报价和存储价格，周末照常。
+- 每周二 12:20 定稿 OpenRouter Token 用量、Hugging Face 和 GitHub 项目数据。
+- 页面打开或点击刷新时读取最近一次成功快照；浏览器不会直接访问需要密钥的 API。
+- 单个来源失败时保留最近成功数据并显示 `partial` 或 `stale`，不影响其他栏目更新。
+- 仅使用公开仓库、标准 Actions runner、Pages、Releases 和免费数据源，不设置付费兜底。
 
-| 栏目 | 来源和范围 |
+## 栏目与数据口径
+
+| 栏目 | 数据源与说明 |
 |---|---|
-| AI 新闻 | IT之家、Google AI、NVIDIA、TechCrunch AI 公开 RSS；七日内去重 |
-| Token 用量 | OpenRouter Data API；真实零充值账户验证成功后才启用；不能代表全行业 |
-| Token 价格 | OpenRouter 模型目录；USD/百万 Token，输入/输出分列；替代 Silicon Data 商业指数 |
-| GPU 报价 | Azure Retail Prices API；H100 Linux 整机价格除以八，含 CPU/RAM 分摊；On-demand/Spot 分列 |
-| 存储动态 | 新闻中的 HBM/DRAM/NAND/内存关键词，以及原站链接；不转载商业价格 |
-| Hugging Face | 原多池采集，450 个完整历史模型与 50 个观察模型；约七日/十四日前快照比较，间隔不等标注七日等效值 |
-| GitHub | 周 Trending 候选池 + 官方仓库 API；周新增 Stars 与总 Stars 的快照净变化分列 |
+| 产业新闻 | 国内外公开 RSS；显示中文标题、短摘要和原文链接。国际内容使用 MyMemory 免费翻译，24 小时最多 3000 字符，失败时明确提示 |
+| Token 自然周 | OpenRouter 官方 Data API；按 UTC 周一至周日生成完整周、进行中周和预览周，不能代表全行业 |
+| 模型 API 价格 | OpenRouter 模型目录；输入、输出、缓存价格统一为 USD/百万 Token，缺失值保持为空 |
+| GPU 云报价 | Azure Retail Prices；可选接入 RunPod、Vast.ai 免费 API。实例总价与每 GPU 时价分开，On-demand 与 Spot 分开 |
+| 存储硬件价格 | DRAMeXchange 免费公开当日表格中的 DDR4/DDR5、DRAM 模组、NAND、TLC Wafer、GDDR5/GDDR6 与 SSD；BLS 存储设备 PPI；每日快照形成自有历史趋势 |
+| HBM 租赁代理 | 用含 HBM 的 GPU 云实例价除以 HBM 容量，只是包含计算、CPU、RAM 和平台成本的代理指标，不冒充 HBM 现货价 |
+| Hugging Face | 全量候选池与分层展示，使用约 7 日和 14 日快照比较 |
+| GitHub AI 项目 | GitHub Trending 候选池、AI/ML topics、官方仓库和 Release 信息；总 Stars 与周净变化分列 |
 
-## 解耦结构
+存储板块不包含新闻。公开来源没有可持续、免费的独立 HBM 现货 API，因此看板明确展示租赁代理。GDDR4 已不是公开表格中的活跃报价品种；有免费、可核验的数据源后再接入，不用推算值代替。
 
-`config/sources.json` 控制来源与术语；`dashboard/prices.py`、`news.py`、`usage.py` 为独立适配器；HF/GitHub 原采集器继续复用。`run_daily.py` 编排并生成 `site/data/<module>/latest.json`；`storage.py` 管理校验与恢复；`site/` 只负责展示。
+## 项目结构
 
-失败来源保留最近成功结果并标注 stale，成功来源继续更新。整个快照校验通过后才覆盖文件。将来可用数据库替代 Release，保持前端 JSON 契约。
+```text
+dashboard/                 采集、校验、恢复、归档和编排
+config/sources.json        来源、时区、翻译额度、术语和 GPU SKU
+site/                      无框架 HTML/CSS/JavaScript 前端
+tests/                     Python 契约测试与 Playwright 浏览器测试
+scripts/                   状态报告、90 天清理、静态测试服务器
+.github/workflows/         每日、每周、质量验证工作流
+history/                   本地历史和缓存（忽略，不进 Git）
+dist/                      本地压缩包与报告（忽略，不进 Git）
+work/                      本地临时运行时和测试依赖（忽略，不进 Git）
+```
 
-## 本地验证
+## 本地运行
+
+Windows PowerShell：
 
 ```powershell
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
-python -m dashboard.run_daily
+python -m dashboard.run_daily --scope all
 python -m http.server 8000 --directory site
 ```
 
-浏览器访问 `http://localhost:8000`。采集需要网络，HF 全量采集不是只抓榜单前十项。
+打开 <http://localhost:8000>。OpenRouter key 只放在本地 `.env` 或 GitHub Actions Secret `OPENROUTER_API_KEY` 中。`.env`、密钥、模型权重、全文新闻和本地依赖都不会进入 Git、Pages 或 Release。
 
-创建 OpenRouter API key，保存在本地 `.env` 的 `OPENROUTER_API_KEY=` 后，运行 `python scripts/verify_openrouter.py`。脚本只发 GET，不调用模型推理、不输出 key。验证成功后再启用用量模块，本地 key 不会自动同步到 Actions。
+前端验证：
 
-## 上线准备
+```powershell
+npm ci
+npx playwright install chromium
+npm test
+```
 
-完成翻译、账户验证和模块审核后另行确认发布。Actions key 放入仓库 Settings → Secrets and variables → Actions 的 `OPENROUTER_API_KEY`；不能写入 HTML、JSON、Git 或公开附件。`HF_TOKEN` 可选。
+## 数据保存与额度
 
-Workflow 的 `0 4 * * *` 为上海时间 12:00，Pages 使用 GitHub Actions 部署源。部署 artifact 保留一天，持久数据在 Releases。不使用 Git LFS、不提交模型权重、不增加付费 runner。定时流程可能因长期无仓库活动停用，页面用时间戳提示陈旧数据。
+- Pages 只保存前端和最新 JSON；历史快照按月放入 Release，每日一个压缩附件，保留 90 天。
+- Actions Pages artifact 只保留 1 天。HTTP 缓存用于减少重复下载。
+- 一次完整实测压缩快照约 1.60 MB，90 天约 145 MB；每次运行会重新生成实际体积报告。
+- GitHub 定时任务可能延迟；页面用快照日期和来源状态说明新鲜度。
 
-## 大小与额度
+更完整的 Windows 实施记录见 [实施与验收报告](docs/实施与验收报告.md)，Mac 迁移步骤见 [Mac迁移说明](docs/Mac迁移说明.md)。
 
-2026-10-03 实测：HF 21,925 模型的 gzip CSV 为1,446,583 bytes；接入国际新闻和翻译缓存后的日快照为1,606,108 bytes（约1.61 MB / 1.53 MiB），包括15条新闻中的8条国际新闻译文。尚不含OpenRouter用量，不是最终上限。保留90天约145 MB。每次采集在 `storage-report.json` 和 Actions 摘要报告实际体积。
+## 来源与参考
 
-GitHub Free Actions artifact 免费存储 500 MB，cache 默认每仓库 10 GB，Pages 站点上限 1 GB。Release 单附件小于 2 GiB、每 Release 最多 1000 附件；官方未列 Release 总大小或带宽限制。临时下载模型不进入快照，不启用 Actions 模型缓存。
-
-来源：[Actions 计费](https://docs.github.com/en/billing/concepts/product-billing/github-actions)、[Release 限制](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)、[Pages 限制](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits)。
+- [DRAMeXchange 当日公开价格](https://www.dramexchange.com/)
+- [BLS/FRED Computer Storage Device PPI](https://fred.stlouisfed.org/series/PCU3341123341121)
+- [OpenRouter API](https://openrouter.ai/docs/api-reference/overview)
+- [Azure Retail Prices API](https://learn.microsoft.com/rest/api/cost-management/retail-prices/azure-retail-prices)
+- [AI hardware tracker 参考实现](https://github.com/wongcingshen/AI_hardware_tracker)
+- [GitHub Actions 计费](https://docs.github.com/en/billing/concepts/product-billing/github-actions)
+- [GitHub Pages 限制](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits)

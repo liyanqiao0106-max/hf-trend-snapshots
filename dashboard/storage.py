@@ -62,7 +62,8 @@ def restore(repo,root,history,day,token=None):
     releases=release_list(repo,token)
     daily=[]
     for release in releases:
-        if release.get('tag_name','').startswith('daily-snapshot-'):
+        tag=release.get('tag_name','')
+        if tag.startswith('daily-snapshot-'):
             stamp=release['tag_name'].removeprefix('daily-snapshot-')
             try:
                 date=dt.datetime.strptime(stamp,'%Y%m%d').date()
@@ -72,14 +73,36 @@ def restore(repo,root,history,day,token=None):
             asset=assets.get(f'daily_snapshot_{stamp}.tar.gz')
             if asset:
                 daily.append((date,asset))
+        elif tag.startswith('market-'):
+            for asset in release.get('assets',[]):
+                if not asset.get('name','').startswith('daily_snapshot_') or not asset['name'].endswith('.tar.gz'):
+                    continue
+                try:
+                    stamp=asset['name'][15:23]
+                    date=dt.datetime.strptime(stamp,'%Y%m%d').date()
+                except ValueError:
+                    continue
+                daily.append((date,asset))
     chosen=select_spaced([date for date,asset in daily]+[dt.date.fromisoformat(day)])
     newest=max((d for d,a in daily),default=None)
+    local_manifest=None
+    for candidate in (Path(root)/'site/data/manifest.json',Path(root)/'site/data/inventory.json'):
+        try:
+            local_manifest=json.loads(candidate.read_text(encoding='utf-8'))
+            break
+        except (OSError,ValueError):
+            pass
+    try:
+        local_date=dt.date.fromisoformat((local_manifest or {}).get('snapshot_date',''))
+    except ValueError:
+        local_date=None
     wanted=set(chosen)|({newest} if newest else set())
     for date,asset in sorted(daily,reverse=True):
         if date not in wanted:
             continue
         blob=request_bytes(asset['browser_download_url'],accept='application/octet-stream')
-        unpack_bundle(blob,root,restore_site=date==newest)
+        # Never let a same-day or older remote archive overwrite locally generated schema/data.
+        unpack_bundle(blob,root,restore_site=date==newest and (local_date is None or date>local_date))
     # Preserve existing weekly seed releases during transition to daily snapshots.
     legacy=[]
     for release in releases:
@@ -100,6 +123,23 @@ def restore(repo,root,history,day,token=None):
                 if not path.exists():
                     path.parent.mkdir(parents=True,exist_ok=True)
                     path.write_bytes(request_bytes(entry['browser_download_url'],accept='application/octet-stream'))
+    # Weekly GitHub assets existed under both a stable and a dated filename.
+    for release in releases:
+        for asset in release.get('assets',[]):
+            name=asset.get('name','')
+            if name!='github_snapshot.json' and not (name.startswith('github_snapshot_') and name.endswith('.json')):
+                continue
+            raw=request_bytes(asset['browser_download_url'],accept='application/octet-stream')
+            try:
+                payload=json.loads(raw)
+                stamp=str(payload.get('snapshot_date','')).replace('-','')
+                if len(stamp)!=8 or not stamp.isdigit():
+                    continue
+            except (ValueError,TypeError):
+                continue
+            target=Path(history)/f'github_snapshot_{stamp}.json'
+            if not target.exists():
+                target.write_bytes(raw)
     return releases
 
 def bundle(root,dist,day,extra_paths):
@@ -111,7 +151,7 @@ def bundle(root,dist,day,extra_paths):
             name=path.relative_to(root).as_posix()
             raw=path.read_bytes()
             entries[name]={'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}
-    manifest={'schema_version':1,'date':day,'files':entries}
+    manifest={'schema_version':2,'date':day,'files':entries}
     output=dist/f'daily_snapshot_{day.replace("-", "")}.tar.gz'
     with tarfile.open(output,'w:gz') as tar:
         for name in entries:

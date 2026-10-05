@@ -1,4 +1,46 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="每日更新的个人 AI 产业观察看板"><title>AI 产业观察 · 每日看板</title><link rel="stylesheet" href="styles.css"></head>
-<body><div class="shell"><aside><a class="brand" href="#news"><b>AI</b><span>产业观察<small>PERSONAL OBSERVATORY</small></span></a><p class="nav-label">每日观察</p><nav aria-label="栏目"><button data-module="news" class="active">产业新闻 <span>01</span></button><button data-module="token-usage">Token 使用量 <span>02</span></button><button data-module="token-prices">模型 API 价格 <span>03</span></button><button data-module="gpu-prices">GPU 云实例报价 <span>04</span></button><button data-module="memory">存储产业动态 <span>05</span></button><button data-module="hugging-face">Hugging Face 趋势 <span>06</span></button><button data-module="github">GitHub AI 项目 <span>07</span></button></nav><div class="schedule"><span>●</span> 每日 12:00 · 上海时间<p>周末照常更新<br>来源与口径可追溯</p><button id="show-health">查看采集状态 ↗</button></div></aside>
-<main><header><span>AI INDUSTRY / DAILY OBSERVATORY</span><div><button id="theme">◐ 外观</button><button id="refresh">↻ 刷新数据</button></div></header><section class="hero"><p>每天一眼，跟上产业变化。</p><div><h1 id="title">AI 产业新闻</h1><span id="date" class="pill">读取中</span></div><p id="subtitle">国内外动态，中文标题与简短摘要。</p></section><div id="status" role="status" aria-live="polite"></div><section id="cards" class="cards" aria-label="栏目概览"></section><section class="panel"><div class="toolbar"><h2 id="panel-title">最新动态</h2><div class="filters"><label><span class="sr-only">搜索</span><input id="search" type="search" placeholder="搜索公司、模型或关键词"></label><label><span class="sr-only">筛选</span><select id="filter"><option value="all">全部</option></select></label></div></div><div id="trend"></div><div id="content" aria-live="polite"></div><p id="method" class="method"></p></section><section id="health-panel" class="panel" hidden><div class="toolbar"><h2>数据源状态</h2><button id="close-health">收起</button></div><div id="health"></div></section><details class="terms"><summary>专业词汇 · 中文说明</summary><dl id="terms"></dl></details><footer>每天中午采集后发布；上午通常显示前一天的数据。延迟或失败时保留最近成功结果。<a href="https://github.com/liyanqiao0106-max/hf-trend-snapshots" target="_blank" rel="noopener noreferrer">项目来源 ↗</a></footer></main></div><script src="app.js" defer></script></body></html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="每日更新的 AI 全产业链投研看板">
+  <title>AI 行业投研看板</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+  <aside>
+    <a class="brand" href="#overview"><b>AI</b><span>行业投研<small>INDUSTRY RESEARCH</small></span></a>
+    <p class="nav-label">产业数据</p>
+    <nav aria-label="看板栏目">
+      <button data-module="overview" class="active">总览 <span>00</span></button>
+      <button data-module="news">产业新闻 <span>01</span></button>
+      <button data-module="token">Token 自然周 <span>02</span></button>
+      <button data-module="models">模型 API 价格 <span>03</span></button>
+      <button data-module="gpu">GPU 云报价 <span>04</span></button>
+      <button data-module="storage">存储硬件价格 <span>05</span></button>
+      <button data-module="hugging-face">Hugging Face <span>06</span></button>
+      <button data-module="github">GitHub AI 项目 <span>07</span></button>
+    </nav>
+    <div class="schedule"><span>●</span> 每日 12:00 · 上海时间<p>市场数据每日更新<br>生态数据每周定稿</p><button id="show-health">查看数据源状态 ↗</button></div>
+  </aside>
+  <main>
+    <header><span>AI INDUSTRY / RESEARCH OBSERVATORY</span><div><button id="theme">◐ 外观</button><button id="refresh">↻ 刷新数据</button></div></header>
+    <section class="hero"><p id="eyebrow">全产业链数据</p><div><h1 id="title">AI 行业总览</h1><span id="date" class="pill">读取中</span></div><p id="subtitle">上游硬件、中游模型与下游产业事件。</p></section>
+    <div id="status" role="status" aria-live="polite"></div>
+    <section id="cards" class="cards" aria-label="栏目概览"></section>
+    <section class="panel main-panel">
+      <div class="toolbar"><h2 id="panel-title">最新快照</h2><div id="filters" class="filters"></div></div>
+      <div id="chart" class="chart-area"></div>
+      <div id="content" aria-live="polite"></div>
+      <p id="method" class="method"></p>
+    </section>
+    <section id="health-panel" class="panel" hidden><div class="toolbar"><h2>数据源状态</h2><button id="close-health">收起</button></div><div id="health"></div></section>
+    <details class="terms"><summary>专业词汇 · 中文说明</summary><dl id="terms"></dl></details>
+    <footer>浏览器读取最近一次成功快照；采集失败时保留旧数据并显示时间。<a href="https://github.com/liyanqiao0106-max/hf-trend-snapshots" target="_blank" rel="noopener noreferrer">项目与口径 ↗</a></footer>
+  </main>
+</div>
+<dialog id="drawer"><div class="dialog-head"><h2 id="drawer-title">明细</h2><button id="close-drawer" aria-label="关闭">×</button></div><div id="drawer-content"></div></dialog>
+<script src="app.js" defer></script>
+</body>
+</html>

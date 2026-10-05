@@ -1,0 +1,11 @@
+{
+  "name": "ai-industry-research-dashboard",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:browser": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}

@@ -22,6 +22,7 @@ from typing import Any
 API = "https://api.github.com"
 TRENDING = "https://github.com/trending"
 SCHEMA_VERSION = 1
+OFFICIAL_REPOSITORIES = ["openai/openai-python", "anthropics/anthropic-sdk-python", "huggingface/transformers", "vllm-project/vllm"]
 
 
 def request_text(url: str, token: str | None = None) -> str:
@@ -128,15 +129,50 @@ def enrich(row: dict[str, Any], token: str | None, include_readme: bool) -> None
     row["use_case_source"] = "GitHub description" if row.get("description_raw") else "README excerpt"
 
 
+def discover_repositories(token: str | None, captured_at: str) -> list[dict[str, Any]]:
+    if not token:
+        return []
+    names: list[tuple[str, str]] = [(name, "official") for name in OFFICIAL_REPOSITORIES]
+    try:
+        query = urllib.parse.quote("topic:artificial-intelligence stars:>1000", safe="")
+        payload = request_json(f"{API}/search/repositories?q={query}&sort=updated&order=desc&per_page=15", token)
+        names.extend((item["full_name"], "topic-search") for item in payload.get("items", []) if item.get("full_name"))
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, json.JSONDecodeError, KeyError):
+        pass
+    rows = []
+    for full_name, source_type in names:
+        if "/" not in full_name:
+            continue
+        rows.append({"rank": None, "full_name": full_name, "url": "https://github.com/" + full_name,
+            "source_url": "https://github.com/topics/artificial-intelligence", "stars_this_week": None,
+            "page_stars": None, "page_description": "", "language": "", "captured_at_utc": captured_at,
+            "source_type": source_type})
+    return rows
+
+
 def collect(output: Path, *, date_value: str | None = None, token: str | None = None, limit: int | None = None, no_readme: bool = False) -> Path:
     captured = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
     day = date_value or dt.datetime.now(dt.timezone.utc).date().isoformat()
     source_url = f"{TRENDING}?since=weekly"
     rows = parse_trending(request_text(source_url), source_url, captured)
+    for row in rows:
+        row["source_type"] = "trending"
+    discovered = discover_repositories(token, captured)
+    seen = {row["full_name"].lower() for row in rows}
+    for row in discovered:
+        if row["full_name"].lower() not in seen:
+            rows.append(row)
+            seen.add(row["full_name"].lower())
     if limit:
         rows = rows[:limit]
     for row in rows:
         enrich(row, token, not no_readme)
+        if token:
+            try:
+                release = request_json(f"{API}/repos/{row['full_name']}/releases/latest", token)
+                row["latest_release"] = {"tag": release.get("tag_name"), "published_at": release.get("published_at"), "url": release.get("html_url")}
+            except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, json.JSONDecodeError):
+                row["latest_release"] = None
         row["date"] = day
         row["domain"] = classify(row)
         row["use_case_zh"] = make_use_case(row)
