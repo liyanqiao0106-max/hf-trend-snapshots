@@ -122,7 +122,6 @@ def main() -> None:
     history, dist = ROOT / "history", ROOT / "dist"
     history.mkdir(exist_ok=True)
     dist.mkdir(exist_ok=True)
-    existing_manifest = read_json(ROOT / "site/data/manifest.json") or read_json(ROOT / "site/data/inventory.json") or {}
     statuses: list[dict[str, Any]] = []
     archives: list[dict[str, Any]] = []
     raw_paths: list[Path] = []
@@ -133,6 +132,10 @@ def main() -> None:
             statuses.append({"module": "restore", "status": "error", "error": str(exc), "rows": 0})
             if not (ROOT / "site/data").exists():
                 raise RuntimeError("无法恢复历史看板；暂停发布") from exc
+    # Restore may have populated the checkout from the most recent Release.
+    # Read the manifest afterwards so a daily run retains weekly-only modules
+    # (and vice versa) when both workflows publish on the same day.
+    existing_manifest = read_json(ROOT / "site/data/manifest.json") or read_json(ROOT / "site/data/inventory.json") or {}
 
     def run(name: str, function: Callable[[dict[str, Any] | None], dict[str, Any]]) -> dict[str, Any] | None:
         path = ROOT / "site/data" / name / "latest.json"
