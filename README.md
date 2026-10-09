@@ -13,8 +13,8 @@ flowchart LR
   E --> F[中文 HTML 看板]
 ```
 
-- 每天上海时间 12:00 采集新闻、模型报价、GPU 报价和存储价格，周末照常。
-- 每周二 12:20 定稿 OpenRouter Token 用量、Hugging Face 和 GitHub 项目数据。
+- 每天上海时间 15:48 采集新闻、模型报价、GPU 报价和存储价格，周末照常。
+- 每周一 07:11 定稿 OpenRouter Token 用量、Hugging Face 和 GitHub 项目数据。
 - 页面打开或点击刷新时读取最近一次成功快照；浏览器不会直接访问需要密钥的 API。
 - 单个来源失败时保留最近成功数据并显示 `partial` 或 `stale`，不影响其他栏目更新。
 - 仅使用公开仓库、标准 Actions runner、Pages、Releases 和免费数据源，不设置付费兜底。

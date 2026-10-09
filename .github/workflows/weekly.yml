@@ -2,7 +2,7 @@ name: Finalize weekly ecosystem data
 
 on:
   schedule:
-    - cron: "20 4 * * 2" # Tuesday 12:20 Asia/Shanghai
+    - cron: "11 23 * * 0" # Monday 07:11 Asia/Shanghai (Sunday 23:11 UTC)
   workflow_dispatch:
   push:
     branches: [main]
@@ -74,4 +74,3 @@ jobs:
     steps:
       - uses: actions/deploy-pages@v4
         id: deployment
-

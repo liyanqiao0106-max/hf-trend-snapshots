@@ -2,7 +2,7 @@ name: Collect daily market data
 
 on:
   schedule:
-    - cron: "0 4 * * *" # 12:00 Asia/Shanghai, including weekends
+    - cron: "48 7 * * *" # 15:48 Asia/Shanghai, including weekends
   workflow_dispatch:
   push:
     branches: [main]

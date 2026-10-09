@@ -1,6 +1,6 @@
 {
   "timezone": "Asia/Shanghai",
-  "schedule": "每天 12:00，周末照常",
+  "schedule": "每天 15:48，周末照常",
   "history_days": 90,
   "news_days": 7,
   "news_limit_per_region": 25,
