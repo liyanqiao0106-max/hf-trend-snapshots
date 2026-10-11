@@ -51,6 +51,29 @@ function renderGithub(p){const rows=filterRows(p.rows,['full_name','domain','use
 
 function xDate(value){const date=new Date(value);return Number.isNaN(date.getTime())?'时间未知':date.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});}
 function xUrl(value){return /^https:\/\/x\.com\/[A-Za-z0-9_]+\/status\/\d+$/.test(value||'')?value:'';}
+function positionXMenus(picker=$('#x-category-picker')){
+  if(!picker||window.matchMedia('(max-width: 700px)').matches)return;
+  const panel=picker.querySelector('.x-category-panel');
+  if(!panel)return;
+  const edge=8;
+  picker.classList.remove('opens-left');
+  const pickerRect=picker.getBoundingClientRect();
+  const panelWidth=panel.getBoundingClientRect().width||Math.max(278,panel.scrollWidth);
+  if(pickerRect.left+panelWidth>window.innerWidth-edge&&pickerRect.right-panelWidth>=edge)picker.classList.add('opens-left');
+  picker.querySelectorAll('.x-category-entry').forEach(entry=>{
+    const submenu=entry.querySelector('.x-account-submenu');
+    const rect=entry.getBoundingClientRect();
+    const measuredWidth=submenu.getBoundingClientRect().width;
+    const submenuWidth=measuredWidth||360;
+    const roomRight=window.innerWidth-rect.right-edge;
+    const roomLeft=rect.left-edge;
+    const opensLeft=roomRight<submenuWidth&&roomLeft>roomRight;
+    entry.classList.toggle('opens-left',opensLeft);
+    const available=Math.max(180,Math.min(360,opensLeft?roomLeft:roomRight));
+    submenu.style.setProperty('--x-submenu-max-width',`${available}px`);
+  });
+}
+window.addEventListener('resize',()=>{if(state.module==='x-watch')positionXMenus();},{passive:true});
 function renderXWatch(p){
   const accounts=p.accounts||[];const categories=[...new Set(accounts.map(account=>account.category))];
   const returnedHandles=new Set(p.rows.map(row=>String(row.handle).toLowerCase()));
@@ -60,6 +83,10 @@ function renderXWatch(p){
   const picker=`<div class="x-category-picker" id="x-category-picker"><button class="x-category-trigger" type="button" aria-haspopup="true">${esc(selection)} <span aria-hidden="true">⌄</span></button><div class="x-category-panel" role="menu"><button type="button" class="x-all-categories" data-x-all role="menuitem">全部分类</button>${categories.map(category=>{const children=accounts.filter(account=>account.category===category);return `<div class="x-category-entry"><button type="button" class="x-category-option" data-x-category="${esc(category)}" aria-haspopup="true" role="menuitem">${esc(category)} <span aria-hidden="true">›</span></button><div class="x-account-submenu" role="menu" aria-label="${esc(category)}账号"><button type="button" data-x-account="all" data-x-account-category="${esc(category)}" role="menuitem">全部账号</button>${children.map(account=>{const handle=account.handle.toLowerCase();const note=failedHandles.has(handle)?' · 查询失败':returnedHandles.has(handle)?'':' · 本期无动态';return `<button type="button" data-x-account="${esc(account.handle)}" data-x-account-category="${esc(category)}" role="menuitem">${esc(account.name)} <small>@${esc(account.handle)}${note}</small></button>`}).join('')}</div></div>`}).join('')}</div></div>`;
   const extras=`${picker}<label><span class="sr-only">优先关注筛选</span><select id="x-scope" aria-label="优先关注筛选"><option value="all">全部 50 个账号</option><option value="priority" ${state.xPriority?'selected':''}>优先关注 15 个</option></select></label>`;
   renderFilters(p.rows,'',extras);
+  const categoryPicker=$('#x-category-picker');
+  categoryPicker?.addEventListener('pointerover',event=>{const entry=event.target.closest('.x-category-entry');if(entry)positionXMenus(categoryPicker);});
+  categoryPicker?.addEventListener('focusin',()=>positionXMenus(categoryPicker));
+  requestAnimationFrame(()=>positionXMenus(categoryPicker));
   $('#x-scope')?.addEventListener('change',event=>{state.xPriority=event.target.value==='priority';state.xAccount='all';state.xCategory='all';renderCurrent();});
   $('#x-category-picker')?.querySelector('[data-x-all]')?.addEventListener('click',()=>{state.xCategory='all';state.xAccount='all';renderCurrent();});
   $('#x-category-picker')?.querySelectorAll('[data-x-category]').forEach(button=>button.addEventListener('click',()=>{const entry=button.closest('.x-category-entry');entry.classList.toggle('is-open');}));
