@@ -89,6 +89,7 @@ function renderGpu(p){
 }
 
 function storageComparable(row){if(row.category==='SSD'&&isNumber(row.usd_per_tb))return {value:Number(row.usd_per_tb),unit:'USD/TB'};if(isNumber(row.price))return {value:Number(row.price),unit:`${row.currency||''} ${row.unit||''}`.trim()};return null;}
+function storageMetric(value,unit){return /^USD(?:\b|\/)/i.test(unit||'')?money(value):num(value);}
 function renderStorage(p){
   const rows=filterRows(p.rows,['category','item','market','source'],'category');renderFilters(p.rows,'category');
   const selected=rows.find(r=>r.id===state.selected)||rows[0];state.selected=selected?.id||null;const history=selected?.history||[];
@@ -101,7 +102,7 @@ function renderStorage(p){
   }else{
     const comparable=rows.map(row=>({row,metric:storageComparable(row)})).filter(item=>item.metric);
     const summaries=[...grouped(comparable,item=>`${item.row.category}\u0000${item.metric.unit}`).values()].map(group=>{const values=group.map(item=>item.metric.value),mid=median(values),representative=group.reduce((best,item)=>Math.abs(item.metric.value-mid)<Math.abs(best.metric.value-mid)?item:best);return {category:group[0].row.category,unit:group[0].metric.unit,count:values.length,min:Math.min(...values),avg:average(values),mid,max:Math.max(...values),id:representative.row.id};}).sort((a,b)=>String(a.category).localeCompare(String(b.category),'zh-CN'));
-    body=summaries.length?table(['类别','可比单位','样本','最低','平均','中位','最高'],summaries.map(r=>[`<button class="link-button" data-storage="${esc(r.id)}">${esc(r.category)}</button>`,esc(r.unit),num(r.count),num(r.min),num(r.avg),num(r.mid),num(r.max)])):'<div class="empty">当前筛选没有可计算的存储价格。</div>';
+    body=summaries.length?table(['类别','可比单位','样本','最低','平均','中位','最高'],summaries.map(r=>[`<button class="link-button" data-storage="${esc(r.id)}">${esc(r.category)}</button>`,esc(r.unit),num(r.count),storageMetric(r.min,r.unit),storageMetric(r.avg,r.unit),storageMetric(r.mid,r.unit),storageMetric(r.max,r.unit)])):'<div class="empty">当前筛选没有可计算的存储价格。</div>';
   }
   $('#content').innerHTML=resultBlock('类别价格基准','同一类别、同一单位分别聚合；SSD 统一换算为 USD/TB。点击类别查看中位样本趋势。',body);bindDataView();
   document.querySelectorAll('[data-storage]').forEach(button=>button.onclick=()=>{state.selected=button.dataset.storage;renderCurrent();});

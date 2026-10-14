@@ -71,6 +71,8 @@ test('storage shows prices and trends without news cards',async({page})=>{
   await expect(page.getByRole('heading',{name:'存储硬件价格'})).toBeVisible();
   await expect(page.getByText('类别价格基准')).toBeVisible();
   await expect(page.getByRole('cell',{name:'USD/TB'})).toBeVisible();
+  await expect(page.getByRole('cell',{name:'$90'})).toHaveCount(4);
+  await expect(page.getByRole('cell',{name:'$8.2'})).toHaveCount(4);
   await expect(page.locator('.chart-area svg')).toBeVisible();
   await expect(page.locator('.news')).toHaveCount(0);
   await page.locator('#filter').selectOption('HBM rental proxy');
