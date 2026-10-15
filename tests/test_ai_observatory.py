@@ -5,7 +5,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 from pathlib import Path
 
-from dashboard.ai_financials import _metric, collect_ai_financials
+from dashboard.ai_financials import _drop_stale_capex, _metric, collect_ai_financials
 from dashboard.ai_frontier import collect_ai_frontier
 
 
@@ -29,6 +29,14 @@ class AiObservatoryTests(unittest.TestCase):
         self.assertEqual(metric["value_usd"], 20)
         self.assertEqual(metric["period_start"], "2026-01-01")
         self.assertIn("000012345626000001", metric["filing_url"])
+
+    def test_stale_capex_tag_is_retained_for_audit_but_not_presented_as_current(self):
+        metrics = {"capex": _metric([fact("PaymentsToAcquirePropertyPlantAndEquipment", 10, "2020-06-30")], ("PaymentsToAcquirePropertyPlantAndEquipment",), 123456),
+                   "revenue": _metric([fact("Revenues", 20, "2026-06-30")], ("Revenues",), 123456), "operating_cash_flow": None}
+        sanitized, omitted = _drop_stale_capex(metrics)
+        self.assertIsNone(sanitized["capex"])
+        self.assertEqual(omitted[0]["metric"], "capex")
+        self.assertEqual(omitted[0]["period_end"], "2020-06-30")
 
     def test_sec_collector_keeps_partial_and_does_not_infer_ai_capex(self):
         company = SimpleNamespace(cik=123456, get_facts=lambda: SimpleNamespace(get_all_facts=lambda: [

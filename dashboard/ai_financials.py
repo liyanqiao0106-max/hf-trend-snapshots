@@ -51,6 +51,25 @@ def _metric(facts: list[Any], names: tuple[str, ...], cik: int) -> dict[str, Any
     }
 
 
+def _drop_stale_capex(metrics: dict[str, dict[str, Any] | None]) -> tuple[dict[str, dict[str, Any] | None], list[dict[str, Any]]]:
+    """Do not present a discontinued standard tag as the company's current capex."""
+    capex = metrics.get("capex")
+    current_ends = [metric["period_end"] for metric in metrics.values() if metric and metric.get("period_end")]
+    if not capex or not current_ends:
+        return metrics, []
+    latest = max(current_ends)
+    try:
+        age_days = (date.fromisoformat(latest) - date.fromisoformat(capex["period_end"])).days
+    except (TypeError, ValueError):
+        return metrics, []
+    if age_days <= 370:
+        return metrics, []
+    omitted = {"metric": "capex", "reason": "标准化资本开支标签早于该公司最新财务披露期超过一年，未作为当前资本开支展示。",
+               **capex}
+    metrics["capex"] = None
+    return metrics, [omitted]
+
+
 def collect_ai_financials(day: str, companies: list[dict[str, str]]) -> dict[str, Any]:
     # edgartools otherwise creates ~/.edgar; constrain its data and HTTP cache to this project.
     os.environ["EDGAR_LOCAL_DATA_DIR"] = str(ROOT / "work/cache/edgar-data")
@@ -73,11 +92,16 @@ def collect_ai_financials(day: str, companies: list[dict[str, str]]) -> dict[str
                 raise ValueError("SEC 未返回 company facts")
             facts = entity_facts.get_all_facts()
             metrics = {key: _metric(facts, concepts, cik) for key, concepts in CONCEPTS.items()}
+            metrics, omitted_metrics = _drop_stale_capex(metrics)
             if not any(metrics.values()):
                 raise ValueError("未找到可用的 USD 标准化财务事实")
             rows.append({"ticker": ticker, "company": item["name"], "cik": cik, "metrics": metrics,
-                         "company_url": f"https://www.sec.gov/edgar/browse/?CIK={cik}"})
-            sources.append(source_record(ticker, f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json"))
+                         "omitted_metrics": omitted_metrics, "company_url": f"https://www.sec.gov/edgar/browse/?CIK={cik}"})
+            if omitted_metrics:
+                sources.append(source_record(ticker, f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json", status="partial",
+                    error="未找到与最新财务期同步的标准化资本开支标签；旧标签已保留在 omitted_metrics，未在主表展示。"))
+            else:
+                sources.append(source_record(ticker, f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json"))
         except Exception as exc:
             sources.append(source_record(ticker, f"https://www.sec.gov/edgar/browse/?CIK={ticker}", status="error", error=str(exc)[:240]))
     payload = envelope("ai_company_financials", "SEC EDGAR XBRL via edgartools", "https://www.sec.gov/search-filings/edgar-application-programming-interfaces", rows,
