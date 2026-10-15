@@ -1,5 +1,5 @@
 const {test,expect}=require('@playwright/test');
-const manifest={schema_version:2,snapshot_date:'2026-10-05',history_days:90,modules:{news:{status:'ok',rows:2},models:{status:'ok',rows:4},gpu:{status:'ok',rows:3},storage:{status:'ok',rows:3},'hugging-face':{status:'ok',rows:3},github:{status:'ok',rows:2}},terms:{HBM:'高带宽内存'}};
+const manifest={schema_version:2,snapshot_date:'2026-10-05',history_days:90,modules:{news:{status:'ok',rows:2},models:{status:'ok',rows:4},gpu:{status:'ok',rows:3},storage:{status:'ok',rows:3},'hugging-face':{status:'ok',rows:3},github:{status:'ok',rows:2},'ai-financials':{status:'ok',rows:1},'ai-frontier':{status:'partial',rows:2}},terms:{HBM:'高带宽内存'}};
 const news={schema_version:2,dataset:'industry_news',status:'ok',rows:[
   {title:'Upstream chip event',summary:'Chip supply update',source:'Example',region:'全球',chain_category:'上游：算力、芯片与存储',url:'https://example.com/upstream',published_at_utc:'2026-10-05T00:00:00Z'},
   {title:'Application event',summary:'Application update',source:'Example',region:'全球',chain_category:'下游：行业应用',url:'https://example.com/application',published_at_utc:'2026-10-05T00:00:00Z'}
@@ -33,6 +33,13 @@ const xWatch={schema_version:2,dataset:'x_industry_watch',status:'ok',snapshot_d
   {url:'https://x.com/thsottiaux/status/123',handle:'thsottiaux',account_name:'Tibo',category:'研究员、工程师与开发者',focus:'OpenAI；Codex、ChatGPT 产品迭代',priority:true,text:'Codex workflow update',published_at:'2026-10-10T10:00:00+08:00',likes:12,views:340,oembed_status:'ok'},
   {url:'javascript:alert(1)',handle:'OpenAI',account_name:'OpenAI',category:'模型厂商与官方账号',focus:'GPT、ChatGPT、前沿研究',priority:true,text:'<img src=x onerror=alert(1)>',published_at:'2026-10-10T09:00:00+08:00',likes:null,views:null,oembed_status:'unavailable'}
 ]};
+const aiFinancials={schema_version:2,dataset:'ai_company_financials',status:'ok',methodology:'全公司资本开支不等于 AI 专项。',rows:[
+  {ticker:'NVDA',company:'NVIDIA',company_url:'https://www.sec.gov/edgar/browse/?CIK=1045810',metrics:{capex:{value_usd:2000000000,period_start:'2026-01-01',period_end:'2026-06-30',filing_date:'2026-08-01',form:'10-Q',filing_url:'https://www.sec.gov/Archives/edgar/data/1045810/example-index.html'},revenue:null,operating_cash_flow:null}}
+]};
+const aiFrontier={schema_version:2,dataset:'ai_research_frontier',status:'partial',methodology:'未验证结果不能宣称已复核。',rows:[
+  {kind:'benchmark',dimension:'代码智能体',benchmark:'SWE-bench Verified',benchmark_url:'https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified',rank:1,model_id:'org/model',score:83.2,verified:false,url:'https://huggingface.co/org/model',source_url:'https://huggingface.co/org/model',source_type:'模型卡'},
+  {kind:'paper',dimension:'研究论文',paper_id:'2601.12345',title:'AI frontier paper',summary_raw:'Original English abstract',published_at_utc:'2026-10-10T00:00:00Z',submitted_at_utc:'2026-10-11T00:00:00Z',url:'https://huggingface.co/papers/2601.12345',arxiv_url:'https://arxiv.org/abs/2601.12345'}
+]};
 
 test.beforeEach(async({page})=>{
   await page.route('**/data/manifest.json*',route=>route.fulfill({json:manifest}));
@@ -43,14 +50,30 @@ test.beforeEach(async({page})=>{
   await page.route('**/data/hugging-face/latest.json*',route=>route.fulfill({json:huggingFace}));
   await page.route('**/data/github/latest.json*',route=>route.fulfill({json:github}));
   await page.route('**/x-watch/latest.json*',route=>route.fulfill({json:xWatch}));
+  await page.route('**/data/ai-financials/latest.json*',route=>route.fulfill({json:aiFinancials}));
+  await page.route('**/data/ai-frontier/latest.json*',route=>route.fulfill({json:aiFrontier}));
 });
 
-test('nine entries and overview load without eager module requests',async({page})=>{
+test('eleven entries and overview load without eager module requests',async({page})=>{
   const requests=[];page.on('request',request=>requests.push(request.url()));
   await page.goto('/');
-  await expect(page.locator('[data-module]')).toHaveCount(9);
+  await expect(page.locator('[data-module]')).toHaveCount(11);
   await expect(page.getByRole('heading',{name:'AI 行业总览'})).toBeVisible();
   expect(requests.some(url=>url.includes('/data/storage/latest.json'))).toBeFalsy();
+});
+
+test('SEC financials and research frontier retain their different evidence labels',async({page})=>{
+  await page.goto('/#ai-financials');
+  await expect(page.getByRole('heading',{name:'上市公司 AI 财务与资本开支'})).toBeVisible();
+  await expect(page.locator('#content')).toContainText('$2B');
+  await expect(page.locator('#chart')).toContainText('不等于 AI 专项');
+  await page.getByRole('button',{name:/AI 研究前沿与模型能力/}).click();
+  await expect(page.locator('#status')).toContainText('partial');
+  await expect(page.locator('#content')).toContainText('未独立验证');
+  await expect(page.locator('#content')).toContainText('AI frontier paper');
+  await expect(page.locator('#content')).toContainText('2026-10-10');
+  await page.locator('#filter').selectOption('研究论文');
+  await expect(page.locator('#content')).not.toContainText('org/model');
 });
 
 test('X watch is integrated in the sidebar with safe filtering and links',async({page})=>{

@@ -8,6 +8,9 @@ required=['overview','news','token','models','gpu','storage','hugging-face','git
 for name in required:
     if f'data-module="{name}"' not in index:
         raise SystemExit(f'missing navigation module: {name}')
+for name in ('ai-financials', 'ai-frontier'):
+    if f"'{name}':{{title:" not in app or f"['{name}'," not in app:
+        raise SystemExit(f'missing dynamic navigation module: {name}')
 for token in ('data/manifest.json','loadModule','state.pending'):
     if token not in app:
         raise SystemExit(f'missing frontend contract token: {token}')

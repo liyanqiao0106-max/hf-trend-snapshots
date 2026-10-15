@@ -9,6 +9,8 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .common import ROOT, SCHEMA_VERSION, archive, percentile, utc_now, write_json
+from .ai_financials import collect_ai_financials
+from .ai_frontier import collect_ai_frontier
 from .news import collect_news
 from .prices import collect_gpu, collect_models
 from .storage import bundle, restore, select_spaced
@@ -119,6 +121,7 @@ def main() -> None:
     args = parser.parse_args()
     day = dt.datetime.now(dt.timezone(dt.timedelta(hours=8))).date().isoformat()
     config = json.loads((ROOT / "config/sources.json").read_text(encoding="utf-8"))
+    observatory = json.loads((ROOT / "config/ai_observatory.json").read_text(encoding="utf-8"))
     history, dist = ROOT / "history", ROOT / "dist"
     history.mkdir(exist_ok=True)
     dist.mkdir(exist_ok=True)
@@ -178,6 +181,8 @@ def main() -> None:
             return payload
         gpu_payload = run("gpu", gpu)
         run("storage", lambda previous: collect_storage(day, gpu_payload, previous))
+        run("ai-financials", lambda previous: collect_ai_financials(day, observatory["sec_companies"]))
+        run("ai-frontier", lambda previous: collect_ai_frontier(day, observatory["benchmarks"], observatory["paper_limit"], previous))
 
     if args.scope in ("weekly", "all"):
         key = os.environ.get("OPENROUTER_API_KEY")

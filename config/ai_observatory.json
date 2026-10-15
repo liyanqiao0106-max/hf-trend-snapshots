@@ -1,0 +1,15 @@
+{
+  "sec_companies": [
+    {"ticker": "NVDA", "name": "NVIDIA"},
+    {"ticker": "MSFT", "name": "Microsoft"},
+    {"ticker": "GOOGL", "name": "Alphabet"},
+    {"ticker": "AMZN", "name": "Amazon"},
+    {"ticker": "META", "name": "Meta"},
+    {"ticker": "AMD", "name": "AMD"}
+  ],
+  "benchmarks": [
+    {"id": "SWE-bench/SWE-bench_Verified", "label": "SWE-bench Verified", "dimension": "代码智能体"},
+    {"id": "cais/hle", "label": "Humanity's Last Exam", "dimension": "复杂推理"}
+  ],
+  "paper_limit": 20
+}

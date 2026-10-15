@@ -27,6 +27,9 @@ jobs:
   collect:
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    env:
+      PIP_CACHE_DIR: ${{ github.workspace }}/work/cache/pip
+      HF_HOME: ${{ github.workspace }}/work/cache/huggingface
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -47,6 +50,7 @@ jobs:
           RUNPOD_API_KEY: ${{ secrets.RUNPOD_API_KEY }}
           VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: python -m dashboard.run_daily --scope daily --repo "$GITHUB_REPOSITORY"
       - name: Publish monthly market archive
         env:

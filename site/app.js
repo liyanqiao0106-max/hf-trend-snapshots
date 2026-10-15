@@ -13,7 +13,9 @@ const modules={
   storage:{title:'存储硬件价格',subtitle:'DDR、GDDR、NAND、SSD 与 HBM 租赁代理。',paths:['storage']},
   'hugging-face':{title:'Hugging Face 趋势',subtitle:'三期快照差分与新上榜观察。',paths:['hugging-face']},
   github:{title:'GitHub AI 项目',subtitle:'Trending、Topic、官方仓库与 Stars 变化。',paths:['github']},
-  'x-watch':{title:'X 账号动态',subtitle:'50 个 AI 产业核心账号的近七天动态；使用本机 Chrome 登录态采集。',paths:['x-watch']}
+  'x-watch':{title:'X 账号动态',subtitle:'50 个 AI 产业核心账号的近七天动态；使用本机 Chrome 登录态采集。',paths:['x-watch']},
+  'ai-financials':{title:'上市公司 AI 财务与资本开支',subtitle:'SEC 全公司财务事实；不将整体资本开支误称为 AI 专项投资。',paths:['ai-financials']},
+  'ai-frontier':{title:'AI 研究前沿与模型能力',subtitle:'官方基准榜单与 Daily Papers；分数、验证状态和论文时间分别标注。',paths:['ai-frontier']}
 };
 const state={module:'overview',manifest:null,cache:new Map(),pending:new Map(),query:'',filter:'all',weeks:26,selected:null,dataView:'summary',xPriority:false,xCategory:'all',xAccount:'all'};
 
@@ -111,6 +113,26 @@ function renderStorage(p){
 function renderHf(p){const rows=filterRows(p.rows,['id','task_type','use_case_zh','remark'],'task_type');renderFilters(p.rows,'task_type');cards([['筛选结果',num(rows.length),`总计 ${num(p.rows.length)} 个模型`],['完整历史模型',num(rows.filter(r=>r.status==='exact').length),'当前结果中可进行三期差分'],['观察模型',num(rows.filter(r=>r.status==='watch').length),'历史不足，不伪造增量']]);$('#chart').innerHTML='';$('#content').innerHTML=rows.length?table(['排名','模型','任务','本期下载','加速度','说明'],rows.slice(0,500).map(r=>[num(r.rank),link(r.model_url,r.id),esc(r.task_type),num(r.downloads_this_period),num(r.download_acceleration),esc(r.download_note||r.use_case_zh)])):'<div class="empty">没有符合当前分类和关键词的模型。</div>';}
 function renderGithub(p){const rows=filterRows(p.rows,['full_name','domain','use_case_zh','description_raw'],'domain');renderFilters(p.rows,'domain');cards([['AI 项目',num(p.rows.length),'Trending、Topic 与官方仓库'],['Stars 净变化',num(p.rows.reduce((sum,r)=>sum+(r.stars_net_change||0),0)),'与上次成功快照比较'],['最新 Release',num(p.rows.filter(r=>r.latest_release).length),'来自官方仓库 API']]);$('#chart').innerHTML='';$('#content').innerHTML=table(['项目','领域','来源','总 Stars','净变化','用途'],rows.map(r=>[link(r.url,r.full_name),esc(r.domain),esc(r.source_type||'trending'),num(r.stars),num(r.stars_net_change),esc(r.use_case_zh)]));}
 
+function usdBillions(value){return isNumber(value)?'$'+(Number(value)/1e9).toLocaleString('zh-CN',{maximumFractionDigits:2})+'B':'—';}
+function metricPeriod(metric){return metric?`${esc(metric.period_start||'—')} → ${esc(metric.period_end||'—')}`:'—';}
+function sourceHealth(p){return `<div class="source-health">来源状态：${(p.sources||[]).map(s=>`<span class="source-${esc(s.status)}" title="${esc(s.error||'')}">${esc(s.name)} <b>${esc(s.status)}</b></span>`).join('')}</div>`;}
+function renderAiFinancials(p){
+  const rows=filterRows(p.rows,['ticker','company'],'');renderFilters(p.rows,'');
+  const withCapex=p.rows.filter(r=>r.metrics?.capex),latest=p.rows.flatMap(r=>Object.values(r.metrics||{}).filter(Boolean)).map(m=>m.filing_date).filter(Boolean).sort().at(-1);
+  cards([['观察公司',num(p.rows.length),'美国 SEC XBRL 披露'],['有资本开支事实',num(withCapex.length),'全公司口径，不等于 AI 专项'],['最新申报日',latest||'—','各公司财政期间不同']]);
+  $('#chart').innerHTML='<div class="notice">资本开支采用现金流量表购建物业、厂房与设备支出；10-Q 可为财年累计。全公司资本开支不等于 AI 专项投资额，表中不合计。</div>'+sourceHealth(p);
+  $('#content').innerHTML=rows.length?table(['公司','资本开支 · USD B','资本开支期间','营收 · USD B','经营现金流 · USD B','申报日 / 原件'],rows.map(r=>{const m=r.metrics||{},c=m.capex,v=m.revenue,o=m.operating_cash_flow,filing=c||v||o;return [link(r.company_url,`${r.company} · ${r.ticker}`),usdBillions(c?.value_usd),metricPeriod(c),`${usdBillions(v?.value_usd)}<small class="ai-metric-period">${metricPeriod(v)}</small>`,`${usdBillions(o?.value_usd)}<small class="ai-metric-period">${metricPeriod(o)}</small>`,filing?link(filing.filing_url,`${filing.filing_date||'—'} · ${filing.form||'—'}`):'—'];})):'<div class="empty">当前筛选没有公司。</div>';
+}
+function renderAiFrontier(p){
+  const rows=filterRows(p.rows,['benchmark','dimension','model_id','title','summary_raw'],'dimension'),benchmarks=rows.filter(r=>r.kind==='benchmark'),papers=rows.filter(r=>r.kind==='paper');
+  renderFilters(p.rows,'dimension');
+  cards([['基准结果',num(p.rows.filter(r=>r.kind==='benchmark').length),'不同基准分数不可混算'],['独立验证',num(p.rows.filter(r=>r.kind==='benchmark'&&r.verified).length),'未验证结果单独标注'],['论文条目',num(p.rows.filter(r=>r.kind==='paper').length),'保留原文与实际发布时间']]);
+  $('#chart').innerHTML=`<div class="notice">榜单仅展示官方接口所收录的结果，不代表全部模型；无结果发布日期时仅记录采集时间 ${esc(p.collected_at_utc||'未知')}，不宣称当日发布。</div>${sourceHealth(p)}`;
+  const scores=benchmarks.length?table(['基准','名次','较前次','模型','原始分','验证','来源'],benchmarks.map(r=>[link(r.benchmark_url,r.benchmark),num(r.rank),r.rank_change===null||r.rank_change===undefined?'—':`${r.rank_change>0?'+':''}${num(r.rank_change)}`,link(r.url,r.model_id),num(r.score),r.verified?'已验证':'未独立验证',link(r.source_url,r.source_type||'模型卡')])):'<div class="empty">当前筛选没有榜单结果。</div>';
+  const paperCards=papers.length?`<div class="news-grid">${papers.map(r=>`<article class="news"><div class="meta"><span class="tag">研究论文</span><time>${esc(r.published_at_utc?.slice(0,10)||'发布时间未知')}</time></div><h3>${link(r.url,r.title)}</h3><p>${esc((r.summary_raw||'原文摘要未提供').slice(0,300))}</p><small>原文 · ${link(r.arxiv_url,r.paper_id)} · HF 提交 ${esc(r.submitted_at_utc?.slice(0,10)||'未知')}</small></article>`).join('')}</div>`:'<div class="empty">当前筛选没有论文。</div>';
+  $('#content').innerHTML=`<div class="result-head"><div><b>模型能力基准</b><small>各基准独立排序；原始分不跨基准比较。</small></div></div>${scores}<div class="result-head"><div><b>研究论文</b><small>Hugging Face Daily Papers 的原文条目。</small></div></div>${paperCards}`;
+}
+
 function xDate(value){const date=new Date(value);return Number.isNaN(date.getTime())?'时间未知':date.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});}
 function xUrl(value){return /^https:\/\/x\.com\/[A-Za-z0-9_]+\/status\/\d+$/.test(value||'')?value:'';}
 function positionXMenus(picker=$('#x-category-picker')){
@@ -168,10 +190,12 @@ function renderXWatch(p){
   $('#method').textContent=(p.methodology||'')+` 清单 ${p.accounts_count||50} 个账号，本轮成功查询 ${(p.checked_accounts||[]).length} 个${failed?`，失败 ${failed} 个`:''}；采集完成时间 ${p.finished_at?xDate(p.finished_at):'—'}。`;
 }
 
-function renderPayload(name,p){if(name==='news')renderNews(p);else if(name==='token')renderToken(p);else if(name==='models')renderModels(p);else if(name==='gpu')renderGpu(p);else if(name==='storage')renderStorage(p);else if(name==='hugging-face')renderHf(p);else if(name==='github')renderGithub(p);else if(name==='x-watch')renderXWatch(p);if(name!=='x-watch')$('#method').textContent=p.methodology||'';}
+function renderPayload(name,p){if(name==='news')renderNews(p);else if(name==='token')renderToken(p);else if(name==='models')renderModels(p);else if(name==='gpu')renderGpu(p);else if(name==='storage')renderStorage(p);else if(name==='hugging-face')renderHf(p);else if(name==='github')renderGithub(p);else if(name==='ai-financials')renderAiFinancials(p);else if(name==='ai-frontier')renderAiFrontier(p);else if(name==='x-watch')renderXWatch(p);if(name!=='x-watch')$('#method').textContent=p.methodology||'';}
 async function renderCurrent(){const name=state.module,info=modules[name];$('#title').textContent=info.title;$('#subtitle').textContent=info.subtitle;$('#panel-title').textContent=name==='overview'?'数据源与板块':'数据与图表';$('#date').textContent=state.manifest?.snapshot_date||'读取中';document.querySelectorAll('[data-module]').forEach(button=>button.classList.toggle('active',button.dataset.module===name));const status=moduleStatus(name);setStatus(isStale(status)?`本板块状态：${status.status}。${status.error||'部分来源不可用，当前展示最近可用数据。'}`:'',isStale(status)?'warning':'');if(name==='overview'){renderOverview();return;}$('#chart').innerHTML='<div class="loading">读取模块数据…</div>';$('#content').innerHTML='';try{const payload=await loadModule(name);if(state.module!==name)return;renderPayload(name,payload);}catch(error){if(state.module!==name)return;$('#filters').innerHTML='';$('#chart').innerHTML='';$('#content').innerHTML=`<div class="empty">${esc(error.message)}。该板块尚无可发布快照。</div>`;$('#method').textContent='';}}
 function health(){const modulesMap=state.manifest?.modules||Object.fromEntries((state.manifest?.sources||[]).map(item=>[item.module,item]));$('#health').innerHTML=table(['模块','状态','记录数','最后成功','异常'],Object.entries(modulesMap).map(([name,item])=>[esc(modules[name]?.title||name),`<span class="status ${esc(item.status)}">${esc(item.status)}</span>`,num(item.rows),esc(item.last_success_at_utc?.replace('T',' ').slice(0,19)||item.snapshot_date||'—'),esc(item.error||'')]));const terms=state.manifest?.terms||{};$('#terms').innerHTML=Object.entries(terms).map(([term,note])=>`<dt>${esc(term)}</dt><dd>${esc(note)}</dd>`).join('');}
 async function boot(){const params=new URLSearchParams(location.search);state.query=params.get('q')||'';state.filter=params.get('filter')||'all';try{await loadManifest();health();}catch(error){setStatus('数据清单读取失败：'+error.message,'warning');}const requested=location.hash.slice(1);state.module=modules[requested]?requested:'overview';renderCurrent();}
+const nav=document.querySelector('nav[aria-label="看板栏目"]');
+[['ai-financials','上市公司 AI 财务与资本开支','09'],['ai-frontier','AI 研究前沿与模型能力','10']].forEach(([name,label,index])=>{if(nav&&!nav.querySelector(`[data-module="${name}"]`)){const button=document.createElement('button');button.dataset.module=name;button.innerHTML=`${esc(label)} <span>${index}</span>`;nav.append(button);}});
 document.querySelectorAll('[data-module]').forEach(button=>button.addEventListener('click',()=>{state.module=button.dataset.module;state.query='';state.filter='all';state.selected=null;state.dataView='summary';state.xPriority=false;state.xCategory='all';state.xAccount='all';updateUrl();renderCurrent();}));
 window.addEventListener('hashchange',()=>{const name=location.hash.slice(1);if(modules[name]&&name!==state.module){state.module=name;state.dataView='summary';renderCurrent();}});
 $('#refresh').addEventListener('click',async()=>{$('#refresh').disabled=true;try{await loadManifest(true);if(state.module!=='overview')await loadModule(state.module,true);health();renderCurrent();}finally{$('#refresh').disabled=false;}});
