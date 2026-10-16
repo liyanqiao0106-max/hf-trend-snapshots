@@ -1,11 +1,16 @@
 {
   "sec_companies": [
-    {"ticker": "NVDA", "name": "NVIDIA"},
-    {"ticker": "MSFT", "name": "Microsoft"},
-    {"ticker": "GOOGL", "name": "Alphabet"},
-    {"ticker": "AMZN", "name": "Amazon"},
-    {"ticker": "META", "name": "Meta"},
-    {"ticker": "AMD", "name": "AMD"}
+    {"ticker": "NVDA", "name": "NVIDIA", "sector_group": "Semiconductor Supply Chain", "reporting_standard": "US GAAP"},
+    {"ticker": "MSFT", "name": "Microsoft", "sector_group": "AI Infrastructure Buyers", "reporting_standard": "US GAAP"},
+    {"ticker": "GOOGL", "name": "Alphabet", "sector_group": "AI Infrastructure Buyers", "reporting_standard": "US GAAP"},
+    {"ticker": "AMZN", "name": "Amazon", "sector_group": "AI Infrastructure Buyers", "reporting_standard": "US GAAP"},
+    {"ticker": "META", "name": "Meta", "sector_group": "AI Infrastructure Buyers", "reporting_standard": "US GAAP"},
+    {"ticker": "AMD", "name": "AMD", "sector_group": "Semiconductor Supply Chain", "reporting_standard": "US GAAP"},
+    {"ticker": "ORCL", "name": "Oracle", "sector_group": "AI Infrastructure Buyers", "reporting_standard": "US GAAP"},
+    {"ticker": "CRWV", "name": "CoreWeave", "sector_group": "AI Infrastructure Buyers", "reporting_standard": "US GAAP"},
+    {"ticker": "TSM", "name": "Taiwan Semiconductor Manufacturing", "sector_group": "Semiconductor Supply Chain", "reporting_standard": "unknown"},
+    {"ticker": "AVGO", "name": "Broadcom", "sector_group": "Semiconductor Supply Chain", "reporting_standard": "US GAAP"},
+    {"ticker": "MU", "name": "Micron", "sector_group": "Semiconductor Supply Chain", "reporting_standard": "US GAAP"}
   ],
   "benchmarks": [
     {"id": "SWE-bench/SWE-bench_Verified", "label": "SWE-bench Verified", "dimension": "代码智能体"},

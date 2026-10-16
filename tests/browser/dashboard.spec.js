@@ -76,6 +76,40 @@ test('SEC financials and research frontier retain their different evidence label
   await expect(page.locator('#content')).not.toContainText('org/model');
 });
 
+test('financial period, source details and sector filters use the unified metrics contract',async({page})=>{
+  const missing=reason=>({value_usd:null,value_pct:null,status:'missing',missing_reason:reason,period_start:null,period_end:null,filing_url:null});
+  const fact=value=>({value_usd:value,value_pct:null,status:'ok',missing_reason:null,period_start:'2025-01-01',period_end:'2025-12-31',filing_date:'2026-02-01',form:'10-K',filing_url:'https://www.sec.gov/Archives/edgar/data/1/filing-index.html',concept:'us-gaap:Example'});
+  const ratio=value=>({value_usd:null,value_pct:value,status:'ok',missing_reason:null,period_start:'2025-01-01',period_end:'2025-12-31',formula:'capex / revenue * 100',inputs:{capex:fact(2e9),revenue:fact(10e9)}});
+  const metrics={capex:fact(2e9),revenue:fact(10e9),operating_cash_flow:fact(4e9),operating_income:fact(3e9),revenue_yoy:ratio(12),capex_yoy:ratio(20),capex_to_revenue:ratio(20),capex_to_ocf:ratio(50),free_cash_flow:{...fact(2e9),formula:'operating_cash_flow - capex'},free_cash_flow_margin:ratio(20),operating_margin:ratio(30)};
+  const unavailable=Object.fromEntries(Object.keys(metrics).map(key=>[key,missing('当前期间未取得可靠事实')]));
+  const periods={FY:{label:'FY',period_start:'2025-01-01',period_end:'2025-12-31',status:'ok',missing_reason:null,metrics},TTM:{label:'TTM',period_start:null,period_end:null,status:'missing',missing_reason:'TTM 暂不推算',metrics:unavailable},Quarter:{label:'Quarter',status:'missing',metrics:unavailable},YTD:{label:'YTD',status:'missing',metrics:unavailable}};
+  const rows=[
+    {company:'NVIDIA',ticker:'NVDA',sector_group:'Semiconductor Supply Chain',status:'ok',periods,metrics},
+    {company:'Oracle',ticker:'ORCL',sector_group:'AI Infrastructure Buyers',status:'partial',periods:{...periods,FY:{...periods.FY,status:'partial',metrics:{...metrics,capex:missing('标准标签未匹配'),capex_yoy:missing('基础指标缺失'),capex_to_revenue:missing('基础指标缺失'),free_cash_flow:missing('基础指标缺失')}}}}
+  ];
+  await page.route('**/data/ai-financials/latest.json*',route=>route.fulfill({json:{schema_version:2,dataset:'ai_company_financials',status:'partial',rows}}));
+  await page.goto('/#ai-financials');
+  await expect(page.getByRole('combobox',{name:'财务期间'})).toHaveValue('FY');
+  await expect(page.locator('.fin-company-row')).toHaveCount(2);
+  await page.getByRole('button',{name:/NVIDIA · NVDA/}).click();
+  const mobile=page.viewportSize().width<=700;
+  const detail=page.locator(mobile?'#drawer-content':'.fin-detail-row:not([hidden])');
+  await expect(detail.locator('.fin-metric')).toHaveCount(11);
+  await expect(detail).toContainText('Reported');
+  await expect(detail).toContainText('Derived');
+  await expect(detail).toContainText('capex / revenue * 100');
+  await expect(detail.locator('a[href*="sec.gov"]')).not.toHaveCount(0);
+  if(mobile)await page.getByRole('button',{name:'关闭'}).click();
+  await page.getByRole('combobox',{name:'财务期间'}).selectOption('TTM');
+  await expect(page.locator('.fin-company-row').first()).toContainText('N/A');
+  await page.getByRole('combobox',{name:'产业链分组'}).selectOption('AI Infrastructure Buyers');
+  await expect(page.locator('.fin-company-row')).toHaveCount(1);
+  await expect(page.locator('.fin-company-row')).toContainText('Oracle');
+  await page.getByRole('combobox',{name:'财务期间'}).selectOption('FY');
+  await page.getByRole('button',{name:/Oracle · ORCL/}).click();
+  await expect(page.locator(mobile?'#drawer-content':'.fin-detail-row:not([hidden])')).toContainText('标准标签未匹配');
+});
+
 test('X watch is integrated in the sidebar with safe filtering and links',async({page})=>{
   await page.goto('/');
   await page.getByRole('button',{name:/X 账号动态/}).click();
