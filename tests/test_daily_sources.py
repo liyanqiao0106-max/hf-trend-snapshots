@@ -11,7 +11,6 @@ from unittest.mock import patch
 from pathlib import Path
 
 from dashboard.prices import parse_models,parse_azure
-from dashboard.news import parse_feed,clean,collect_news,memory_related
 from dashboard.storage import select_spaced,unpack_bundle
 from dashboard.translation import restore_terms,MyMemoryTranslator
 from dashboard.translation_budget import ReleaseBudget
@@ -43,21 +42,6 @@ class DailySourcesTests(unittest.TestCase):
         rows=parse_azure([base,dict(base,productName='Windows ND'),dict(base,meterName='ND96 Spot',retailPrice=24)],
             {'gpu':'H100','gpu_count':8,'sku':'Standard_ND96isr_H100_v5'})
         self.assertEqual([(r['billing'],r['usd_per_gpu_hour']) for r in rows],[('On-demand',12),('Spot',3)])
-
-    def test_news_filters_future_links_and_html(self):
-        feed={'name':'test','language':'en','region':'国际'}
-        xml=b'<rss><channel><item><title>AI update</title><link>https://example.com/1</link><pubDate>Sat, 03 Oct 2026 04:00:00 GMT</pubDate><description>AI system</description></item><item><title>AI future</title><link>https://example.com/2</link><pubDate>Sun, 04 Oct 2026 04:00:00 GMT</pubDate></item></channel></rss>'
-        rows=parse_feed(xml,feed,now=dt.datetime(2026,10,3,5,tzinfo=dt.timezone.utc))
-        self.assertEqual(len(rows),1)
-        self.assertEqual(rows[0]['translation_status'],'pending')
-        self.assertEqual(clean('<script>secret</script><b>AI</b> &amp; GPU'),'AI & GPU')
-        with self.assertRaises(ValueError):
-            parse_feed(b'<html><body>not RSS</body></html>',feed)
-
-    def test_memory_column_excludes_consumer_pc_ram_configurations(self):
-        self.assertFalse(memory_related('迷你工作站上市，32GB DDR4内存和1TB SSD，到手6399元'))
-        self.assertTrue(memory_related('HBM memory demand rises as GPU makers expand data center capacity'))
-        self.assertTrue(memory_related('美光扩大DRAM晶圆产能，应对AI内存需求'))
 
     def test_public_memory_price_tables_and_ssd_per_tb_are_parsed(self):
         html=b'''<table><tr><td>DDR5 16Gb (2Gx8) 4800/5600</td><td>9</td><td>7</td><td>9</td><td>7</td><td>8.25</td></tr>
@@ -92,12 +76,6 @@ class DailySourcesTests(unittest.TestCase):
     def test_daily_snapshots_use_seven_day_anchors(self):
         days=[dt.date(2026,10,3)-dt.timedelta(days=n) for n in range(20)]
         self.assertEqual(select_spaced(days),[dt.date(2026,10,3),dt.date(2026,9,26),dt.date(2026,9,19)])
-
-    def test_all_feed_failures_do_not_relabel_old_news_as_fresh(self):
-        with patch('dashboard.news.request_bytes',side_effect=RuntimeError('HTTP 503')):
-            with self.assertRaises(ValueError):
-                collect_news('2026-10-03',{'feeds':[{'name':'test','url':'https://example.com','language':'en','region':'国际'}],
-                    'news_days':7,'news_limit_per_region':12},previous={'rows':[{'id':'old','published_at_utc':'2026-10-02T00:00:00+00:00'}]})
 
     def make_bundle(self,name,content,checksum=None):
         buf=io.BytesIO()

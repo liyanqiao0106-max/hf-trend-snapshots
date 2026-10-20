@@ -6,6 +6,7 @@
   <meta name="description" content="每日更新的 AI 全产业链投研看板">
   <title>AI 行业投研看板</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="navigation-adjustments.css">
 </head>
 <body>
 <div class="shell">
@@ -14,16 +15,15 @@
     <p class="nav-label">产业数据</p>
     <nav aria-label="看板栏目">
       <button data-module="overview" class="active">总览 <span>00</span></button>
-      <button data-module="news">产业新闻 <span>01</span></button>
-      <button data-module="token">Token 自然周 <span>02</span></button>
-      <button data-module="models">模型 API 价格 <span>03</span></button>
-      <button data-module="gpu">GPU 云报价 <span>04</span></button>
-      <button data-module="storage">存储硬件价格 <span>05</span></button>
-      <button data-module="hugging-face">Hugging Face <span>06</span></button>
-      <button data-module="github">GitHub AI 项目 <span>07</span></button>
-      <button data-module="x-watch">X 账号动态 <span>08</span></button>
+      <button data-module="token">Token 自然周 <span>01</span></button>
+      <button data-module="models">模型 API 价格 <span>02</span></button>
+      <button data-module="gpu">GPU 云报价 <span>03</span></button>
+      <button data-module="storage">存储硬件价格 <span>04</span></button>
+      <button data-module="hugging-face">Hugging Face <span>05</span></button>
+      <button data-module="github">GitHub AI 项目 <span>06</span></button>
+      <button data-module="x-watch">X 账号动态 <span>07</span></button>
     </nav>
-    <div class="preview-entry"><span>WorkBuddy 每日自动更新</span><a href="ai-news-daily/index.html">AI 新闻日报 <span aria-hidden="true">↗</span></a></div>
+    <div class="daily-entry"><a href="ai-news-daily/index.html">AI 新闻日报 <span aria-hidden="true">↗</span></a><span>每日自动更新</span></div>
     <div class="schedule"><span>●</span> 每日 15:48 · 上海时间<p>市场数据每日更新<br>生态数据每周一 07:11 定稿</p><button id="show-health">查看数据源状态 ↗</button></div>
   </aside>
   <main>

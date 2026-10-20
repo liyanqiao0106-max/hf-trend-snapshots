@@ -1,9 +1,5 @@
 const {test,expect}=require('@playwright/test');
-const manifest={schema_version:2,snapshot_date:'2026-10-05',history_days:90,modules:{news:{status:'ok',rows:2},models:{status:'ok',rows:4},gpu:{status:'ok',rows:3},storage:{status:'ok',rows:3},'hugging-face':{status:'ok',rows:3},github:{status:'ok',rows:2},'ai-financials':{status:'ok',rows:1},'ai-frontier':{status:'partial',rows:2}},terms:{HBM:'高带宽内存'}};
-const news={schema_version:2,dataset:'industry_news',status:'ok',rows:[
-  {title:'Upstream chip event',summary:'Chip supply update',source:'Example',region:'全球',chain_category:'上游：算力、芯片与存储',url:'https://example.com/upstream',published_at_utc:'2026-10-05T00:00:00Z'},
-  {title:'Application event',summary:'Application update',source:'Example',region:'全球',chain_category:'下游：行业应用',url:'https://example.com/application',published_at_utc:'2026-10-05T00:00:00Z'}
-]};
+const manifest={schema_version:2,snapshot_date:'2026-10-05',history_days:90,modules:{models:{status:'ok',rows:4},gpu:{status:'ok',rows:3},storage:{status:'ok',rows:3},'hugging-face':{status:'ok',rows:3},github:{status:'ok',rows:2},'ai-financials':{status:'ok',rows:1},'ai-frontier':{status:'partial',rows:2}},terms:{HBM:'高带宽内存'}};
 const models={schema_version:2,dataset:'model_api_prices',status:'ok',rows:[
   {id:'openai/mini',name:'OpenAI Mini',vendor:'OpenAI',input_usd_per_million:.2,output_usd_per_million:.8,context_length:128000,input_modalities:['text'],url:'https://example.com/openai-mini'},
   {id:'openai/pro',name:'OpenAI Pro',vendor:'OpenAI',input_usd_per_million:2,output_usd_per_million:8,context_length:200000,input_modalities:['text'],url:'https://example.com/openai-pro'},
@@ -43,7 +39,6 @@ const aiFrontier={schema_version:2,dataset:'ai_research_frontier',status:'partia
 
 test.beforeEach(async({page})=>{
   await page.route('**/data/manifest.json*',route=>route.fulfill({json:manifest}));
-  await page.route('**/data/news/latest.json*',route=>route.fulfill({json:news}));
   await page.route('**/data/models/latest.json*',route=>route.fulfill({json:models}));
   await page.route('**/data/gpu/latest.json*',route=>route.fulfill({json:gpu}));
   await page.route('**/data/storage/latest.json*',route=>route.fulfill({json:storage}));
@@ -54,16 +49,35 @@ test.beforeEach(async({page})=>{
   await page.route('**/data/ai-frontier/latest.json*',route=>route.fulfill({json:aiFrontier}));
 });
 
-test('eleven entries and overview load without eager module requests',async({page})=>{
+test('ten entries and overview load without eager module requests',async({page})=>{
   const requests=[];page.on('request',request=>requests.push(request.url()));
   await page.goto('/');
-  await expect(page.locator('[data-module]')).toHaveCount(11);
+  await expect(page.locator('[data-module]')).toHaveCount(10);
   await expect(page.getByRole('heading',{name:'AI 行业总览'})).toBeVisible();
   expect(requests.some(url=>url.includes('/data/storage/latest.json'))).toBeFalsy();
 });
 
+test('daily-news entry order and return navigation stay available',async({page})=>{
+  await page.goto('/');
+  const dailyEntry=page.locator('.daily-entry').first();
+  await expect(dailyEntry.getByRole('link',{name:/AI 新闻日报/})).toBeVisible();
+  await expect(dailyEntry.getByText('每日自动更新',{exact:true})).toBeVisible();
+  expect(await dailyEntry.locator(':scope > *').evaluateAll(nodes=>nodes.map(node=>node.tagName))).toEqual(['A','SPAN']);
+  await expect(page.locator('.schedule')).toHaveCSS('border-top-width','0px');
+  await expect(page.getByRole('button',{name:/产业新闻/})).toHaveCount(0);
+  await expect(page.getByRole('link',{name:/AI 新闻预览/})).toHaveCount(0);
+  await dailyEntry.getByRole('link',{name:/AI 新闻日报/}).click();
+  await expect(page).toHaveURL(/\/ai-news-daily\/index\.html$/);
+  await expect(page.getByRole('link',{name:'← 返回总览'})).toHaveAttribute('href','../index.html');
+  await expect(page.locator('.notice')).toHaveCount(0);
+  await page.getByRole('link',{name:/查看完整报告/}).first().click();
+  await expect(page).toHaveURL(/\/ai-news-daily\/reports\//);
+  await expect(page.getByRole('link',{name:'← 返回 AI 新闻日报'})).toHaveAttribute('href','../index.html');
+});
+
 test('SEC financials and research frontier retain their different evidence labels',async({page})=>{
   await page.goto('/#ai-financials');
+  await expect(page.getByRole('button',{name:/上市公司Capex/})).toBeVisible();
   await expect(page.getByRole('heading',{name:'上市公司 AI 财务与资本开支'})).toBeVisible();
   await expect(page.locator('#content')).toContainText('$2B');
   await expect(page.locator('#chart')).toContainText('不等于 AI 专项');
@@ -145,14 +159,8 @@ test('Hugging Face task filter uses task_type and returns matching models',async
   await expect(page.getByRole('link',{name:/text-model/})).toHaveCount(0);
 });
 
-test('news and GitHub filters use the category field displayed by their dropdowns',async({page})=>{
-  await page.goto('/#news');
-  await page.locator('#filter').selectOption('下游：行业应用');
-  await expect(page.locator('.news')).toHaveCount(1);
-  await expect(page.getByRole('link',{name:/Application event/})).toBeVisible();
-  await expect(page.getByRole('link',{name:/Upstream chip event/})).toHaveCount(0);
-
-  await page.getByRole('button',{name:/GitHub AI 项目/}).click();
+test('GitHub filters use the domain field displayed by their dropdown',async({page})=>{
+  await page.goto('/#github');
   await page.locator('#filter').selectOption('Vision');
   await expect(page.getByRole('link',{name:/org\/vision/})).toBeVisible();
   await expect(page.getByRole('link',{name:/org\/agent/})).toHaveCount(0);

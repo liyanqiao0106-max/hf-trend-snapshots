@@ -11,7 +11,6 @@ from typing import Any, Callable
 from .common import ROOT, SCHEMA_VERSION, archive, percentile, utc_now, write_json
 from .ai_financials import collect_ai_financials
 from .ai_frontier import collect_ai_frontier
-from .news import collect_news
 from .prices import collect_gpu, collect_models
 from .storage import bundle, restore, select_spaced
 from .storage_market import collect_storage
@@ -98,8 +97,8 @@ def collect_github(day: str, history: Path, raw_paths: list[Path], previous: dic
         row["stars_net_change"] = row["stars"] - before["stars"] if before and isinstance(before.get("stars"), int) and isinstance(row.get("stars"), int) else None
         if translator and row.get("description_raw"):
             try:
-                from .news import excerpt
-                row["use_case_zh"] = "主要用于" + row["domain"] + "；简介：" + translator(excerpt(row["description_raw"], "en"))
+                excerpt = " ".join(str(row["description_raw"]).split()[:32])
+                row["use_case_zh"] = "主要用于" + row["domain"] + "；简介：" + translator(excerpt)
                 row["use_case_translation_status"] = "machine"
             except Exception:
                 row["use_case_translation_status"] = "pending"
@@ -169,7 +168,6 @@ def main() -> None:
             statuses.append({"module": "translation", "status": "error", "error": str(exc), "rows": 0})
 
     if args.scope in ("daily", "all"):
-        news = run("news", lambda previous: collect_news(day, config, translator, previous))
         def models(previous: dict[str, Any] | None) -> dict[str, Any]:
             payload = collect_models(day)
             add_model_history(payload, previous, day)
@@ -209,9 +207,10 @@ def main() -> None:
     previous_sources = existing_manifest.get("modules") or {item.get("module"): item for item in existing_manifest.get("sources", [])}
     current_names = {item.get("module") for item in statuses}
     legacy_aliases = {"token-usage": "token", "token-prices": "models", "gpu-prices": "gpu", "memory": "storage"}
+    retired_modules = {"news"}
     for name, item in previous_sources.items() if isinstance(previous_sources, dict) else []:
         target = legacy_aliases.get(name, name)
-        if target and target not in current_names:
+        if target and target not in retired_modules and target not in current_names:
             statuses.append({**item, "module": target})
             current_names.add(target)
     modules = {item["module"]: item for item in statuses if item.get("module")}

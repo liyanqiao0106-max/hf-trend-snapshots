@@ -1,0 +1,11 @@
+/* 2026-10-20: keep the main dashboard navigation adjustment isolated. */
+.schedule{border-top:0}
+.daily-entry{margin:22px 8px 0;padding:13px 12px;border:1px solid #426569;border-radius:10px;background:#1d3e42}
+.daily-entry>span{display:block;margin-top:5px;font-size:10px;letter-spacing:.6px;color:#9fc6c4}
+.daily-entry a{display:flex;justify-content:space-between;gap:8px;margin-top:0;color:#e4faf5;font-size:13px;font-weight:600}
+
+@media(max-width:700px){
+  .daily-entry{margin:10px 0 0;padding:8px 10px}
+  .daily-entry>span{margin-top:1px;font-size:9px}
+  .daily-entry a{margin-top:0;font-size:12px}
+}

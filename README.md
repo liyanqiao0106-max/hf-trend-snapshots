@@ -13,7 +13,7 @@ flowchart LR
   E --> F[中文 HTML 看板]
 ```
 
-- 每天上海时间 15:48 采集新闻、模型报价、GPU 报价和存储价格，周末照常。
+- 每天上海时间 15:48 采集模型报价、GPU 报价、存储价格、财务与研究前沿数据，周末照常。
 - 每周一 07:11 定稿 OpenRouter Token 用量、Hugging Face 和 GitHub 项目数据。
 - 页面打开或点击刷新时读取最近一次成功快照；浏览器不会直接访问需要密钥的 API。
 - 单个来源失败时保留最近成功数据并显示 `partial` 或 `stale`，不影响其他栏目更新。
@@ -23,7 +23,7 @@ flowchart LR
 
 | 栏目 | 数据源与说明 |
 |---|---|
-| 产业新闻 | 国内外公开 RSS；显示中文标题、短摘要和原文链接。国际内容使用 MyMemory 免费翻译，24 小时最多 3000 字符，失败时明确提示 |
+| AI 新闻日报 | WorkBuddy 每日生成的独立 HTML 日报与历史归档；不再混入主看板 JSON 栏目 |
 | Token 自然周 | OpenRouter 官方 Data API；按 UTC 周一至周日生成完整周、进行中周和预览周，不能代表全行业 |
 | 模型 API 价格 | OpenRouter 模型目录；输入、输出、缓存价格统一为 USD/百万 Token，缺失值保持为空 |
 | GPU 云报价 | Azure Retail Prices；可选接入 RunPod、Vast.ai 免费 API。实例总价与每 GPU 时价分开，On-demand 与 Spot 分开 |
@@ -31,6 +31,7 @@ flowchart LR
 | HBM 租赁代理 | 用含 HBM 的 GPU 云实例价除以 HBM 容量，只是包含计算、CPU、RAM 和平台成本的代理指标，不冒充 HBM 现货价 |
 | Hugging Face | 全量候选池与分层展示，使用约 7 日和 14 日快照比较 |
 | GitHub AI 项目 | GitHub Trending 候选池、AI/ML topics、官方仓库和 Release 信息；总 Stars 与周净变化分列 |
+| X 账号动态 | 用户维护的 50 个 AI 产业账号；本机复用已登录 Chrome，只读抽样近七天动态。由于需要本机登录态，不进入 GitHub Actions |
 
 存储板块不包含新闻。公开来源没有可持续、免费的独立 HBM 现货 API，因此看板明确展示租赁代理。GDDR4 已不是公开表格中的活跃报价品种；有免费、可核验的数据源后再接入，不用推算值代替。
 
@@ -39,6 +40,7 @@ flowchart LR
 ```text
 dashboard/                 采集、校验、恢复、归档和编排
 config/sources.json        来源、时区、翻译额度、术语和 GPU SKU
+config/x_watchlist.json    X 动态账号、分组、关注重点与优先子集
 site/                      无框架 HTML/CSS/JavaScript 前端
 tests/                     Python 契约测试与 Playwright 浏览器测试
 scripts/                   状态报告、90 天清理、静态测试服务器
@@ -50,7 +52,29 @@ work/                      本地临时运行时和测试依赖（忽略，不�
 
 ## 本地运行
 
-Windows PowerShell：
+Mac：
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+mkdir -p work/tmp work/cache/pip
+TMPDIR="$PWD/work/tmp" PIP_CACHE_DIR="$PWD/work/cache/pip" python -m pip install -r requirements.txt
+bash scripts/run-local.sh test
+bash scripts/run-local.sh serve
+```
+
+X 动态只在本机采集。保持已安装 OpenCLI Browser Bridge 的主 Chrome 开启并登录 X，然后运行：
+
+```bash
+opencli doctor
+bash scripts/run-local.sh collect-x
+```
+
+账号增删统一修改 `config/x_watchlist.json`；`handle` 不带 `@`。采集结果写入 `site/data/x-watch/latest.json`，历史快照保存在 `history/x-watch/`。采集器只读取普通 X 搜索页面和公开 oEmbed，排除回复与原生转帖，不执行发帖、关注等账户写操作。
+
+`scripts/run-local.sh` 将临时目录和工具缓存限制在本项目的 `work/` 内。打开 <http://localhost:8000>。本地历史与译文缓存保存在 `history/`，最新快照保存在 `site/data/`，均不进入 Git。
+
+Windows PowerShell（手动命令）：
 
 ```powershell
 python -m pip install -r requirements.txt
@@ -59,7 +83,9 @@ python -m dashboard.run_daily --scope all
 python -m http.server 8000 --directory site
 ```
 
-打开 <http://localhost:8000>。OpenRouter key 只放在本地 `.env` 或 GitHub Actions Secret `OPENROUTER_API_KEY` 中。`.env`、密钥、模型权重、全文新闻和本地依赖都不会进入 Git、Pages 或 Release。
+OpenRouter key 只放在本地 `.env` 或 GitHub Actions Secret `OPENROUTER_API_KEY` 中。`.env`、密钥、模型权重、全文新闻和本地依赖都不会进入 Git、Pages 或 Release。
+
+角色分工、当前进度与交接规则见 [项目协作事实源](docs/project/STATUS.md)。
 
 前端验证：
 
