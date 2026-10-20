@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "dataset": "workbuddy_ai_news_board",
+  "source": "/Users/liyanqiao/Documents/WorkBuddy/AI每日新闻/ai-news-board",
+  "synced_at_utc": "2026-10-20T01:26:00Z",
+  "board": "index.html",
+  "reports": [
+    {
+      "file": "reports/AI产业链重大事件复盘_2026-10-13.html",
+      "bytes": 35577,
+      "sha256": "fc1aebf06b672b147bf583a946a3d0f2481460819fb00ffe52e55a9349919e3a"
+    },
+    {
+      "file": "reports/AI产业链重大事件复盘_2026-10-14.html",
+      "bytes": 34649,
+      "sha256": "e2193a8062795b177a66c42518173516623d7b053ebfd2fa95be7daf15ba7376"
+    },
+    {
+      "file": "reports/AI产业链重大事件复盘_2026-10-15.html",
+      "bytes": 45944,
+      "sha256": "7959a30dcf0eaeb35c517baaab88c7226ee3d2b9bcb3c1cd304c69f3b3e1265d"
+    },
+    {
+      "file": "reports/AI产业链重大事件复盘_2026-10-16.html",
+      "bytes": 39084,
+      "sha256": "58d0f4001fb13b2f7a71bb864e7325945f5e25a8c56639f4f19859c0ea07bb76"
+    },
+    {
+      "file": "reports/AI产业链重大事件复盘_2026-10-17.html",
+      "bytes": 40698,
+      "sha256": "38c7d6ffc9807bb1a57037d294c3f089dbde299bf5f9ac9ab17a1f555006ae41"
+    },
+    {
+      "file": "reports/AI产业链重大事件复盘_2026-10-18.html",
+      "bytes": 41422,
+      "sha256": "b240139115652a2fe7e29669e3063cf354d5dc228cdac31307219fb82cb36625"
+    },
+    {
+      "file": "reports/AI产业链重大事件复盘_2026-10-19.html",
+      "bytes": 40277,
+      "sha256": "2aded92e40b49d68b143dd22758f86ca7d0938ddd13efc1ff1864390b8934622"
+    }
+  ],
+  "report_count": 7
+}

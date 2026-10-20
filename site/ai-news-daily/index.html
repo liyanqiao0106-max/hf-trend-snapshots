@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全球 AI 产业链重大事件复盘 · 每日看板</title>
+<style>
+  :root{
+    --bg:#f4f6fa; --card:#ffffff; --text:#1a2233; --muted:#5b6b85;
+    --line:#e3e8f0; --accent:#2563eb; --indigo:#4f46e5; --teal:#0d9488;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:36px 20px 64px;}
+  header.hero{
+    background:linear-gradient(135deg,#1e3a8a 0%,#4f46e5 55%,#0d9488 100%);
+    color:#fff;border-radius:18px;padding:34px 34px 28px;
+    box-shadow:0 10px 30px rgba(30,58,138,.18);
+  }
+  header.hero h1{margin:0 0 10px;font-size:26px;letter-spacing:.5px;}
+  header.hero .sub{font-size:14px;opacity:.92;margin:2px 0;}
+  .meta-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
+  .meta-grid span{
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
+    padding:5px 12px;border-radius:999px;font-size:12.5px;
+  }
+  .notice{
+    background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);
+    border-radius:12px;padding:16px 20px;margin:22px 0 30px;
+    font-size:13.5px;color:var(--muted);
+  }
+  .notice b{color:var(--text);}
+  .sec-head{display:flex;align-items:center;gap:12px;margin:0 0 18px;}
+  .sec-head .bar{width:6px;height:24px;border-radius:4px;background:var(--indigo);}
+  .sec-head h2{margin:0;font-size:19px;letter-spacing:.3px;}
+  .list{display:grid;gap:14px;}
+  a.item{
+    display:block;text-decoration:none;color:inherit;background:var(--card);
+    border:1px solid var(--line);border-radius:14px;padding:20px 22px;
+    transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+    box-shadow:0 1px 2px rgba(26,34,51,.04);
+  }
+  a.item:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(30,58,138,.10);border-color:#c7d2fe;}
+  .item-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .item-date{font-size:13px;font-weight:600;color:var(--indigo);background:#eef0ff;border-radius:999px;padding:3px 12px;}
+  .item-title{font-size:16.5px;font-weight:600;margin:0;}
+  .item-desc{margin:9px 0 0;font-size:13.5px;color:var(--muted);}
+  .item-go{margin-top:12px;font-size:13px;color:var(--accent);font-weight:600;}
+  footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);}
+  .empty{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:28px;text-align:center;color:var(--muted);font-size:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>全球 AI 产业链重大事件复盘</h1>
+    <p class="sub">AI 行业卖方研究视角 · 上游 / 中游 / 下游 全产业链日度复盘</p>
+    <p class="sub">每日 08:30 自动检索并生成，共 15 条重磅事件</p>
+    <div class="meta-grid">
+      <span>自动更新 · 每日</span>
+      <span>上游 6 条 / 中游 5 条 / 下游 4 条</span>
+      <span>信源：权威媒体 + 官方公告</span>
+    </div>
+  </header>
+
+  <div class="notice">
+    <b>使用方法：</b>本页为历史报告索引，点击任意卡片查看当日完整报告（含 15 条事件、量化数据、行业含义与信源清单）。
+    建议在手机浏览器中「添加到主屏幕」，即可像 App 一样随时打开。<br>
+    <b>更新机制：</b>由 WorkBuddy 定时任务「每日 AI 新闻推送」每日自动生成并更新本页，无需手动维护。
+  </div>
+
+  <section>
+    <div class="sec-head"><div class="bar"></div><h2>历史报告</h2></div>
+    <div class="list" id="list"></div>
+  </section>
+
+  <footer>
+    本看板内容由 AI 自动检索汇总，仅覆盖公开权威信源；涉及传闻类事项已在报告内单独标注。
+    内容仅供研究参考，不构成任何投资建议。
+  </footer>
+</div>
+
+<script>
+/* ==== 报告索引：新增报告时在数组最前面插入一条即可 ==== */
+const REPORTS = [
+  {
+    date: "2026-10-19",
+    file: "reports/AI产业链重大事件复盘_2026-10-19.html",
+    desc: "协创数据签 374.9 亿元算力云服务协议（约 2026H1 营收 3 倍、60 个月）；腾讯 70 亿美元向 Oracle 租 10 万颗 AI 芯片，以境外算力绕开出口管制；曙光 8000 十万卡全国产超集群真机首秀，2000 ㎡ 机房、PUE 1.04；蔡司 High-NA 光学产能订满至 2027，ASML 积压订单被估至 560 亿欧元；美国四大零售金融巨头集体封堵第三方 AI Agent 动账，Q3 全球 Agent 请求达 250 亿次；智谱开源 GLM-Legal 拿下法律开放权重双榜第一。"
+  },
+  {
+    date: "2026-10-18",
+    file: "reports/AI产业链重大事件复盘_2026-10-18.html",
+    desc: "三星首次放弃 HBM「交钥匙」模式，英伟达定制 NVHBM 基底芯片全数转台积电 3nm（带宽 +30%、功耗 -15%）；台湾拟将 AI 服务器走私入刑，最高 5 年、74 台 B300 灰色通道曝光；高盛测算 2027 年超大云 capex 1.2 万亿美元、逾 4000 亿靠发债；中金昌吉 1440MW 零碳算力集群开工、总投资 313.68 亿元；DeepSeek V4.1-Flash 以 MIT 开源、Terminal-Bench 4.0 从 31.2 跳至 42.3；润建签 2 亿美元 AI 词元跨境合同，算力出海改卖 Token。"
+  },
+  {
+    date: "2026-10-17",
+    file: "reports/AI产业链重大事件复盘_2026-10-17.html",
+    desc: "费城半导体指数八连跌创 2008 年以来最长纪录、八日蒸发近 2 万亿美元，CoreWeave 周跌 25% 债券跌至困境水平；AMD 82 亿美元全股票收购 World Labs，李飞飞出任执行副总裁兼首席科学家；商务部拟将 23 项 AI 技术纳入出口管制目录，2 万亿参数以上模型权重受限、开源豁免；腾讯混元 Hy Memory 2.0 三层全开源，30B-A3B 记忆模型均分超 Opus 5；埃森哲与 Anthropic 签全球授权，Claude 席位 29 美元/月、单席位成本降 97%。"
+  },
+  {
+    date: "2026-10-16",
+    file: "reports/AI产业链重大事件复盘_2026-10-16.html",
+    desc: "Meta 开源 816B Muse Spark Open，两台 Mac Studio 本地运行；微软 MAI-Base-2 完成 2.8T 预训练、算力效率超 DeepSeek-V4-Pro-Base 4.2–12.3 倍；Gartner 称服务器整机一年最高涨 4 倍、内存占成本 59%；ASML Q3 中国占比跳升至 23% 并迎 MATCH 法案风险；苹果智能国行版获批接入通义千问；FTC 向 OpenAI、Anthropic 各发 50+ 页民事调查要求。"
+  },
+  {
+    date: "2026-10-15",
+    file: "reports/AI产业链重大事件复盘_2026-10-15.html",
+    desc: "台积电 Q3 营收净利双创纪录、资本开支 600–640 亿美元；字节跳动洽谈采购联发科数据中心 ASIC；Anthropic 启动约 2 万亿美元估值 IPO 推介；CoreWeave 债券利差破 1000bp、5 日跌超 25%；Gemini 4 Argon 正式开放并拉至 100 万 Token 输出；Shopify 上线 Shop MCP 向任意智能体开放 10 亿+ 商品与结账。"
+  },
+  {
+    date: "2026-10-14",
+    file: "reports/AI产业链重大事件复盘_2026-10-14.html",
+    desc: "OpenAI×博通 10GW 定制芯片；甲骨文部署 5 万枚 AMD MI450；台积电 2nm 满载；微软单季新增 1300 亿美元数据中心租约；长鑫 4F² DRAM 引发存储股暴跌；中国开源集中上新。"
+  },
+  {
+    date: "2026-10-13",
+    file: "reports/AI产业链重大事件复盘_2026-10-13.html",
+    desc: "微软 Maia 300 明年部署超百万颗；英伟达 H200 订单爆量催台积电扩产；腾讯 50 亿美元 AI 专项债；先进封装成硬瓶颈；光互联订单潮；单日并购破百亿。"
+  }
+];
+
+const list = document.getElementById('list');
+if (!REPORTS.length) {
+  list.innerHTML = '<div class="empty">暂无报告，等待次日 08:30 自动生成。</div>';
+} else {
+  list.innerHTML = REPORTS.map(r => `
+    <a class="item" href="${encodeURI(r.file)}">
+      <div class="item-top">
+        <span class="item-date">覆盖至 ${r.date}</span>
+        <p class="item-title">全球 AI 产业链重大事件复盘 · ${r.date}</p>
+      </div>
+      <p class="item-desc">${r.desc}</p>
+      <div class="item-go">查看完整报告 →</div>
+    </a>`).join('');
+}
+</script>
+</body>
+</html>
