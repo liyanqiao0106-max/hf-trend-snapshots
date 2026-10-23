@@ -24,13 +24,7 @@ bash /Users/liyanqiao/Documents/ChatGPT/AI自动化/scripts/publish_workbuddy_ne
 
 该命令会同步本地 HTML、只暂存 `site/ai-news-daily/`、创建一个带日期的提交并推送 `main`。GitHub Pages 随后按现有 `collect.yml` 的 push 链路部署。脚本不会读取或提交 `.env`、WorkBuddy 私有状态、Cookie 或密钥。
 
-为避免 WorkBuddy 已生成报告但没有真正执行 shell 命令，Mac 另外安装独立的 LaunchAgent 作为发布保障。它在每天 09:30、10:30、11:30、12:30 检查一次；有新内容才提交和推送，没有变化时直接退出。安装或刷新配置：
-
-```bash
-bash /Users/liyanqiao/Documents/ChatGPT/AI自动化/scripts/install_workbuddy_news_launch_agent.sh
-```
-
-运行日志保存在项目内 `work/logs/workbuddy-news-publish*.log`，不会进入 Git。
+为避免 WorkBuddy 已生成报告但没有真正执行 shell 命令，Codex 本地自动化“WorkBuddy 新闻 Pages 补推”在每天 09:30、10:30、11:30、12:30 检查一次；有新内容才运行同一发布脚本，没有变化时保持安静且不产生空提交。使用本地文件的自动化要求 Mac 保持开机且 Codex 桌面应用在运行。
 
 首次接入完成后，建议把主看板中的“WorkBuddy 每日 AI 新闻”入口作为固定入口；今后只要 WorkBuddy 生成新报告并调用发布命令，新报告就会自动出现在公开 Pages 的历史列表中。
 

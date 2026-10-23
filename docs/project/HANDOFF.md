@@ -6,8 +6,8 @@
 
 - 故障边界：WorkBuddy 10 月 20、21 日报告和索引均已在本地生成；失败发生在 GitHub 同步步骤。10 月 22 日运行记录明确写出旧脚本路径不存在，并改用 WorkBuddy 自有部署，所以 GitHub Pages 一直停留在 10 月 19 日。
 - 修复范围：10 月 20、21 日积压报告与刚生成的 10 月 23 日报告同步进 `site/ai-news-daily/`，公开报告总数从 7 增至 10；`sync_workbuddy_news.py` 只在内容变化时更新时间戳，并对复制后的 HTML 固定恢复“返回总览 / 返回 AI 新闻日报”、移除索引说明卡片；发布 shell 增加固定 PATH 与并发锁。
-- 本机兜底：新增 `scripts/com.liyanqiao.workbuddy-news-publish.plist` 与 `scripts/install_workbuddy_news_launch_agent.sh`，计划在 09:30、10:30、11:30、12:30 检查并发布。WorkBuddy 任务提示词已保存正确的第六步，调用 `/Users/liyanqiao/Documents/ChatGPT/AI自动化/scripts/publish_workbuddy_news.sh` 并以退出码 0 作为完成标准。
-- 验证：Python 37/37、Playwright 18/18，shell/plist/diff 检查通过。完成前需提交推送、安装并检查 LaunchAgent、等待 Pages 部署后核验公开索引和最新报告。
+- 本机兜底：Codex 本地自动化“WorkBuddy 新闻 Pages 补推”（automation id `workbuddy-pages`）已启用，在 09:30、10:30、11:30、12:30 检查并发布；无变化时保持安静，仅失败时通知。WorkBuddy 任务提示词也已保存正确的第六步，调用 `/Users/liyanqiao/Documents/ChatGPT/AI自动化/scripts/publish_workbuddy_news.sh` 并以退出码 0 作为完成标准。
+- 验证：Python 37/37、Playwright 18/18，shell/diff 检查通过。原 LaunchAgent 因 macOS TCC 无权访问“文稿”目录而退出 126，已卸载，避免要求扩大 shell 的系统磁盘权限。完成前需提交推送、等待 Pages 部署后核验公开索引和最新报告。
 
 ## 2026-10-20 — 04 → 01 — 仅保留 WorkBuddy AI 新闻日报
 
