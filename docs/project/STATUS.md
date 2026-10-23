@@ -8,7 +8,7 @@
 - 已将 2026-10-20、2026-10-21 两份积压日报及刚生成的 2026-10-23 日报同步到 `site/ai-news-daily/`，报告数从 7 增至 10。同步器新增幂等 manifest、索引说明卡片移除、总览/日报返回导航注入，避免后续每次复制覆盖公开站定制。
 - 发布脚本增加固定 PATH 和并发锁；新增 Codex 本地自动化“WorkBuddy 新闻 Pages 补推”，每天 09:30、10:30、11:30、12:30 补偿检查，有新日报才提交推送，无变化保持安静且不产生空提交。
 - WorkBuddy 任务提示词已恢复正确的第六步，路径为 `/Users/liyanqiao/Documents/ChatGPT/AI自动化/scripts/publish_workbuddy_news.sh`，并要求命令失败时明确报错，不得误报 Pages 已更新。
-- 验证：Python 37/37、Playwright 桌面/手机 18/18、shell 语法与 `git diff --check` 均通过。尝试的 LaunchAgent 因 macOS TCC 禁止后台 bash 访问“文稿”目录而退出 126，已卸载并改用具备项目权限的 Codex 本地自动化。待线上 Pages 核验。
+- 验证：Python 37/37、Playwright 桌面/手机 18/18、shell 语法与 `git diff --check` 均通过。尝试的 LaunchAgent 因 macOS TCC 禁止后台 bash 访问“文稿”目录而退出 126，已卸载并改用具备项目权限的 Codex 本地自动化。提交 `166f81f`、`b24c9a3`、`4918c50` 已快进至 GitHub `main`；Actions run `39881984760` 的 `collect` 与 `deploy-dashboard` 均成功。公开索引已显示 2026-10-23，10 月 23 日报告返回 HTTP 200。
 
 ## 2026-10-20 — 04 新闻模块收敛为 WorkBuddy 日报
 
