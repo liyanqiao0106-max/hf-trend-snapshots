@@ -2,6 +2,13 @@
 
 每个角色完成、暂停或遇到阻塞时，在本文件顶部追加一条记录。不得记录 API Key、Token 或其他密钥。
 
+## 2026-10-23 — WorkBuddy 日报自动发布故障修复
+
+- 故障边界：WorkBuddy 10 月 20、21 日报告和索引均已在本地生成；失败发生在 GitHub 同步步骤。10 月 22 日运行记录明确写出旧脚本路径不存在，并改用 WorkBuddy 自有部署，所以 GitHub Pages 一直停留在 10 月 19 日。
+- 修复范围：10 月 20、21 日积压报告与刚生成的 10 月 23 日报告同步进 `site/ai-news-daily/`，公开报告总数从 7 增至 10；`sync_workbuddy_news.py` 只在内容变化时更新时间戳，并对复制后的 HTML 固定恢复“返回总览 / 返回 AI 新闻日报”、移除索引说明卡片；发布 shell 增加固定 PATH 与并发锁。
+- 本机兜底：新增 `scripts/com.liyanqiao.workbuddy-news-publish.plist` 与 `scripts/install_workbuddy_news_launch_agent.sh`，计划在 09:30、10:30、11:30、12:30 检查并发布。WorkBuddy 任务提示词已保存正确的第六步，调用 `/Users/liyanqiao/Documents/ChatGPT/AI自动化/scripts/publish_workbuddy_news.sh` 并以退出码 0 作为完成标准。
+- 验证：Python 37/37、Playwright 18/18，shell/plist/diff 检查通过。完成前需提交推送、安装并检查 LaunchAgent、等待 Pages 部署后核验公开索引和最新报告。
+
 ## 2026-10-20 — 04 → 01 — 仅保留 WorkBuddy AI 新闻日报
 
 - 用户明确授权直接提交并推送：移除“产业新闻”及“AI 新闻预览（独立预览）”的前端入口、旧 RSS 采集/预览转换、配置、测试与预览静态文件；新闻只保留 WorkBuddy 的独立日报入口。导航编号改为 Token 01 至研究前沿 09；日报索引说明卡片移除，先前新增的总览/归档返回导航保留。

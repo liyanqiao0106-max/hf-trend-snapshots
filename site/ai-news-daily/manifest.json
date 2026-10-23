@@ -2,44 +2,60 @@
   "schema_version": 1,
   "dataset": "workbuddy_ai_news_board",
   "source": "/Users/liyanqiao/Documents/WorkBuddy/AI每日新闻/ai-news-board",
-  "synced_at_utc": "2026-10-20T01:26:00Z",
+  "synced_at_utc": "2026-10-23T00:55:20Z",
   "board": "index.html",
+  "board_sha256": "be89c499411f4ba7e67d044f43c77eae0b4140a27ad25b750f1ca8ff3b2afd22",
   "reports": [
     {
       "file": "reports/AI产业链重大事件复盘_2026-10-13.html",
-      "bytes": 35577,
-      "sha256": "fc1aebf06b672b147bf583a946a3d0f2481460819fb00ffe52e55a9349919e3a"
+      "bytes": 35701,
+      "sha256": "863440943c9632a876ae90dc067023c41cbfc4a5ebbc7160be349e9c53569e19"
     },
     {
       "file": "reports/AI产业链重大事件复盘_2026-10-14.html",
-      "bytes": 34649,
-      "sha256": "e2193a8062795b177a66c42518173516623d7b053ebfd2fa95be7daf15ba7376"
+      "bytes": 34773,
+      "sha256": "17b63864801476e9003c6366bb074b0818d8248aac94bbcaf089304f1b295726"
     },
     {
       "file": "reports/AI产业链重大事件复盘_2026-10-15.html",
-      "bytes": 45944,
-      "sha256": "7959a30dcf0eaeb35c517baaab88c7226ee3d2b9bcb3c1cd304c69f3b3e1265d"
+      "bytes": 46068,
+      "sha256": "74ee3539ed1cf487e411b05c03ed348eb3afc2456bef7e2c9110816f57f1cad4"
     },
     {
       "file": "reports/AI产业链重大事件复盘_2026-10-16.html",
-      "bytes": 39084,
-      "sha256": "58d0f4001fb13b2f7a71bb864e7325945f5e25a8c56639f4f19859c0ea07bb76"
+      "bytes": 39208,
+      "sha256": "6c9ef0b2e9bfdefb8595bf9fdb11e67034b58fe767b3b29ebbd5ee781dab3f14"
     },
     {
       "file": "reports/AI产业链重大事件复盘_2026-10-17.html",
-      "bytes": 40698,
-      "sha256": "38c7d6ffc9807bb1a57037d294c3f089dbde299bf5f9ac9ab17a1f555006ae41"
+      "bytes": 40822,
+      "sha256": "1e4ccb94cbd366433119dbfbb320f6369b667199b160414ece5637cfe1cbe7e7"
     },
     {
       "file": "reports/AI产业链重大事件复盘_2026-10-18.html",
-      "bytes": 41422,
-      "sha256": "b240139115652a2fe7e29669e3063cf354d5dc228cdac31307219fb82cb36625"
+      "bytes": 41546,
+      "sha256": "83158252fb4773cde80dcecf0e4f5f8adb019ad301aa5072a7d40e63d1faaefe"
     },
     {
       "file": "reports/AI产业链重大事件复盘_2026-10-19.html",
-      "bytes": 40277,
-      "sha256": "2aded92e40b49d68b143dd22758f86ca7d0938ddd13efc1ff1864390b8934622"
+      "bytes": 40401,
+      "sha256": "b69e641ced20e439eebdb9f0edec971b58ef6189362a8eea00029cf5fc5de405"
+    },
+    {
+      "file": "reports/AI产业链重大事件复盘_2026-10-20.html",
+      "bytes": 48093,
+      "sha256": "91494fce99d32ebfb8d21d5103c17654e0b662c4cafeda836c67419bb9c3d10f"
+    },
+    {
+      "file": "reports/AI产业链重大事件复盘_2026-10-21.html",
+      "bytes": 45518,
+      "sha256": "cdcebdc5653d7f0b6448a1c48295e569a87dfa9a9e3d3e2e6606d4a6e9c4a998"
+    },
+    {
+      "file": "reports/AI产业链重大事件复盘_2026-10-23.html",
+      "bytes": 44765,
+      "sha256": "9bd65520f502b491a9b367b1e9f205eddcefdabb7ac76c0f3d7612a958e506ce"
     }
   ],
-  "report_count": 7
+  "report_count": 10
 }

@@ -11,6 +11,7 @@ import argparse
 import datetime as dt
 import hashlib
 import json
+import re
 import shutil
 from pathlib import Path
 
@@ -28,6 +29,34 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def load_manifest(path: Path) -> dict:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return {}
+
+
+def prepare_board(path: Path) -> None:
+    html = path.read_text(encoding="utf-8")
+    html = re.sub(r"\n?\s*<div class=\"notice\">.*?</div>\s*", "\n", html, count=1, flags=re.DOTALL)
+    if '<link rel="stylesheet" href="navigation.css">' not in html:
+        html = html.replace("</head>", '<link rel="stylesheet" href="navigation.css">\n</head>', 1)
+    return_link = '  <a class="return-link" href="../index.html">← 返回总览</a>'
+    if return_link not in html:
+        html = html.replace('<div class="wrap">', f'<div class="wrap">\n{return_link}', 1)
+    path.write_text(html, encoding="utf-8")
+
+
+def prepare_report(path: Path) -> None:
+    html = path.read_text(encoding="utf-8")
+    if '<link rel="stylesheet" href="../navigation.css">' not in html:
+        html = html.replace("</head>", '<link rel="stylesheet" href="../navigation.css">\n</head>', 1)
+    return_link = '<a class="return-link" href="../index.html">← 返回 AI 新闻日报</a>'
+    if return_link not in html:
+        html = html.replace('<div class="wrap">', f'<div class="wrap">\n{return_link}', 1)
+    path.write_text(html, encoding="utf-8")
+
+
 def sync(source: Path, destination: Path) -> dict:
     source = source.expanduser().resolve()
     if not (source / "index.html").is_file():
@@ -40,23 +69,44 @@ def sync(source: Path, destination: Path) -> dict:
     report_destination = destination / "reports"
     report_destination.mkdir(exist_ok=True)
     shutil.copy2(source / "index.html", destination / "index.html")
+    prepare_board(destination / "index.html")
     for report in source_reports:
-        shutil.copy2(report, report_destination / report.name)
+        destination_report = report_destination / report.name
+        shutil.copy2(report, destination_report)
+        prepare_report(destination_report)
 
     files = [destination / "index.html", *sorted(report_destination.glob("*.html"))]
+    manifest_path = destination / "manifest.json"
+    previous_manifest = load_manifest(manifest_path)
+    reports = [
+        {"file": f"reports/{path.name}", "bytes": path.stat().st_size, "sha256": sha256(path)}
+        for path in files[1:]
+    ]
+    board_sha256 = sha256(files[0])
+    content_is_unchanged = (
+        previous_manifest.get("source") == str(source)
+        and previous_manifest.get("board") == "index.html"
+        and previous_manifest.get("board_sha256") == board_sha256
+        and previous_manifest.get("reports") == reports
+    )
     manifest = {
         "schema_version": 1,
         "dataset": "workbuddy_ai_news_board",
         "source": str(source),
-        "synced_at_utc": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "synced_at_utc": (
+            previous_manifest["synced_at_utc"]
+            if content_is_unchanged and previous_manifest.get("synced_at_utc")
+            else dt.datetime.now(dt.timezone.utc)
+            .replace(microsecond=0)
+            .isoformat()
+            .replace("+00:00", "Z")
+        ),
         "board": "index.html",
-        "reports": [
-            {"file": f"reports/{path.name}", "bytes": path.stat().st_size, "sha256": sha256(path)}
-            for path in files[1:]
-        ],
+        "board_sha256": board_sha256,
+        "reports": reports,
         "report_count": len(files) - 1,
     }
-    (destination / "manifest.json").write_text(
+    manifest_path.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     return manifest
