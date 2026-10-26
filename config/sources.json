@@ -2,6 +2,7 @@
   "timezone": "Asia/Shanghai",
   "schedule": "每天 15:48，周末照常",
   "history_days": 90,
+  "trend_history_days": 365,
   "translation": {"provider": "mymemory", "max_characters_per_24h": 3000, "max_bytes_per_request": 450},
   "openrouter_usage": {"zero_credit_verified": true, "verification_date": "2026-10-04", "source": "official-data-api"},
   "gpu_skus": [

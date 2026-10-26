@@ -131,12 +131,21 @@ def hbm_rental_rows(gpu_payload: dict[str, Any] | None, day: str) -> list[dict[s
     return rows
 
 
-def attach_history(rows: list[dict[str, Any]], previous: dict[str, Any] | None, day: str) -> None:
+def trend_metric(row: dict[str, Any]) -> tuple[float | None, str]:
+    if row.get("category") == "SSD" and row.get("usd_per_tb") is not None:
+        return float(row["usd_per_tb"]), "USD/TB"
+    value = row.get("price")
+    unit = f"{row.get('currency') or ''} {row.get('unit') or ''}".strip()
+    return (float(value) if value is not None else None), unit
+
+
+def attach_history(rows: list[dict[str, Any]], previous: dict[str, Any] | None, day: str, days: int = 365) -> None:
     old = {row.get("id"): row for row in (previous or {}).get("rows", [])}
     for row in rows:
-        points = list((old.get(row["id"]) or {}).get("history", []))[-179:]
+        points = list((old.get(row["id"]) or {}).get("history", []))[-(days - 1):]
         points = [point for point in points if point.get("date") != day]
-        points.append({"date": day, "price": row.get("price")})
+        value, unit = trend_metric(row)
+        points.append({"date": day, "price": row.get("price"), "value": value, "unit": unit})
         row["history"] = points
         if len(points) >= 2 and points[-2].get("price") not in (None, 0):
             row["change_percent"] = round((row["price"] / points[-2]["price"] - 1) * 100, 3)
@@ -144,7 +153,7 @@ def attach_history(rows: list[dict[str, Any]], previous: dict[str, Any] | None, 
             row["change_percent"] = None
 
 
-def collect_storage(day: str, gpu_payload: dict[str, Any] | None = None, previous: dict[str, Any] | None = None) -> dict[str, Any]:
+def collect_storage(day: str, gpu_payload: dict[str, Any] | None = None, previous: dict[str, Any] | None = None, trend_days: int = 365) -> dict[str, Any]:
     sources: list[dict[str, Any]] = []
     errors: list[str] = []
     rows: list[dict[str, Any]] = []
@@ -171,7 +180,7 @@ def collect_storage(day: str, gpu_payload: dict[str, Any] | None = None, previou
         rows.append({"id": "bls:" + BLS_SERIES, "category": "Storage PPI", "item": "Computer storage devices PPI",
             "price": latest["value"], "currency": "index", "unit": "Dec 2004=100", "quote_type": "monthly_price_index",
             "market": "US producer prices", "as_of": latest["date"], "url": BLS_URL, "source": "U.S. BLS"})
-    attach_history(rows, previous, day)
+    attach_history(rows, previous, day, trend_days)
     result = envelope("storage_hardware_prices", "DRAMeXchange + cloud catalogs + BLS", DRAMEXCHANGE_URL, rows,
         "公开表的 Session Average/Street Average 每日保存为自建历史；HBM 项为含计算成本的租赁代理；BLS 仅作月度行业指数。板块不收录新闻。",
         snapshot_date=day, sources=sources, source_errors=errors, ppi_series=bls_points)

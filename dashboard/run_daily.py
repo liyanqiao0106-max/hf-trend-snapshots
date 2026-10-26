@@ -35,7 +35,7 @@ def add_model_history(payload: dict[str, Any], previous: dict[str, Any] | None, 
     payload["model_history"] = history
 
 
-def add_gpu_history(payload: dict[str, Any], previous: dict[str, Any] | None, day: str) -> None:
+def add_gpu_history(payload: dict[str, Any], previous: dict[str, Any] | None, day: str, days: int = 365) -> None:
     old = (previous or {}).get("price_history") or {}
     groups: dict[str, list[float]] = {}
     for row in payload["rows"]:
@@ -44,7 +44,7 @@ def add_gpu_history(payload: dict[str, Any], previous: dict[str, Any] | None, da
             groups.setdefault(key, []).append(float(row["usd_per_gpu_hour"]))
     history: dict[str, list[dict[str, Any]]] = {}
     for key, values in groups.items():
-        points = [point for point in old.get(key, []) if point.get("date") != day][-89:]
+        points = [point for point in old.get(key, []) if point.get("date") != day][-(days - 1):]
         points.append({"date": day, "p25": percentile(values, .25), "median": percentile(values, .5), "p75": percentile(values, .75), "sample_count": len(values)})
         history[key] = points
     payload["price_history"] = history
@@ -175,10 +175,10 @@ def main() -> None:
         run("models", models)
         def gpu(previous: dict[str, Any] | None) -> dict[str, Any]:
             payload = collect_gpu(day, config["gpu_skus"])
-            add_gpu_history(payload, previous, day)
+            add_gpu_history(payload, previous, day, int(config.get("trend_history_days", 365)))
             return payload
         gpu_payload = run("gpu", gpu)
-        run("storage", lambda previous: collect_storage(day, gpu_payload, previous))
+        run("storage", lambda previous: collect_storage(day, gpu_payload, previous, int(config.get("trend_history_days", 365))))
         run("ai-financials", lambda previous: collect_ai_financials(day, observatory["sec_companies"]))
         run("ai-frontier", lambda previous: collect_ai_frontier(day, observatory["benchmarks"], observatory["paper_limit"], previous))
 

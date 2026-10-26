@@ -1,18 +1,24 @@
 const {test,expect}=require('@playwright/test');
-const manifest={schema_version:2,snapshot_date:'2026-10-05',history_days:90,modules:{models:{status:'ok',rows:4},gpu:{status:'ok',rows:3},storage:{status:'ok',rows:3},'hugging-face':{status:'ok',rows:3},github:{status:'ok',rows:2},'ai-financials':{status:'ok',rows:1},'ai-frontier':{status:'partial',rows:2}},terms:{HBM:'高带宽内存'}};
+const manifest={schema_version:2,snapshot_date:'2026-10-05',history_days:90,modules:{token:{status:'ok',rows:3},models:{status:'ok',rows:4},gpu:{status:'ok',rows:3},storage:{status:'ok',rows:4},'hugging-face':{status:'ok',rows:3},github:{status:'ok',rows:2},'ai-financials':{status:'ok',rows:1},'ai-frontier':{status:'partial',rows:2}},terms:{HBM:'高带宽内存'}};
+const token={schema_version:2,dataset:'token_usage_weekly',status:'ok',rows:[
+  {id:'2026-09-14',week_start:'2026-09-14',label:'2026-09-14—2026-09-20',status:'complete',observed_days:7,total_tokens:'1000',top_models:[{id:'alpha',tokens:'600',share:.6},{id:'beta',tokens:'300',share:.3}],others_tokens:'100'},
+  {id:'2026-09-21',week_start:'2026-09-21',label:'2026-09-21—2026-09-27',status:'complete',observed_days:7,total_tokens:'800',top_models:[{id:'alpha',tokens:'300',share:.375},{id:'gamma',tokens:'400',share:.5}],others_tokens:'100'},
+  {id:'2026-09-28',week_start:'2026-09-28',label:'2026-09-28—2026-10-04',status:'preview',observed_days:2,total_tokens:'180',top_models:[{id:'gamma',tokens:'100',share:.5556},{id:'beta',tokens:'40',share:.2222}],others_tokens:'40'}
+]};
 const models={schema_version:2,dataset:'model_api_prices',status:'ok',rows:[
   {id:'openai/mini',name:'OpenAI Mini',vendor:'OpenAI',input_usd_per_million:.2,output_usd_per_million:.8,context_length:128000,input_modalities:['text'],url:'https://example.com/openai-mini'},
   {id:'openai/pro',name:'OpenAI Pro',vendor:'OpenAI',input_usd_per_million:2,output_usd_per_million:8,context_length:200000,input_modalities:['text'],url:'https://example.com/openai-pro'},
   {id:'qwen/fast',name:'Qwen Fast',vendor:'Qwen',input_usd_per_million:.1,output_usd_per_million:.4,context_length:32000,input_modalities:['text'],url:'https://example.com/qwen-fast'},
   {id:'qwen/long',name:'Qwen Long',vendor:'Qwen',input_usd_per_million:.4,output_usd_per_million:1.6,context_length:1000000,input_modalities:['text'],url:'https://example.com/qwen-long'}
 ]};
-const gpu={schema_version:2,dataset:'gpu_cloud_prices',status:'ok',rows:[
+const gpu={schema_version:2,dataset:'gpu_cloud_prices',status:'ok',price_history:{'Azure|H100 80GB|on-demand':[{date:'2026-10-03',p25:3,median:4,p75:5,sample_count:2},{date:'2026-10-04',p25:3.5,median:5,p75:6,sample_count:2}], 'Lambda|A100 80GB|on-demand':[{date:'2026-10-03',p25:1.5,median:2,p75:2.5,sample_count:1},{date:'2026-10-04',p25:1.7,median:2.2,p75:2.8,sample_count:1}]},rows:[
   {provider:'Azure',gpu:'H100 80GB',region:'eastus',sku:'h100-a',billing:'on-demand',memory_gb:80,instance_usd_hour:8,usd_per_gpu_hour:4,url:'https://example.com/azure'},
   {provider:'Azure',gpu:'H100 80GB',region:'westus',sku:'h100-b',billing:'on-demand',memory_gb:80,instance_usd_hour:12,usd_per_gpu_hour:6,url:'https://example.com/azure'},
   {provider:'Lambda',gpu:'A100 80GB',region:'us',sku:'a100',billing:'on-demand',memory_gb:80,instance_usd_hour:2,usd_per_gpu_hour:2,url:'https://example.com/lambda'}
 ]};
 const storage={schema_version:2,dataset:'storage_hardware_prices',status:'ok',snapshot_date:'2026-10-05',methodology:'只展示价格，不展示新闻。',rows:[
-  {id:'ddr5',category:'DRAM',item:'DDR5 16Gb chip',price:8.2,currency:'USD',unit:'per chip',quote_type:'spot_session_average',url:'https://example.com',history:[{date:'2026-10-04',price:8},{date:'2026-10-05',price:8.2}]},
+  {id:'ddr5',category:'DRAM',item:'DDR5 16Gb chip',price:8.2,currency:'USD',unit:'per chip',quote_type:'spot_session_average',url:'https://example.com',history:[{date:'2026-10-04',price:8,value:8,unit:'USD per chip'},{date:'2026-10-05',price:8.2,value:8.2,unit:'USD per chip'}]},
+  {id:'ddr4',category:'DRAM',item:'DDR4 16Gb chip',price:6.2,currency:'USD',unit:'per chip',quote_type:'spot_session_average',url:'https://example.com',history:[{date:'2026-10-04',price:6,value:6,unit:'USD per chip'},{date:'2026-10-05',price:6.2,value:6.2,unit:'USD per chip'}]},
   {id:'hbm',category:'HBM rental proxy',item:'H100 Azure',price:.1,currency:'USD',unit:'per HBM-GB·hour',quote_type:'compute_inclusive_rental_proxy',history:[{date:'2026-10-05',price:.1}]},
   {id:'ssd',category:'SSD',item:'2TB NVMe',price:180,currency:'USD',unit:'per drive',usd_per_tb:90,quote_type:'street_average',url:'https://example.com/ssd',history:[{date:'2026-10-05',price:180}]}
 ]};
@@ -39,6 +45,7 @@ const aiFrontier={schema_version:2,dataset:'ai_research_frontier',status:'partia
 
 test.beforeEach(async({page})=>{
   await page.route('**/data/manifest.json*',route=>route.fulfill({json:manifest}));
+  await page.route('**/data/token/latest.json*',route=>route.fulfill({json:token}));
   await page.route('**/data/models/latest.json*',route=>route.fulfill({json:models}));
   await page.route('**/data/gpu/latest.json*',route=>route.fulfill({json:gpu}));
   await page.route('**/data/storage/latest.json*',route=>route.fulfill({json:storage}));
@@ -73,6 +80,30 @@ test('daily-news entry order and return navigation stay available',async({page})
   await page.getByRole('link',{name:/查看完整报告/}).first().click();
   await expect(page).toHaveURL(/\/ai-news-daily\/reports\//);
   await expect(page.getByRole('link',{name:'← 返回 AI 新闻日报'})).toHaveAttribute('href','../index.html');
+});
+
+test('Token explains total changes with stacks and discontinuous model trends',async({page})=>{
+  await page.goto('/#token');
+  await expect(page.getByText('Token 总量构成与变化归因')).toBeVisible();
+  await expect(page.locator('.token-stack-svg')).toBeVisible();
+  await expect(page.locator('[data-token-week]')).not.toHaveCount(0);
+  await expect(page.getByText('入榜模型连续趋势')).toBeVisible();
+  await expect(page.locator('.trend-line')).not.toHaveCount(0);
+  await page.getByRole('button',{name:'100% 堆积'}).click();
+  await expect(page.getByText('模型份额构成')).toBeVisible();
+  await expect(page.locator('.token-stack-svg')).toHaveAttribute('aria-label','Token 份额堆积柱状图');
+  await expect(page.getByText('Others',{exact:true})).toHaveCount(0);
+});
+
+test('GPU and storage expose selectable, comparable trend series',async({page})=>{
+  await page.goto('/#gpu');
+  await expect(page.getByText('GPU 价格趋势')).toBeVisible();
+  await expect(page.getByText(/中位线；阴影为 P25/)).toBeVisible();
+  await expect(page.locator('.trend-band')).not.toHaveCount(0);
+  await page.goto('/#storage');
+  await expect(page.getByText('DRAM 单品趋势')).toBeVisible();
+  await expect(page.locator('[data-trend-picker="storage"]')).toHaveCount(2);
+  await expect(page.getByText(/仅允许同一可比单位/)).toBeVisible();
 });
 
 test('SEC financials and research frontier retain their different evidence labels',async({page})=>{
@@ -137,17 +168,17 @@ test('X watch is integrated in the sidebar with safe filtering and links',async(
   expect(await page.locator('img').count()).toBe(0);
 });
 
-test('storage shows prices and trends without news cards',async({page})=>{
+test('storage shows prices and category trends without news cards',async({page})=>{
   await page.goto('/#storage');
   await expect(page.getByRole('heading',{name:'存储硬件价格'})).toBeVisible();
   await expect(page.getByText('类别价格基准')).toBeVisible();
   await expect(page.getByRole('cell',{name:'USD/TB'})).toBeVisible();
   await expect(page.getByRole('cell',{name:'$90'})).toHaveCount(4);
-  await expect(page.getByRole('cell',{name:'$8.2'})).toHaveCount(4);
-  await expect(page.locator('.chart-area svg')).toBeVisible();
+  await expect(page.getByRole('cell',{name:'$8.2'})).toBeVisible();
+  await expect(page.locator('#chart .trend-svg')).toBeVisible();
   await expect(page.locator('.news')).toHaveCount(0);
-  await page.locator('#filter').selectOption('HBM rental proxy');
-  await expect(page.locator('.chart-title')).toContainText('H100 Azure');
+  await page.locator('#storage-category').selectOption('HBM rental proxy');
+  await expect(page.locator('.chart-title')).toContainText('HBM rental proxy');
 });
 
 test('Hugging Face task filter uses task_type and returns matching models',async({page})=>{

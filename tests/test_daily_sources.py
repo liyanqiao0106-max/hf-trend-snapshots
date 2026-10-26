@@ -61,6 +61,13 @@ class DailySourcesTests(unittest.TestCase):
         attach_history(rows,{'rows':[{'id':'x','history':[{'date':'2026-10-04','price':None}]}]},'2026-10-05')
         self.assertIsNone(rows[0]['change_percent'])
 
+    def test_storage_history_keeps_one_year_and_a_comparable_metric(self):
+        old=[{'date':f'2025-01-{day:02d}','price':float(day)} for day in range(1, 32)]
+        rows=[{'id':'ssd','category':'SSD','price':200,'usd_per_tb':100,'currency':'USD','unit':'per drive'}]
+        attach_history(rows,{'rows':[{'id':'ssd','history':old}]},'2026-10-05',days=365)
+        self.assertEqual(len(rows[0]['history']),32)
+        self.assertEqual(rows[0]['history'][-1],{'date':'2026-10-05','price':200,'value':100.0,'unit':'USD/TB'})
+
     def test_token_natural_weeks_include_complete_and_preview(self):
         data=[]
         for offset in range(7):
