@@ -87,6 +87,11 @@ test('Token explains total changes with stacks and discontinuous model trends',a
   await expect(page.getByText('Token 总量构成与变化归因')).toBeVisible();
   await expect(page.locator('.token-stack-svg')).toBeVisible();
   await expect(page.locator('[data-token-week]')).not.toHaveCount(0);
+  await expect(page.locator('.token-stack-svg')).toHaveCSS('max-height','none');
+  await page.locator('[data-trend-tip][data-tip-name="alpha"]').first().hover();
+  await expect(page.locator('.chart-tooltip')).toContainText('alpha');
+  await expect(page.locator('.chart-tooltip')).toContainText('600');
+  await expect(page.locator('.chart-tooltip')).not.toContainText('2026-09');
   await expect(page.getByText('入榜模型连续趋势')).toBeVisible();
   await expect(page.locator('.trend-line')).not.toHaveCount(0);
   await page.getByRole('button',{name:'100% 堆积'}).click();
@@ -98,8 +103,11 @@ test('Token explains total changes with stacks and discontinuous model trends',a
 test('GPU and storage expose selectable, comparable trend series',async({page})=>{
   await page.goto('/#gpu');
   await expect(page.getByText('GPU 价格趋势')).toBeVisible();
-  await expect(page.getByText(/中位线；阴影为 P25/)).toBeVisible();
+  await expect(page.getByText(/每日中位价；色带为 P25/)).toBeVisible();
   await expect(page.locator('.trend-band')).not.toHaveCount(0);
+  await expect(page.locator('.gpu-trend-card')).toHaveCount(2);
+  await expect(page.locator('.gpu-trend-card svg').first()).toHaveCSS('min-width','0px');
+  await expect(page.locator('.gpu-trend-card').first()).toContainText('2 个采集日');
   await page.goto('/#storage');
   await expect(page.getByText('DRAM 单品趋势')).toBeVisible();
   await expect(page.locator('[data-trend-picker="storage"]')).toHaveCount(2);

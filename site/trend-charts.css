@@ -1,5 +1,36 @@
-.trend-section{margin:0 0 24px;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
-.trend-section .chart-title{margin-bottom:12px}.trend-section .chart-title span{color:var(--muted);font-size:11px}
-.trend-svg,.token-stack-svg{display:block;width:100%;height:auto;min-height:230px;overflow:visible}
-.token-stack-svg{min-height:410px}.trend-svg text,.token-stack-svg text{fill:var(--muted);font-size:10px}.trend-line{stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}.trend-band{opacity:.13}.trend-svg circle{stroke:var(--panel);stroke-width:1.5}.trend-svg circle:focus-visible,.token-segment:focus-visible{outline:3px solid #54bba7;outline-offset:3px}.token-segment{cursor:pointer}.token-segment.preview{opacity:.58}.trend-picker{margin:0 0 14px}.trend-picker summary{color:var(--accent);font-weight:600}.trend-picker>div{display:flex;flex-wrap:wrap;gap:7px 14px;max-height:132px;overflow:auto;margin-top:9px;padding:4px 2px}.trend-picker label{display:flex;align-items:center;gap:5px;font-size:11px;max-width:310px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.trend-picker input{width:auto;height:auto}.chart-title{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
-@media(max-width:700px){.trend-section{padding:13px}.token-stack-svg{min-height:330px}.trend-picker>div{max-height:170px}.trend-picker label{max-width:100%}.trend-svg text,.token-stack-svg text{font-size:9px}}
+.trend-section{margin:0 0 24px;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.trend-section .chart-title{margin-bottom:14px}
+.trend-section .chart-title span{color:var(--muted);font-size:11px}
+.chart-area .trend-svg,.chart-area .token-stack-svg{display:block;width:100%;height:auto;min-width:0;max-height:none;overflow:visible}
+.chart-area .token-stack-svg{aspect-ratio:900/510}
+.trend-svg text,.token-stack-svg text{fill:var(--muted);font-size:10px}
+.trend-line{stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+.trend-band{opacity:.16}
+.trend-svg circle{stroke:var(--panel);stroke-width:1.5;cursor:crosshair}
+.trend-svg circle:focus-visible,.token-segment:focus-visible{outline:3px solid #54bba7;outline-offset:3px}
+.token-segment{cursor:crosshair;transition:filter .12s ease,opacity .12s ease}
+.token-segment:hover,.token-segment:focus-visible{filter:brightness(1.14)}
+.token-segment.preview{opacity:.58}
+.trend-picker{margin:0 0 14px}
+.trend-picker summary{color:var(--accent);font-weight:600}
+.trend-picker>div{display:flex;flex-wrap:wrap;gap:7px 14px;max-height:132px;overflow:auto;margin-top:9px;padding:4px 2px}
+.trend-picker label{display:flex;align-items:center;gap:5px;font-size:11px;max-width:310px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trend-picker input{width:auto;height:auto}
+.chart-title{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.chart-tooltip{position:fixed;z-index:1000;pointer-events:none;min-width:166px;max-width:min(300px,calc(100vw - 24px));padding:10px 13px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);box-shadow:0 12px 32px #0e293729;opacity:0;transform:translateY(5px);transition:opacity .1s ease,transform .1s ease}
+.chart-tooltip.is-visible{opacity:1;transform:translateY(0)}
+.chart-tooltip .tooltip-name{display:flex;align-items:center;gap:8px;overflow-wrap:anywhere;font-weight:650;line-height:1.4}
+.chart-tooltip .tooltip-swatch{flex:0 0 8px;width:8px;height:20px;border-radius:6px}
+.chart-tooltip .tooltip-value{padding-left:16px;color:var(--muted);font-variant-numeric:tabular-nums}
+.gpu-trend-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.gpu-trend-card{min-width:0;padding:17px 18px;border:1px solid var(--line);border-radius:13px;background:linear-gradient(150deg,var(--panel),var(--bg))}
+.gpu-trend-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.gpu-trend-head strong{display:block;font-size:15px;line-height:1.35}
+.gpu-trend-head small,.gpu-trend-meta,.gpu-trend-dates{color:var(--muted);font-size:11px}
+.gpu-trend-price{margin-top:9px;font-size:24px;font-weight:700;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.gpu-trend-price small{font-size:11px;color:var(--muted);font-weight:400;letter-spacing:0}
+.gpu-trend-flat{color:var(--accent);background:var(--soft);font-size:10px;border-radius:99px;padding:3px 8px;white-space:nowrap}
+.chart-area .gpu-trend-card svg{display:block;width:100%;min-width:0;height:94px;max-height:none;margin:11px 0 4px;overflow:visible}
+.gpu-trend-dates{display:flex;justify-content:space-between}
+.gpu-trend-meta{margin-top:10px;border-top:1px solid var(--line);padding-top:9px;font-variant-numeric:tabular-nums}
+@media(max-width:700px){.trend-section{padding:13px}.trend-picker>div{max-height:170px}.trend-picker label{max-width:100%}.trend-svg text,.token-stack-svg text{font-size:9px}.gpu-trend-grid{grid-template-columns:1fr}.gpu-trend-card{padding:14px}}
