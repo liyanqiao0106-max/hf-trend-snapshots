@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI行业早报 · 2026-10-27</title>
+<style>
+  :root{
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --ink:#1a1d21;
+    --ink-2:#4a5158;
+    --ink-3:#7c848c;
+    --line:#e3e6ea;
+    --up:#d92b2b;
+    --up-bg:#fdf0f0;
+    --blue:#1a5fd0;
+    --blue-bg:#eef4fe;
+    --green:#0f7a4d;
+    --green-bg:#edf7f1;
+    --amber:#a8631a;
+    --amber-bg:#fdf5e9;
+    --violet:#6b3fc7;
+    --violet-bg:#f2eefc;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.7;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px;}
+  header.top{
+    background:linear-gradient(135deg,#111827 0%,#1f2937 55%,#2b3445 100%);
+    color:#fff;border-radius:18px;padding:34px 36px 30px;margin-bottom:26px;
+    box-shadow:0 10px 30px rgba(15,23,42,.18);
+  }
+  .kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#8fa3bd;margin:0 0 12px;}
+  header.top h1{margin:0 0 14px;font-size:30px;line-height:1.3;font-weight:700;letter-spacing:-.01em;}
+  header.top .sub{color:#b8c4d4;font-size:14.5px;margin:0;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+  .chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#dbe4ef;
+    padding:5px 12px;border-radius:999px;font-size:12.5px;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px;}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .stat .n{font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.02em;}
+  .stat .l{font-size:12.5px;color:var(--ink-3);margin-top:2px;}
+  .stat.hl .n{color:var(--up);}
+  .section-head{display:flex;align-items:center;gap:12px;margin:38px 0 16px;}
+  .section-head .bar{width:4px;height:22px;border-radius:2px;background:var(--ink);}
+  .section-head h2{margin:0;font-size:19px;font-weight:700;letter-spacing:-.01em;}
+  .section-head .cnt{font-size:12.5px;color:var(--ink-3);margin-left:auto;
+    background:#fff;border:1px solid var(--line);padding:3px 10px;border-radius:999px;}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin-bottom:14px;transition:box-shadow .18s ease;}
+  .item:hover{box-shadow:0 6px 20px rgba(15,23,42,.07);}
+  .item .hd{display:flex;gap:12px;align-items:flex-start;}
+  .num{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:#111827;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;margin-top:1px;}
+  .item h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.45;letter-spacing:-.01em;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 12px;}
+  .tag{font-size:11.5px;padding:3px 9px;border-radius:6px;font-weight:600;white-space:nowrap;}
+  .t-up{background:var(--up-bg);color:var(--up);}
+  .t-blue{background:var(--blue-bg);color:var(--blue);}
+  .t-green{background:var(--green-bg);color:var(--green);}
+  .t-amber{background:var(--amber-bg);color:var(--amber);}
+  .t-violet{background:var(--violet-bg);color:var(--violet);}
+  .facts{margin:0 0 12px;padding:0;list-style:none;}
+  .facts li{position:relative;padding-left:16px;margin-bottom:6px;font-size:14.5px;color:var(--ink-2);}
+  .facts li::before{content:"";position:absolute;left:2px;top:10px;width:5px;height:5px;
+    border-radius:50%;background:#c2cad4;}
+  .facts strong{color:var(--ink);font-weight:600;}
+  .impact{background:#fafbfc;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;
+    padding:11px 14px;font-size:14px;color:var(--ink-2);}
+  .impact b{color:var(--blue);font-weight:700;}
+  .src{margin-top:11px;font-size:12.5px;color:var(--ink-3);}
+  .src b{color:var(--ink-3);font-weight:600;}
+  .extra{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 24px;}
+  .extra ul{margin:0;padding-left:20px;font-size:14px;color:var(--ink-2);}
+  .extra li{margin-bottom:8px;}
+  .extra li b{color:var(--ink);}
+  footer{margin-top:44px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;}
+  footer h4{margin:0 0 10px;font-size:14px;font-weight:700;}
+  footer ol{margin:0;padding-left:20px;color:var(--ink-2);font-size:13.5px;}
+  footer li{margin-bottom:5px;}
+  .disc{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+    font-size:12.5px;color:var(--ink-3);line-height:1.65;}
+  .disc b{color:var(--ink-2);}
+  @media (max-width:720px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    header.top{padding:26px 22px;}.wrap{padding:24px 14px 60px;}
+    header.top h1{font-size:23px;}
+  }
+</style>
+<link rel="stylesheet" href="../navigation.css">
+</head>
+<body>
+<div class="wrap">
+<a class="return-link" href="../index.html">← 返回 AI 新闻日报</a>
+
+<header class="top">
+  <p class="kicker">AI Industry Daily Recap · Sell-Side Research</p>
+  <h1>AI行业早报</h1>
+  <p class="sub">2026年10月27日（北京时间）</p>
+  <div class="meta-row">
+    <span class="chip">16 条重大事件</span>
+    <span class="chip">上游 7 · 中游 5 · 下游 4</span>
+    <span class="chip">中英文全球信源交叉验证</span>
+    <span class="chip">已剔除传闻类自媒体线索</span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat hl"><div class="n">163 亿美元</div><div class="l">Anthropic 上半年营收，同比近 14 倍</div></div>
+  <div class="stat"><div class="n">950 亿美元</div><div class="l">Meta 单次股权融资上限，AI 基建史上最大</div></div>
+  <div class="stat hl"><div class="n">2000 美元</div><div class="l">英伟达拟按每 GPU·年收取的 agent 软件价</div></div>
+  <div class="stat"><div class="n">400 亿美元</div><div class="l">SpaceX 与 Apollo 的 GPU 融资租赁本金</div></div>
+</div>
+
+<!-- ============ 上游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>上游 · 芯片 / 算力 / 光互联 / 云算力 / 大额订单</h2><span class="cnt">7 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">1</div><h3>Anthropic 递交 S-1：上半年营收 163 亿美元、净亏 807 亿美元，锁定 5180 亿美元算力长约</h3></div>
+  <div class="tags"><span class="tag t-up">融资</span><span class="tag t-blue">云算力长约</span><span class="tag t-amber">会计口径亏损</span></div>
+  <ul class="facts">
+    <li>2026 年上半年营收 <strong>162.9 亿美元</strong>，上年同期 11.6 亿美元（约 14 倍）；2025 全年 45.9 亿美元。第二季度单季营收 <strong>115.6 亿美元</strong>，并录得首个季度经营利润 <strong>9.74 亿美元</strong>。</li>
+    <li>上半年净亏损 <strong>807 亿美元</strong>，其中 <strong>724 亿美元</strong>为可转债等金融工具公允价值变动的非现金会计费用，实际经营亏损 6.93 亿美元，经营性现金流已转正至 <strong>39.3 亿美元</strong>。</li>
+    <li>已承诺未来云服务与算力支出 <strong>5180 亿美元</strong>：对亚马逊至少 1100 亿美元（至 2036 年 4 月）、对谷歌至少 1145 亿美元（至 2033 年 7 月）；上半年算力与基础设施实付约 <strong>89 亿美元</strong>，上年同期 23 亿美元。</li>
+    <li>拟以代码 <strong>ANT</strong> 登陆纳斯达克，高盛、摩根士丹利牵头 24 家承销商，市场预期 11 月中旬挂牌；目标估值 <strong>1.5 万—2 万亿美元</strong>，若达成将超过 SpaceX 6 月上市时的 1.77 万亿美元。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是前沿实验室第一次把完整经济账摊在公开市场面前——收入曲线陡峭，但成本端是超长周期的刚性承诺。①单位经济：Q2 营收 115.6 亿美元对算力支出 56 亿美元，算力成本率约 48%，尚未计入折旧前置；②客户集中度：1900 家客户年化贡献超 100 万美元、11900 家超 10 万美元（一年前仅 950 家），但两家未具名客户占上半年营收约 <strong>23%</strong>，是估值最大的单点风险；③对上游是"锁量"利好，对同类 neocloud 与二线实验室则是融资挤出——头部把 5000 亿美元级长约签走后，长尾拿到产能的难度进一步上升。</div>
+  <div class="src">来源：Anthropic S-1 登记声明 / 新华社 / 路透社 / CBS News / 证券时报（2026-10-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">2</div><h3>Meta 启动 950 亿美元股权融资，英伟达、AMD、博通拟认购至多 50 亿美元</h3></div>
+  <div class="tags"><span class="tag t-up">融资</span><span class="tag t-violet">循环融资</span><span class="tag t-amber">自由现金流转负</span></div>
+  <ul class="facts">
+    <li>350 亿美元承销发行已启动：<strong>225 亿美元</strong>A 类普通股 + <strong>125 亿美元</strong>存托股份（2.5 亿份，对应 A 类强制可转换优先股）；另设最高 <strong>600 亿美元</strong>市价增发（ATM）计划，待无投票权 C 类股 2027 年一季度开始交易后启动。</li>
+    <li>英伟达、AMD、博通已表达意向，合计认购至多 <strong>50 亿美元</strong>A 类股，但为不具约束力意向——等于芯片供应商反过来为最大客户之一扩产提供股权资金。</li>
+    <li>2026 年 capex 指引 <strong>1350 亿—1450 亿美元</strong>，未来支出承诺约 <strong>8250 亿美元</strong>；Q3 自由现金流 <strong>-21.2 亿美元</strong>（十余年来首次转负），上年同期 +106.3 亿美元。</li>
+    <li>截至 9 月 30 日现金及有价证券 824.5 亿美元、长期债务 809.2 亿美元；前三季经营性现金流 970 亿美元，评级 Aa3/AA-。此前 Alphabet 已将年内股权发行规模上调至 <strong>847.5 亿美元</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>超大规模厂商的资本结构正在从"内生现金流"切换到"股权 + 债务双轮"，这是本轮 AI 周期最重要的定价变量。①供应商入股客户本身就是需求可持续性的对冲工具，但会把"AI 需求"与"AI 资产价格"绑成同一个 beta，一旦估值回调，订单与融资会同向收缩；②对二级市场是供给冲击——950 亿美元新增股票供给叠加 Alphabet 的 847.5 亿美元，头部科技股的"稀缺性溢价"被稀释；③对上游是确定性利好：capex 下限被上调而非下调，2027 年的 GPU、HBM、光模块排产可见度进一步提高。</div>
+  <div class="src">来源：Meta 投资者关系公告 / 路透社 / 海峡时报 / 中央社 / 澎湃新闻（2026-10-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">3</div><h3>SpaceX 与 Apollo 签下 400 亿美元 GPU 融资租赁，押注英伟达下一代 Vera Rubin</h3></div>
+  <div class="tags"><span class="tag t-up">大额融资</span><span class="tag t-blue">算力基建</span><span class="tag t-amber">债务依赖</span></div>
+  <ul class="facts">
+    <li>10 月 24 日签署具约束力承诺函，由 Apollo 管理的实体采购 GPU 及配套设备并回租给 SpaceX，各批次租期 <strong>5—5.25 年</strong>、租金按季预付，本金支付总额约 <strong>400 亿美元</strong>，为迄今最大规模单笔 GPU 融资。</li>
+    <li>设备为英伟达下一代 <strong>Vera Rubin</strong>，预计 2027 年上半年起分批交付；交易预计 2026 年底前完成交割，由高盛担任独家结构设计顾问，贝莱德、高盛资管、KKR 旗下账户作为锚定投资方。</li>
+    <li>资金采用私人债券形式、由表外实体发行；SpaceX 具备投资级评级，但自身债券价格近几周明显下跌，定价谈判一度被市场波动打乱，固定利率待定。</li>
+    <li>公司称其"超级智能"基础设施投资当前回收期<strong>不足一年</strong>；马斯克同时预警 200 多家 neocloud 将出现大规模淘汰整合，且 SpaceX 不会收购其中任何一家。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>算力采购的融资工具从股权转向"设备融资租赁"，本质是把 GPU 当成有残值的工业资产做 ABS 化。①积极面：5 年期租赁把 400 亿美元资本开支切成季度现金流，为 2027 年 Vera Rubin 上量提供了不依赖股权稀释的通道；②风险面：租赁期限（5—5.25 年）短于 GPU 经济寿命假设常用的 6 年，若推理价格继续下行，"不足一年回收期"的假设会在续租环节被重新定价；③传导：设备租赁模式一旦被复制，GPU 二级市场与残值曲线将成为新的信用定价锚，租赁公司、保险与评级机构会实质进入 AI 算力链条。</div>
+  <div class="src">来源：SpaceX 投资者关系公告 / SEC 8-K / 财联社 / 界面新闻 / 彭博（2026-10-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">4</div><h3>台积电 CoWoS 报价传涨 10%—20%，格芯 20 亿美元承接美国本土硅中介层</h3></div>
+  <div class="tags"><span class="tag t-amber">供应链瓶颈</span><span class="tag t-violet">涨价</span><span class="tag t-green">产能扩张</span></div>
+  <ul class="facts">
+    <li>格芯（GlobalFoundries）10 月 26 日宣布与台积电达成制造协议，在纽约州马耳他厂新增硅中介层产能，为台积电 CoWoS 生态提供<strong>首个美国本土来源</strong>；协议初始期限 5 年、规模约 <strong>20 亿美元</strong>，2028 年上半年进入量产爬坡。</li>
+    <li>据产业链调研，台积电正评估对 CoWoS 服务提价 <strong>10%—20%</strong>，主要客户（含英伟达）已原则同意，2026 年进一步涨价仍在商谈；日月光等 OSAT 2026 年先进封装报价涨幅已超 <strong>20%</strong>。</li>
+    <li>台积电 CoWoS 月产能 2026 年底预计达 <strong>12 万—13 万片</strong>，即便如此需求仍超供给 <strong>10%—20%</strong>，瓶颈预计至少延续到 2028 年。</li>
+    <li>摩根士丹利预计全球 CoWoS 需求 2026 年约 <strong>138.4 万片</strong>、2027 年 <strong>268.2 万片</strong>（同比 +94%）；封装涨价对 AI 加速器 BOM 成本的影响约 <strong>2%—4.5%</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>先进封装是当前唯一比晶圆代工更紧的环节，定价权正从"代工价"向"封装价"迁移。①对台积电：CoWoS 涨价 + 海外中介层双供应，等于用价格和地缘两条腿锁定客户，毛利率结构继续上移；②对英伟达/AMD：BOM 抬升 2%—4.5% 尚可吸收，真正的约束是产能而非价格，2027 年出货预测的上限由 CoWoS 而非 HBM 决定；③对国产链：混合键合、临时键合、晶圆级检测设备的国产替代窗口被进一步打开，但中介层大尺寸化会拉长验证周期。</div>
+  <div class="src">来源：GlobalFoundries 官方公告 / StorageNewsletter / Tom's Hardware / 摩根士丹利研究 / 巨丰财经（2026-10-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">5</div><h3>三星 HBM 报价 4.50 美元/Gb、较同行溢价最高 25%，机构预测 2027 年 HBM 均价再涨 121%</h3></div>
+  <div class="tags"><span class="tag t-violet">定价权</span><span class="tag t-green">产能扩张</span><span class="tag t-amber">供应紧张</span></div>
+  <ul class="facts">
+    <li>三星 HBM 对数据中心客户的平均报价约 <strong>4.50 美元/Gb</strong>，高于美光约 4 美元、SK 海力士 3.60—3.80 美元，溢价幅度 <strong>12.5%—25%</strong>；客户接受溢价的核心原因是交付确定性而非性能。</li>
+    <li>其 HBM4 采用自产 4nm 基础裸片、良率已达 <strong>80%</strong>，4nm 产线约 <strong>50%—60%</strong> 产能用于 HBM4 基础裸片；HBM4 报价落在 3—5 美元/Gb 区间，部分口径下达到 HBM3E（约 1.5 美元/Gb）的 <strong>3 倍</strong>。</li>
+    <li>TrendForce 预计 2027 年 HBM 综合 ASP 同比上涨 <strong>121%</strong>，HBM4 占 HBM 销售额比重由 2026 年 40% 升至 <strong>80%</strong>；KB 证券预计三星 2027 年 HBM ASP 同比涨 100%—150%。</li>
+    <li>10 月 27 日韩国 KOSPI 涨超 <strong>4%</strong> 报 5692.64 点，SK 海力士涨逾 7%、三星电子涨近 5%；韩国央行表态明年芯片产量与价格继续上行但涨幅放缓，SK 海力士拟于 10 月 28 日公布 <strong>50 万亿—60 万亿韩元</strong>股东回报方案。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>存储已从"周期品"变成"分配权商品"——谁能在 HBM4 上稳定交付，谁就能收溢价。①垂直整合（自有代工 + 存储）第一次成为可量化的定价优势，这会倒逼 SK 海力士加深与台积电的绑定、美光加速逻辑裸片路线；②121% 的 ASP 涨幅若兑现，2027 年 HBM 将成为 AI 服务器成本中弹性最大的单项，云厂商的单位 token 成本曲线会被动上移；③对下游的隐性影响是配置降级：部分推理负载会回流到 HBM3E 或 LPDDR，形成"训练用 HBM4、推理用旧代"的分层。</div>
+  <div class="src">来源：Business Korea / 快科技 / TrendForce / KB 证券 / 搜狐财经（2026-10-26 / 10-27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">6</div><h3>黄仁勋提出按每 GPU 每年 2000 美元收取 agent 软件授权费，500 万卡对应年入 100 亿美元</h3></div>
+  <div class="tags"><span class="tag t-violet">定价策略</span><span class="tag t-blue">平台化</span><span class="tag t-amber">成本上升</span></div>
+  <ul class="facts">
+    <li>黄仁勋在 10 月 22 日 GTC 柏林问答中表示，在"AI 工厂"中运行英伟达全部 agent 软件的成本"大约为<strong>每块 GPU 每年 2000 美元</strong>"，并称软件授权将日益成为公司业务的重要组成部分。</li>
+    <li>该数字并非正式报价，未公布覆盖产品、生效时间与合同条件；现有 NVIDIA AI Enterprise 公开标价为每 GPU 每年 <strong>4500 美元</strong>、五年 18000 美元，是新数字的两倍以上。</li>
+    <li>按 2000 美元简单测算：100 万块 GPU 对应年收入 20 亿美元、<strong>500 万块对应 100 亿美元</strong>、1000 万块对应 200 亿美元；若 500 万卡规模维持五年，累计约 500 亿美元。</li>
+    <li>配套逻辑已现雏形：管理员可在 Slack 内审阅 agent 权限申请、批准或拒绝并监控其行为；此前授权口径已从整块 SXM 模组改为按单颗 GPU die 计数，实际计费单元可能高于名义卡数。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是英伟达从"卖铲子"转向"收算力税"的关键一步——把一次性硬件收入变成随装机量复利的订阅收入。①对英伟达：软件毛利远高于硬件，且不受制程与产能约束，是抵御下一轮芯片周期下行的天然对冲；②对客户：TCO 结构被改写，AI Enterprise 4500 美元与 agent 软件 2000 美元若叠加，每卡每年软件支出可达 6500 美元，规模越大越难迁移；③对竞争格局：按卡计费是把双刃剑，AMD、自研 ASIC 与国产卡获得"零软件税"的营销抓手，实际胜负取决于 agent 治理与可观测性是否成为刚需。</div>
+  <div class="src">来源：Tom's Hardware / Wall St Engine / 腾讯新闻 / AI Weekly（2026-10-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">7</div><h3>Cadence 发布基于英伟达 Nemotron 的芯片设计 AI 套件 Maestro，质量提升 30%、成本效率 5 倍</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-blue">芯片设计</span><span class="tag t-green">生态开放</span></div>
+  <ul class="facts">
+    <li>10 月 26 日发布 Cadence Maestro，部分基于英伟达开放权重 <strong>Nemotron</strong> 构建，并以英伟达 OpenShell 安全技术加固；客户可在 Cadence 云、任意公有云或完全本地防火墙内部署。</li>
+    <li>支持用客户自有芯片设计做微调；早期结果显示相较通用模型质量提升最高 <strong>30%</strong>、成本效率最高 <strong>5 倍</strong>；首批模型将于第四季度交付早期客户。</li>
+    <li>与最大竞争对手新思形成路线分野：新思 9 月 30 日宣布与 OpenAI 共研 GPT-Synopsys 并共享收入，模型运行在 OpenAI 托管基础设施上。</li>
+    <li>Cadence 强调自身"模型无关"，同时表示开放权重与闭源权重两条路线"同等推进"，不排除与商业模型实验室合作。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>EDA 是 AI 渗透最慢但杠杆最高的环节之一——芯片设计周期每缩短一周，对应数千万美元的流片与人力节省。①"本地可部署 + 可微调"直接回应了 Fabless 与 IDM 最核心的 IP 保密诉求，这是云端托管方案的结构性短板；②开放权重 + 安全壳的模式，实质是把英伟达的模型生态嵌进 EDA 工具链，形成"设计端也用英伟达"的闭环；③对新思而言，与 OpenAI 的排他性合作换来模型能力，却可能在数据主权审查中失分，2027 年 EDA 市场份额值得重新建模。</div>
+  <div class="src">来源：路透社 / Cadence 官方（2026-10-26）</div>
+</div>
+
+<!-- ============ 中游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>中游 · 大模型发布 / 开源上新 / 推理与定价</h2><span class="cnt">5 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">8</div><h3>OpenAI 发布 GPT-6.1 Terra：价格砍半至 1/5 美元每百万 token，终端任务解决率翻倍</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-violet">定价策略</span><span class="tag t-green">性价比</span></div>
+  <ul class="facts">
+    <li>API 定价 <strong>1 美元/百万输入 token、5 美元/百万输出</strong>、缓存输入 0.05 美元，较 GPT-5.6 Terra 与 GPT-6.1 Sol 均低 <strong>50%</strong>，约为 Claude Sonnet 5.5 的一半；上下文上限 100 万输入 token，支持文本与图像。</li>
+    <li>官方自评：Terminal-Bench 4.0 最高档解决率 <strong>50.3%</strong>（GPT-5.6 Terra 为 21.5%）；Agents' Last Exam 中等档高 15 分、与旗舰 GPT-6 Astra 持平，而单价约为其 <strong>1/10</strong>、速度快 3 倍以上。</li>
+    <li>幻觉率（内部对抗题集）低档由 <strong>53.6% 降至 16.7%</strong>、最高档 4.3%；第三方 Artificial Analysis 测得智能指数 +6 分、单任务成本 <strong>0.40 美元 vs 1.40 美元</strong>，幻觉率 88%→38%。</li>
+    <li>同日上架 Amazon Bedrock，ChatGPT Work、Codex 与 API 同步开放；OpenAI 仍建议最难编码任务使用 Sol 或 Astra。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>中端模型的"单位任务成本"正在取代"每百万 token 单价"成为竞争主轴。①对应用层：agent 全天候运行的预算约束被实质性解除，发票录入、表单填报、目录匹配这类高频低价值场景第一次具备正 ROI；②对 Anthropic：Sonnet 5.5 被同性能档位半价对标，企业续约谈判的锚点被压；③对算力：单 token 价格下降 50% 而任务量可能增长数倍，总 token 消耗与推理芯片需求大概率上行而非下行——这是"通缩定价、通胀用量"的典型结构。</div>
+  <div class="src">来源：OpenAI 官方发布 / AWS 公告 / PYMNTS / Artificial Analysis（2026-10-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">9</div><h3>DeepSeek 全量开源推理框架 DeepInfer，AI 自写算子 ForgeKernel 登顶英伟达与昇腾双榜</h3></div>
+  <div class="tags"><span class="tag t-up">开源上新</span><span class="tag t-green">技术革新</span><span class="tag t-blue">国产算力</span></div>
+  <ul class="facts">
+    <li>DeepSeek 将内部推理框架 <strong>DeepInfer</strong> 全面开源，兼容英伟达与华为昇腾两大算力平台，是继模型权重、FlashMLA、DeepGEMM 之后首次开放完整模型运行链路。</li>
+    <li>其 FlashMLA 人工逐行手调版本算子性能已达硬件峰值的 <strong>90% 以上</strong>；同期全 AI 编写、无人工调优的 <strong>ForgeKernel</strong> 在英伟达 SOL-ExecBench/FlashInfer-Bench 与昇腾 CANNBench A3 两个榜单同时第一，基准加速比 <strong>1.835×</strong>、领先第二名 <strong>25%</strong>。</li>
+    <li>在 DeepSeek V4.1 Flash 的算子上，ForgeKernel 以"从 0 由 AI 迭代"的方式超越了 DeepSeek 开源的英伟达版本。</li>
+    <li>产业配套同步推进：CANN 开源社区已上线 <strong>67 个项目、1244 万行代码</strong>，月活开发者由 7 月 3500 人增至 9 月 5000 人以上；昇腾 910C 超节点部署量已超 1000 套、累计在线卡时 6.5 亿。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>竞争焦点从"模型参数"下沉到"算子效率"——同一张卡换一套更优 kernel，收益可达数倍，直接决定每 token 成本。①DeepSeek 开源 DeepInfer 等于把推理栈做成事实标准，扩大生态基数而非削弱壁垒；②AI 自主写算子超越人类手调，意味着性能优化的人力瓶颈被打开，中小厂商可用算力换人力；③对国产卡最重要的一条是"可复现的软件栈"：CUDA 替代不再是口号，而是有榜单、有加速比、有开源实现的工程问题。</div>
+  <div class="src">来源：雷峰网 / DeepSeek 开源仓库 / 腾讯新闻（2026-10-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">10</div><h3>腾讯混元开源同传大模型 Hy-SimulMT：响应约 3 秒、音色可克隆，效果超过多数商用 API</h3></div>
+  <div class="tags"><span class="tag t-up">开源上新</span><span class="tag t-green">技术革新</span><span class="tag t-blue">实时交互</span></div>
+  <ul class="facts">
+    <li>10 月 26 日发布并开源，支持中英语音到语音实时翻译，说话人音频实时输入、边听边译，并支持<strong>实时音色克隆</strong>；权重已在 Hugging Face、ModelScope 与 GitHub 开放。</li>
+    <li>实测响应时延约 <strong>3 秒</strong>，人类专业同传平均 4—5 秒；在长音频开源评测集 RealSI 上，延迟最低的同时翻译质量达开源模型最佳，并超过大多数商用同传 API。</li>
+    <li>与 6 位人类同传专家（3 位 CATTI 一级、3 位二级）对比，翻译质量达到专家水平、时延更低；RealSI-Sentence 得分 <strong>84.7</strong>，高于 Qwen3.8-LiveTranslate 的 84.4 与 Gemini3.5-LiveTranslate 的 82.2。</li>
+    <li>已在「腾讯 Hy 翻译」App 首发并免费开放，支持 33 种语言互译；腾讯已成为 2026 年 APEC 深圳会议战略合作伙伴，该应用将作为官方 AI 翻译工具。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>语音同传是少数"AI 直接替代高人力成本专业服务"的场景，且门槛在时延而非智力。①3 秒对 4—5 秒的时延优势，已跨过会议、庭审、医疗问诊等低风险场景的可用门槛；②开源权重会迅速压低同传 API 的价格带，硬件侧受益者是端侧 NPU 与实时音频链路；③真正的商业化阻力在责任与合规（误译责任归属、录音授权），因此短期替代的是"辅助理解"而非"正式口译"。</div>
+  <div class="src">来源：腾讯混元官方 / 界面新闻 / 钛媒体 / 腾讯新闻（2026-10-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">11</div><h3>MiniMax 开源 M3.1 Flash 权重：428B 总参数 / 23B 激活，智能体基准全面开分</h3></div>
+  <div class="tags"><span class="tag t-up">开源上新</span><span class="tag t-blue">模型迭代</span><span class="tag t-green">推理效率</span></div>
+  <ul class="facts">
+    <li>MiniMax 在 Hugging Face 与 ModelScope 公开 <strong>M3.1 Flash</strong> 权重，MoE 架构、总参数 <strong>4280 亿</strong>、每 token 激活 <strong>230 亿</strong>。</li>
+    <li>自评成绩：BankerToolBench <strong>76.2</strong>、DeepSWE v1.1 <strong>73.7%</strong>、OSWorld V2 <strong>61.7</strong>、Agents' Last Exam <strong>29.6</strong>、CyberGym <strong>82.2</strong>。</li>
+    <li>效率侧采用 MiniMax Sparse Attention 与 DSpark 投机解码；第三方量化验证：Unsloth 的 2-bit GGUF 体积缩小 <strong>45%</strong>、仍保留 <strong>91.5%</strong> top-1 精度，可在 150GB 内存机器本地运行，4-bit 版本保留 98.0%。</li>
+    <li>同步通过 API 与 MCode 桌面工具开放；同周 BOSS 直聘旗下 Nanbeige 开源 33B agent 模型（Apache 2.0、512K 上下文、Terminal-Bench 2.1 达 80.9）。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>开源阵营的分工正在细化——头部冲"总参数 + 智能体跑分"，工具链侧冲"可部署性"。①428B/23B 的稀疏比意味着单卡或多卡消费级硬件即可承载较强 agent 能力，企业私有化部署的门槛继续下移；②2-bit 量化保留 91.5% 精度是本次最被低估的数字，它把"本地 agent"从极客玩具推向可交付产品；③对闭源厂商的定价压力集中在中等复杂度任务，与 GPT-6.1 Terra 的半价策略正面相撞。</div>
+  <div class="src">来源：MiniMax 官方 / Hugging Face / ModelScope / Unsloth / AI Native Foundation（2026-10-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">12</div><h3>Hugging Face 开源 148 亿参数 DNA 语言模型 Carbon-X，推理成本约为旗舰模型 1/1800</h3></div>
+  <div class="tags"><span class="tag t-up">开源上新</span><span class="tag t-green">技术革新</span><span class="tag t-blue">AI for Science</span></div>
+  <ul class="facts">
+    <li>Hugging Face Bio 联合中关村学院、TIGEM／那不勒斯费德里科二世大学发布 <strong>Carbon-X</strong>，148 亿稠密参数、40960 token 上下文，Apache 2.0 授权，可单张 80GB GPU 运行。</li>
+    <li>基于 Qwen3-14B，用统一 token 流（BPE 词表 + 5515 个 DNA 专用 token，每个 token 约 6 个碱基）实现"原始 DNA 输入、自然语言输出"，无需独立编码器。</li>
+    <li>五项 DNA 基准平均 <strong>66.7%</strong>，BioReason Coding 达 <strong>74.9%</strong>，为开源模型最佳，接近 GPT-6.1 Sol；较 Qwen3-14B 高 27 分。</li>
+    <li>官方测算：在 H200（5 美元/小时）上推理成本约为 GPT-6.1 Sol 的 <strong>1/1800</strong>；分析 240 万个 ClinVar 变异约需 300 美元，而闭源旗舰需 3.2 万—400 万美元。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>垂直领域"小而专"的开源模型正在吃掉通用大模型在科研场景的份额。①成本差 3 个数量级意味着全基因组规模筛查从"预算项目"变成"日常操作"，会直接放量生物医药 IT 支出；②可作为 sub-agent 嵌入通用 agent（Kimi K3 的 DNA 指数提升 11.1 个百分点），说明"通用 orchestrator + 垂直专家模型"的分工范式成立；③对云厂商是新的高价值负载入口，对算力则是"低比特、高并发"的结构性需求。</div>
+  <div class="src">来源：Hugging Face Bio 模型卡 / Tooliax / Hugging Face（2026-10-26）</div>
+</div>
+
+<!-- ============ 下游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>下游 · AI 应用落地 / 商业化 / 需求侧大单 / 监管环境</h2><span class="cnt">4 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">13</div><h3>前 DOGE 成员创办的 Cathedral 用 AI Agent 不到 12 小时攻破 Anthropic 内部系统</h3></div>
+  <div class="tags"><span class="tag t-amber">智能体安全</span><span class="tag t-blue">第三方软件风险</span><span class="tag t-up">事件</span></div>
+  <ul class="facts">
+    <li>《华盛顿邮报》查阅的 Cathedral 报告草稿显示，其研究人员运行 AI Agent <strong>不到 12 小时</strong>即找到进入 Anthropic 内部数据与消息系统的路径，触及会议记录、薪酬与录用信息、讨论先进模型的 Slack 消息。</li>
+    <li>入侵路径为 Anthropic 用于行政与销售场景的<strong>第三方商业软件漏洞</strong>，而非模型本身；Anthropic 确认访问范围限于销售、人力与 IT 系统的"有限数据"，未涉及 Claude 用户对话、源代码与模型权重。</li>
+    <li>测试在 Anthropic 漏洞赏金计划框架内进行，公司称其监控在对方上报前已发现部分活动、当日切断访问，并已停用相关软件直至厂商修复、向联邦官员通报。</li>
+    <li>Cathedral 由前 DOGE 成员创立，2026 年 7 月以 <strong>14 亿美元</strong>估值融资 <strong>1.6 亿美元</strong>（a16z、红杉参投），已有三家联邦机构签约；Anthropic 指责其未完整披露测试行为、夸大国家安全影响。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是"AI 攻防"第一次以头部实验室自身为标靶的完整案例，暴露的不是模型漏洞而是企业软件的连接面。①攻击经济学被改写：过去需要数周的渗透被压缩到 12 小时，防守方的窗口期以小时计；②对 AI 公司的合规成本是实质抬升——第三方 SaaS 的每一条集成都是入口，SOC 审计范围需要覆盖供应商链路；③对安全厂商是需求端催化，AI 原生安全（agent 行为审计、权限最小化、提示注入防护）会从"可选项"变成采购硬指标。</div>
+  <div class="src">来源：《华盛顿邮报》/ Gizmodo / India Today / Tech Startups（2026-10-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">14</div><h3>微软向约 6 万名员工开放自愿离职，占全球员工 27%，为 AI 资本开支腾挪预算</h3></div>
+  <div class="tags"><span class="tag t-up">成本重构</span><span class="tag t-blue">资本开支</span><span class="tag t-amber">组织调整</span></div>
+  <ul class="facts">
+    <li>10 月 26 日宣布自愿离职方案（VEO），覆盖美国、加拿大、印度、英国部分团队的 <strong>约 6 万人</strong>，占其 22.3 万全球员工的 <strong>27%</strong>，为年内第三轮人员调整。</li>
+    <li>参与部门包括 Copilot、CoreAI、Windows + Devices、Xbox、财务与人力资源；销售、市场营销、安全、量子计算及部分数据中心与工程团队不参与；接受者 12 月 31 日离职，补偿对标标准遣散方案。</li>
+    <li>2026 日历年资本开支指引 <strong>1750 亿美元</strong>；2026 财年 Q4 资本开支 410 亿美元（同比约 +70%），自由现金流 196 亿美元、同比下降 23%。</li>
+    <li>此前 4 月首轮自愿退休计划面向约 8750 名美国员工，接受率超 30%；7 月裁员 4800 人（约 2.1%）。公司将于 10 月 28 日盘后发布 FY2027 Q1 财报。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>"人力预算向算力预算迁移"从叙事变成报表科目。①6 万人买断若落地三成，年化人力成本节约量级在数十亿美元，正好对冲一个季度的资本开支增量；②组织重心明确转向 Copilot／CoreAI，而销售与安全被排除在外——意味着微软认为增长来自产品侧而非渠道侧；③对二级市场是双刃信号：短期利润率有支撑，但"AI 尚未带来人力结构升级"的判断被间接确认，10 月 28 日财报的 Azure 增速与 capex 指引是关键验证点。</div>
+  <div class="src">来源：路透社 / CBC News / 南方+ / 腾讯新闻（2026-10-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">15</div><h3>Bedrock Robotics 完成 6 亿美元 C 轮、估值 41 亿美元，九个月估值涨 2.3 倍</h3></div>
+  <div class="tags"><span class="tag t-up">融资</span><span class="tag t-green">具身智能</span><span class="tag t-blue">商业化落地</span></div>
+  <ul class="facts">
+    <li>10 月 26 日宣布 <strong>6 亿美元</strong>C 轮，投后估值 <strong>41 亿美元</strong>；由 Alphabet 成长基金 CapitalG 与 Emergence Capital 联合领投，USIT、Bessemer、淡马锡新进，英伟达为既有股东，累计融资近 <strong>10 亿美元</strong>。</li>
+    <li>估值从 2026 年 2 月 B 轮的 17.5 亿美元升至 41 亿美元，<strong>264 天内上涨 2.3 倍</strong>。</li>
+    <li>商业化进度是估值锚：8 月 17 日起改装挖掘机已在商业工地实现"无操作员在座"的付费作业，本轮新增 <strong>8 家</strong>具名客户（覆盖得州、明尼苏达、佛州等 8 州），客户总量较 2025 年翻倍以上。</li>
+    <li>同步任命运营副总裁与总法律顾问，资金明确用于把单点验证转为规模化交付，而非继续做技术演示。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>具身智能的估值开始由"付费工时"而非 demo 视频定价，这是本轮最重要的定价方式切换。①工程机械是低速、高价值、法规友好的切口，单机替代人工的回收期可测算，比人形机器人更早跑通单位经济；②新增的两位高管（运营 + 法务）比融资额更能说明问题——行业瓶颈已从算法转向交付、保险与责任划分；③对上游是"感知 + 边缘算力"的增量需求，对下游建筑业则是劳动力供给约束的第一次实质性松绑。</div>
+  <div class="src">来源：GlobeNewswire 公告 / Construction Industry AI / CapitalG（2026-10-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">16</div><h3>DeepSeek、MiniMax 完成大模型出海登记，23 项 AI 技术出口管制后首批走通合规流程</h3></div>
+  <div class="tags"><span class="tag t-amber">出口管制</span><span class="tag t-blue">合规</span><span class="tag t-up">平台级开放</span></div>
+  <ul class="facts">
+    <li>10 月 16 日商务部、科技部就修订《中国禁止出口限制出口技术目录》公开征求意见，拟将大模型、智能体、算力集群、信息处理等 <strong>23 项</strong> AI 技术纳入管制范围。</li>
+    <li>政策公布后，DeepSeek 与 MiniMax 两家头部企业已履行登记手续，并完成<strong>开源发布及海外授权</strong>的合规流程，成为首批跑通该流程的公司。</li>
+    <li>规则明确：对已通过开源、发表学术论文等方式进入公共领域的技术<strong>不纳入管理范围</strong>，为开源路线保留了通道。</li>
+    <li>同期美国国土安全部已要求联邦机构移除 DeepSeek 产品及基于其模型开发的第三方衍生产品，形成"美方穿透式排除、中方出口登记"的双向监管格局。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>开源模型的跨境流动第一次被纳入可操作的行政流程，这决定了中国模型出海的"制度成本"。①登记制而非审批制、开源豁免，实质是"鼓励开源、管住权重与算力交付"，对 MiniMax、DeepSeek 这类以开源换生态的公司是中性偏利好；②真正的摩擦点在海外客户侧：企业采购需要评估供应商是否完成登记，合规尽职调查会成为新的销售周期；③对全球开发者生态，中美双向管制会加速模型分叉（regional forks），推理成本与适配工作量上升。</div>
+  <div class="src">来源：商务部公告 / 全球 TMT / 中国经济网 / 浙江省企业信息化促进会（2026-10-26）</div>
+</div>
+
+<!-- ============ 延伸线索 ============ -->
+<div class="section-head"><div class="bar"></div><h2>延伸线索（不计入主榜，供次日跟踪）</h2></div>
+<div class="extra">
+  <ul>
+    <li><b>英伟达 × PreussenElektra 核电站旧址改造：</b>10 月 21 日双方宣布评估将德国 8 座已退役核电站厂区改建为 AI 工厂，不重启反应堆、不使用核电，只复用 380kV/220kV 开关站、取排水与土地；绿地在欧洲获取 100MW 以上并网许可常需 5—8 年，旧址可压缩至 1.5—3 年。尚处可行性研究，无投资金额与选址结论。</li>
+    <li><b>Gemini 4 Argon 引入期定价 11 月 30 日到期：</b>现价 2 美元/10 美元（每百万输入/输出 token）将于 11 月 30 日后翻倍至 4 美元/20 美元；分析师提示企业评估与安全审查周期普遍长于折扣窗口，应按高价做预算。属既有模型的定价条款变化，与 10-16 期 GA 报道不重复计入主榜。</li>
+    <li><b>光模块订单能见度延伸至 2028 年：</b>中际旭创主要客户订单已下至 2027 年、部分客户给出 2028 年明确指引；1.6T 全球需求 2026 年约 2500 万只而实际可交付 1600 万—1800 万只，2027 年需求约 1 亿只、可交付仅 7000 万—8000 万只，瓶颈已从需求端切换到 DSP／200G EML／PD 等物料端。</li>
+    <li><b>Springer Nature × 谷歌 DeepMind 同行评审助手：</b>基于 Gemini 前沿模型与开源 ADK 构建，运行在 Springer Nature 私有 Gemini Enterprise 环境内，稿件不出内网；原型测试中，未公布上线时间与性能数据。</li>
+    <li><b>可灵 AI 完成战略配股：</b>腾讯、阿里云、百度及国家人工智能产业投资基金新增为股东，注册资本由 7192.4 万元增至 8744.7 万元（+22%），属同估值增持而非新一轮独立定价。</li>
+    <li><b>谷歌云开放 Anthropic 托管 Claude 部署：</b>企业可在 GCP 上运行 Claude 并在模型发布首日使用最新版本，Anthropic 作为数据处理方，企业沿用既有 IAM、审计日志与账单体系。</li>
+    <li><b>SK 海力士股东回报方案：</b>拟于 10 月 28 日宣布 50 万亿—60 万亿韩元（约合 2500 亿—3000 亿元人民币）规模回报计划，资金来源含出售铠侠股份收益（估计约 20 万亿韩元）。</li>
+  </ul>
+</div>
+
+<footer>
+  <h4>信源清单与校验说明</h4>
+  <ol>
+    <li><b>上游</b>：Anthropic S-1 登记声明（SEC）、新华社、路透社、CBS News、证券时报、中国证券报；Meta 投资者关系公告、路透社、海峡时报、中央社、澎湃新闻；SpaceX 投资者关系公告与 SEC 8-K、财联社、界面新闻、彭博；GlobalFoundries 官方公告、StorageNewsletter、Tom's Hardware、摩根士丹利研究、巨丰财经；Business Korea、快科技、TrendForce、KB 证券；Tom's Hardware、Wall St Engine、AI Weekly、腾讯新闻；路透社、Cadence 官方。</li>
+    <li><b>中游</b>：OpenAI 官方发布、AWS 公告、PYMNTS、Artificial Analysis、AI Frontier Post；雷峰网、DeepSeek 开源仓库；腾讯混元官方公众号、界面新闻、钛媒体；MiniMax 官方、Hugging Face、ModelScope、Unsloth、AI Native Foundation；Hugging Face Bio 模型卡、Tooliax。</li>
+    <li><b>下游</b>：《华盛顿邮报》、Gizmodo、India Today、Tech Startups；路透社、CBC News、南方+、腾讯新闻；GlobeNewswire 公告、Construction Industry AI；商务部公告、全球 TMT、中国经济网。</li>
+    <li>已剔除范围：自媒体爆料、小道传闻、纯营销软文、无原始信源的二次转载内容。</li>
+    <li>与上一期（2026-10-26 期）不重复声明：Kimi K3.1 Pro 发布、三大运营商 Q3 智算机房招标 365.88 亿元、行云科技订单二次上调、韶关算力签约、英国 AI 生物安全实验室、AWS Infinity、谷歌 Agent Compute Engine、Anthropic Agent Skills 捐赠 AAIF 等事件均已在上一期覆盖，本期不再计入；DeepSeek 约 1000 亿元融资、Gemini 4 Argon 首发 GA、MiniMax M3.1 Flash 首次发布亦为既有事件，本期仅就其新增进展（DeepInfer 开源与算子榜单、定价条款到期、权重开源）单独列示或降级处理。</li>
+  </ol>
+  <div class="disc">
+    <b>免责与不确定性提示：</b>本报告为公开信息汇编，仅供研究参考，不构成任何投资建议。<br>
+    ① <b>口径区分：</b>Anthropic 807 亿美元净亏损中 724 亿美元为可转债等工具公允价值变动的非现金会计费用，与经营亏损（6.93 亿美元）不可混同；其"5180 亿美元算力承诺"为合同最低采购义务，不等于已发生支出（上半年实际支出约 89 亿美元）。<br>
+    ② <b>未官方确认事项：</b>英伟达每 GPU 每年 2000 美元的 agent 软件授权为黄仁勋在问答中的举例，公司未发布价目表、生效时间与产品范围，且与现有 AI Enterprise 4500 美元/卡/年的关系未澄清；台积电 CoWoS 涨价 10%—20% 来自产业链调研而非公司公告；三星 HBM 4.50 美元/Gb 为行业估算均价，未披露产品代际与计算基准；Anthropic 1.5 万—2 万亿美元估值区间来自媒体报道与投资人预期，S-1 未列示发行价与估值。<br>
+    ③ <b>时间与主体差异：</b>Cathedral 报告与 Anthropic 声明对"实际访问范围"（是否包含会议记录、薪酬与 Slack 消息）存在分歧，本报告并列呈现双方口径；英伟达与 PreussenElektra 的核电站旧址评估于 10 月 21 日宣布、10 月 26 日集中见报，已降级为延伸线索。<br>
+    ④ <b>前瞻性风险：</b>Meta 950 亿美元中 600 亿美元 ATM 计划尚未签署任何协议、不早于 2027 年一季度启动；SpaceX 400 亿美元租赁尚待交割条件满足、利率未定；微软 6 万人买断的实际接受率未披露，成本节约幅度需以 10 月 28 日财报为准。
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
