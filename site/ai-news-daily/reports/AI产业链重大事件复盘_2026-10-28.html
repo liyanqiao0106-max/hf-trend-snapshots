@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI行业早报 · 2026-10-28</title>
+<style>
+  :root{
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --ink:#1a1d21;
+    --ink-2:#4a5158;
+    --ink-3:#7c848c;
+    --line:#e3e6ea;
+    --up:#d92b2b;
+    --up-bg:#fdf0f0;
+    --blue:#1a5fd0;
+    --blue-bg:#eef4fe;
+    --green:#0f7a4d;
+    --green-bg:#edf7f1;
+    --amber:#a8631a;
+    --amber-bg:#fdf5e9;
+    --violet:#6b3fc7;
+    --violet-bg:#f2eefc;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.7;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px;}
+  header.top{
+    background:linear-gradient(135deg,#111827 0%,#1f2937 55%,#2b3445 100%);
+    color:#fff;border-radius:18px;padding:34px 36px 30px;margin-bottom:26px;
+    box-shadow:0 10px 30px rgba(15,23,42,.18);
+  }
+  .kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#8fa3bd;margin:0 0 12px;}
+  header.top h1{margin:0 0 14px;font-size:30px;line-height:1.3;font-weight:700;letter-spacing:-.01em;}
+  header.top .sub{color:#b8c4d4;font-size:14.5px;margin:0;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+  .chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#dbe4ef;
+    padding:5px 12px;border-radius:999px;font-size:12.5px;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px;}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .stat .n{font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.02em;}
+  .stat .l{font-size:12.5px;color:var(--ink-3);margin-top:2px;}
+  .stat.hl .n{color:var(--up);}
+  .section-head{display:flex;align-items:center;gap:12px;margin:38px 0 16px;}
+  .section-head .bar{width:4px;height:22px;border-radius:2px;background:var(--ink);}
+  .section-head h2{margin:0;font-size:19px;font-weight:700;letter-spacing:-.01em;}
+  .section-head .cnt{font-size:12.5px;color:var(--ink-3);margin-left:auto;
+    background:#fff;border:1px solid var(--line);padding:3px 10px;border-radius:999px;}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin-bottom:14px;transition:box-shadow .18s ease;}
+  .item:hover{box-shadow:0 6px 20px rgba(15,23,42,.07);}
+  .item .hd{display:flex;gap:12px;align-items:flex-start;}
+  .num{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:#111827;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;margin-top:1px;}
+  .item h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.45;letter-spacing:-.01em;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 12px;}
+  .tag{font-size:11.5px;padding:3px 9px;border-radius:6px;font-weight:600;white-space:nowrap;}
+  .t-up{background:var(--up-bg);color:var(--up);}
+  .t-blue{background:var(--blue-bg);color:var(--blue);}
+  .t-green{background:var(--green-bg);color:var(--green);}
+  .t-amber{background:var(--amber-bg);color:var(--amber);}
+  .t-violet{background:var(--violet-bg);color:var(--violet);}
+  .facts{margin:0 0 12px;padding:0;list-style:none;}
+  .facts li{position:relative;padding-left:16px;margin-bottom:6px;font-size:14.5px;color:var(--ink-2);}
+  .facts li::before{content:"";position:absolute;left:2px;top:10px;width:5px;height:5px;
+    border-radius:50%;background:#c2cad4;}
+  .facts strong{color:var(--ink);font-weight:600;}
+  .impact{background:#fafbfc;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;
+    padding:11px 14px;font-size:14px;color:var(--ink-2);}
+  .impact b{color:var(--blue);font-weight:700;}
+  .src{margin-top:11px;font-size:12.5px;color:var(--ink-3);}
+  .src b{color:var(--ink-3);font-weight:600;}
+  .extra{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 24px;}
+  .extra ul{margin:0;padding-left:20px;font-size:14px;color:var(--ink-2);}
+  .extra li{margin-bottom:8px;}
+  .extra li b{color:var(--ink);}
+  footer{margin-top:44px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;}
+  footer h4{margin:0 0 10px;font-size:14px;font-weight:700;}
+  footer ol{margin:0;padding-left:20px;color:var(--ink-2);font-size:13.5px;}
+  footer li{margin-bottom:5px;}
+  .disc{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+    font-size:12.5px;color:var(--ink-3);line-height:1.65;}
+  .disc b{color:var(--ink-2);}
+  @media (max-width:720px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    header.top{padding:26px 22px;}.wrap{padding:24px 14px 60px;}
+    header.top h1{font-size:23px;}
+  }
+</style>
+<link rel="stylesheet" href="../navigation.css">
+</head>
+<body>
+<div class="wrap">
+<a class="return-link" href="../index.html">← 返回 AI 新闻日报</a>
+
+<header class="top">
+  <p class="kicker">AI Industry Daily Recap · Sell-Side Research</p>
+  <h1>AI行业早报</h1>
+  <p class="sub">2026年10月28日（北京时间）</p>
+  <div class="meta-row">
+    <span class="chip">16 条重大事件</span>
+    <span class="chip">上游 7 · 中游 5 · 下游 4</span>
+    <span class="chip">中英文全球信源交叉验证</span>
+    <span class="chip">已剔除传闻类自媒体线索</span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat hl"><div class="n">33.6 万亿</div><div class="l">DeepSeek V4.1-Flash 单周 Token 调用量，环比 +801%，全球第一</div></div>
+  <div class="stat"><div class="n">3.2 Pb/s</div><div class="l">中国信科 24 芯光纤单纤双向实时传输世界纪录，容量提升 32 倍</div></div>
+  <div class="stat hl"><div class="n">13.4 亿元</div><div class="l">宁夏移动国产算力服务器集采，单一厂商独家中标</div></div>
+  <div class="stat"><div class="n">2.05 GW</div><div class="l">韩国古里 3、4 号机组延寿，为 AI 数据中心补无碳电力</div></div>
+</div>
+
+<!-- ============ 上游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>上游 · 芯片 / 算力 / 光互联 / 云算力 / 大额订单</h2><span class="cnt">7 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">1</div><h3>甲骨文一口气上架英伟达、谷歌 TPU、Cerebras、SambaNova，TPU 首次外供第三方云</h3></div>
+  <div class="tags"><span class="tag t-blue">算力基建</span><span class="tag t-up">平台级开放</span><span class="tag t-amber">供应链瓶颈</span><span class="tag t-green">定制硅</span></div>
+  <ul class="facts">
+    <li>10 月 27 日 Oracle AI World：与英伟达扩大合作，将在 OCI 部署 <strong>Vera Rubin NVL72</strong> 超集群与 Vera CPU，规模达「<strong>数吉瓦级</strong>」，双方未披露金额与部署时间表。</li>
+    <li>首次把<strong>谷歌 TPU</strong> 引入第三方超大规模云，<strong>2027 年</strong>起在 OCI 提供；同时上线 <strong>Cerebras</strong> 与 <strong>SambaNova SN50</strong>、OpenAI 自研 <strong>Jalapeño</strong> 推理芯片。</li>
+    <li>即便基于英伟达系统，也将弃用部分英伟达网络芯片，改用自研 <strong>Acceleron</strong>；FY2027 资本开支指引约 <strong>900–950 亿美元</strong>。</li>
+    <li>与 OpenAI 扩大合作：ChatGPT / Codex 嵌入 Oracle 应用、推出 Oracle AI Workspace 与 AI Security Mesh；甲骨文当日股价涨近 <strong>5%</strong>，Cerebras 涨约 <strong>8%</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>TPU 首次走出谷歌自有云，是「CUDA/GPU 独占」被打开的第一道实质缺口；云厂商的采购逻辑从「买卡」转向「多芯片组合 + 自研网络」。对英伟达压力最大的不是计算芯片而是 Spectrum/InfiniBand 网络业务——甲骨文已用 Acceleron 替代，这是可复制的替代路径。对 Cerebras、SambaNova 这类推理芯片厂商，则是首次拿到一线云的规模订单验证。</div>
+  <div class="src">来源：CNBC / Oracle 官方新闻稿 / SambaNova 新闻稿 / 财联社（2026-10-27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">2</div><h3>英伟达 30 亿美元入股 Meta，双方扩大 Muse 系列模型合作、Vera Rubin 集群再加码</h3></div>
+  <div class="tags"><span class="tag t-up">并购·投资</span><span class="tag t-blue">资本开支</span><span class="tag t-violet">生态开放</span></div>
+  <ul class="facts">
+    <li>10 月 27 日英伟达宣布斥资 <strong>30 亿美元</strong>参与 Meta 股权融资；Meta 本轮普通股与优先股发行规模由 350 亿上调至 <strong>375 亿美元</strong>，另有最高 <strong>600 亿美元</strong> ATM 计划，融资上限仍为 950 亿美元。</li>
+    <li>据多家外媒，<strong>AMD</strong> 拟认购约 <strong>10 亿美元</strong>，博通亦在认购名单，三家此前口径为合计至多 <strong>50 亿美元</strong>。</li>
+    <li>双方将扩大 <strong>Muse 系列模型</strong>合作，Meta 进一步扩大英伟达 <strong>Vera Rubin 集群与 Vera CPU</strong> 部署，搭配 <strong>Spectrum-X</strong> 以太网与 <strong>BlueField-4</strong> DPU。</li>
+    <li>Meta 披露 2026 年资本开支规划 <strong>1350–1450 亿美元</strong>，募资投向 AI 基础设施与「个人超级智能」。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>「客户融资买卡、芯片商反向认购客户股票」的资本—订单闭环进一步固化，短期强化了订单可见度，中期把周期性风险从芯片厂转移给了资本市场。更值得关注的是合作从「买卡」升级到「模型 + 网络 + CPU 一起调」——Vera CPU 与 Spectrum-X 同时进入 Meta 栈，说明英伟达在推理常态化阶段的捆绑能力仍在增强，而非被稀释。</div>
+  <div class="src">来源：英伟达公告 / 证券时报 / 通信世界 / 腾讯新闻·数智早参（2026-10-27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">3</div><h3>SK 海力士拟追加 50–60 万亿韩元股东回报，KOSPI 触发熔断式冷却；HBM4 八层锁定 2027Q2</h3></div>
+  <div class="tags"><span class="tag t-up">业绩前瞻</span><span class="tag t-amber">供应链瓶颈</span><span class="tag t-violet">定价策略</span></div>
+  <ul class="facts">
+    <li>《首尔经济日报》10 月 27 日报道，SK 海力士准备在 <strong>10 月 28 日</strong>董事会后随三季报公布 <strong>50 万亿–60 万亿韩元</strong>（约 350–420 亿美元）追加股东回报，叠加已完成 40 万亿韩元回购注销，全年合计 <strong>90 万亿–100 万亿韩元</strong>，约为去年 7 倍。</li>
+    <li>KOSPI200 期货涨 <strong>5%</strong> 触发 SIDECAR 程序化买盘暂停，KOSPI 盘中涨超 <strong>4%</strong>；SK 海力士涨逾 <strong>7%</strong>、三星电子涨近 <strong>5%</strong>。</li>
+    <li>三星与 SK 海力士确定 <strong>2027 年二季度</strong>量产并出货 <strong>8 层 HBM4</strong> 供英伟达 Rubin Ultra，较原计划 12 层 HBM4/HBM4E 出现堆叠高度回调。</li>
+    <li>RBC：Q3 DRAM 合约价环比 <strong>+20%</strong>、Q4 再涨约 <strong>15%</strong>，2027 年 HBM 价格可能涨 <strong>80%–100%</strong>；野村：2027 年供需已由长协锁定，违约罚金达年度需求价值 <strong>50%–100%</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>存储正在从周期股被重新定价为「类长约现金流资产」——长协违约成本本身构成了需求粘性。八层 HBM4 的回调是重要信号：在热阻与键合良率约束下，「可制造性」压过了「堆叠高度」，意味着 HBM 供给弹性比市场预期更低，但单堆容量下降会拉低单卡 HBM 价值量，需要重算 GPU BOM 与 HBM 厂的单位晶圆产出。</div>
+  <div class="src">来源：首尔经济日报 / 证券时报 / 财联社 / RBC Capital / 野村 / ZDNet Korea（2026-10-27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">4</div><h3>宁夏移动 13.4 亿元国产算力服务器集采，华勤系厂商独家中标 100% 份额</h3></div>
+  <div class="tags"><span class="tag t-up">大额订单</span><span class="tag t-blue">算力基建</span><span class="tag t-green">东数西算</span></div>
+  <ul class="facts">
+    <li>中国移动宁夏公司 2026—2027 年国产算力服务器采购开标，<strong>上海域允信息技术</strong>成为唯一中标候选人，拟中标份额 <strong>100%</strong>，框架含税总额 <strong>13.40048576 亿元</strong>。</li>
+    <li>项目仅设单一标包，设未含税单价最高限价：<strong>144G 规格 3539.823 万元/台</strong>、<strong>96G 规格 3451.3274 万元/台</strong>，超限价报价直接否决。</li>
+    <li>上海域允成立于 <strong>2024 年 5 月</strong>、注册资本 5000 万元，由 <strong>华勤技术</strong>间接全资持股，聚焦算力硬件与服务器研发供货。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>运营商国产算力集采「整包交给单一整机厂」正在成为新范式——评标权重明显偏向交付确定性与成本控制，而非品牌。华勤这类消费电子 ODM 借整机能力切入算力赛道并直接拿下省级大单，意味着代工系厂商在国产算力链上的份额抬升，压力落在传统服务器品牌与二线集成商身上。单台限价也侧面给出了国产高端算力整机的价格锚。</div>
+  <div class="src">来源：中国移动采购与招标网 / 通信产业报 / C114 / 新浪财经（2026-10-27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">5</div><h3>3.2 Pb/s：中国信科 24 芯多芯光纤刷新单纤双向实时传输世界纪录，容量提升 32 倍</h3></div>
+  <div class="tags"><span class="tag t-green">光互联·CPO</span><span class="tag t-blue">技术革新</span><span class="tag t-up">世界纪录</span></div>
+  <ul class="facts">
+    <li>中国信科集团光通信技术和网络全国重点实验室联合鹏城实验室、烽火藤仓，完成 <strong>3.2 Pb/s</strong> 多芯光纤实时双向传输，打破其今年 3 月创下的 <strong>2.5 Pb/s</strong> 纪录。</li>
+    <li>采用 <strong>10.3 公里 24 芯</strong>多芯光纤，融合 S+C+L 三波段复用与空分复用，构建数千路并行通道；相对商用 G.652 单芯约 <strong>100 Tb/s</strong> 的容量上限，单纤总容量提升 <strong>32 倍</strong>。</li>
+    <li>完成 S 波段单波 <strong>400G</strong>、C+L 波段单波 <strong>1.2 Tb/s</strong> 自研光模块的实时传输验证，突破仅靠光谱扩容的「单芯容量墙」。</li>
+    <li>成果入选 OFC 2026 并获评高分论文，已作为邀稿投至《Journal of Lightwave Technology》。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这条新闻的分量在「DCI 架构选项」而不是「光模块订单」。多芯光纤 + 空分复用把算力枢纽互联的容量墙推后了一个数量级，利好光纤预制棒、多芯光纤、FAU 与相干光模块；短期不改 1.6T 可插拔的主流路线，但若 2028 年后多芯方案规模商用，长距离互联的拓扑与中继站密度都会被重构。国内厂商在本轮标准与专利上的先手，比单点速率更值得跟踪。</div>
+  <div class="src">来源：科技日报 / 科普中国 / 通信世界 / 长江网（2026-10-27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">6</div><h3>趋境科技完成超 13 亿元 B 轮，年内累计募资 24 亿元、收入近 10 倍跃升</h3></div>
+  <div class="tags"><span class="tag t-up">融资</span><span class="tag t-blue">算力基建</span><span class="tag t-violet">效率竞争</span></div>
+  <ul class="facts">
+    <li>北京趋境科技（Approaching.AI）完成 <strong>超 13 亿元</strong> B 轮，年内累计募资达 <strong>24 亿元</strong>；浙财创新、萧山资本、工银投资、中关村科学城、星连资本、钱江世纪城联合领投，商汤、网宿、申万创新投等跟投。</li>
+    <li>公司称年内业务收入接近去年全年的 <strong>10 倍</strong>，资金将投向 Token 产能扩张、ATaaS 平台迭代与推理底层技术研发。</li>
+    <li>定位「AI Token 生产服务商」，以首 Token 时延、输出吞吐、并发稳定性、SLA、模型效果一致性与单位产出成本作为综合交付指标。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>推理侧出现了新的分层——不卖算力、不卖模型，卖「可交付的 SLA Token」。这类厂商的毛利完全取决于 GPU 利用率、电力成本与调度效率，因此是观察推理价格战向产业链传导的先行指标。资本在这一层加注，也说明市场已默认「拿到卡 ≠ 能赚钱」，系统工程能力开始被单独定价。</div>
+  <div class="src">来源：上海证券报·中国证券网 / 新浪财经（2026-10-27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">7</div><h3>韩国古里 3、4 号机组延寿 2.05GW，IAEA 部长级会议把 SMR 直接对准 AI 数据中心</h3></div>
+  <div class="tags"><span class="tag t-green">电力约束</span><span class="tag t-blue">算力基建</span><span class="tag t-amber">监管审批</span></div>
+  <ul class="facts">
+    <li>10 月 27 日韩国原子能安全委员会以 <strong>5 票赞成、2 票反对</strong>通过古里 3、4 号机组延寿：3 号机运行至 <strong>2034 年 9 月</strong>、4 号机至 <strong>2035 年 8 月</strong>，各 <strong>1.025 GW</strong>，合计 <strong>2.05 GW</strong> 无碳容量，明年上半年起陆续并网。</li>
+    <li>同日 IAEA 核能部长级会议在仁川松岛开幕，<strong>60 国</strong>、800 余名代表与 85 家企业参加；韩方提出以 <strong>SMR</strong> 供应 AI 数据中心电力、工业供热与船舶动力。</li>
+    <li>IAEA 总干事格罗西：乐观情景下 <strong>2050 年</strong>全球核电装机将超 <strong>1000 GW</strong>，实际取决于项目落地执行。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>AI 电力约束的解法正从「新建」转向「延寿 + 提功率」——审查周期从新建的 7–10 年压缩到 1–2 年，是最快见效的供给增量。对产业链的传导是核级材料、蒸汽发生器更换、功率提升改造（uprate）设备的订单前置；SMR 则被明确锚定为数据中心专属电源，2027–2030 年是订单验证窗口。</div>
+  <div class="src">来源：韩国原子能安全委员会 / ETNews / BusinessKorea / 韩联社（2026-10-27）</div>
+</div>
+
+<!-- ============ 中游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>中游 · 大模型发布 / 开源上新 / 推理与定价</h2><span class="cnt">5 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">8</div><h3>谷歌 Genie 4：世界模型首次音视频同步生成，单次模拟时长翻倍至 2 分钟</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-green">技术革新</span><span class="tag t-blue">模型迭代</span></div>
+  <ul class="facts">
+    <li>谷歌 DeepMind 发布 <strong>Genie 4</strong> 世界模型，实时交互模拟最长可运行 <strong>2 分钟</strong>，为上一代 Genie 3 的 <strong>2 倍</strong>。</li>
+    <li>该系列首款<strong>原生多模态</strong>世界模型：环境音、音乐与可对话角色随画面同时生成；用户可用自然语言实时改天气、移动镜头、添加人物。</li>
+    <li>由 <strong>Gemini Omni</strong> 锚定真实世界外观与行为，Gemini 负责推理与场景连贯性拆解；但实时体验实际跑在 <strong>Gemini 3.8 Flash</strong> 而非旗舰 Argon 上。</li>
+    <li>以研究预览形式向小批受信任测试者开放，随后推向 Google AI Ultra 的 Project Genie 及 Gemini API、AI Studio 早期伙伴。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>世界模型从「生成视频」跨到「可交互环境」，最直接的商业含义是机器人与智能体的训练环境可以按需合成，物理 AI 的数据瓶颈出现低成本解法。反过来，游戏引擎与影视 VFX 预演是中期被替代的一方——这也是今年 1 月 Project Genie 亮相时游戏股大跌的原因。注意「跑在 Flash 而非 Argon」这一细节：实时世界模拟的瓶颈不是画质，而是低延迟的持续规划，这决定了它对算力的需求结构偏向推理而非训练。</div>
+  <div class="src">来源：Google DeepMind 官方博客 / Google 官方博客 / 财联社（2026-10-28）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">9</div><h3>Liquid AI 开源 LFM3 家族：六款 2B 级模型共用一条主干，4bit 仅占 1GB 内存</h3></div>
+  <div class="tags"><span class="tag t-up">开源上新</span><span class="tag t-green">端侧推理</span><span class="tag t-blue">技术革新</span></div>
+  <ul class="facts">
+    <li>10 月 27 日 Liquid AI 发布 <strong>LFM3</strong>，首批 <strong>6 款</strong> 2B 级开源权重模型，全部派生自同一 <strong>LFM3-1.7B-Base</strong>，覆盖文本、视觉、音频、全模态与两款决策模型。</li>
+    <li>文本模型 <strong>1.73B</strong> 参数、<strong>256K</strong> 上下文、12.8 万词表、支持 16 种语言；4bit 量化后约占 <strong>1GB</strong> 内存，可在手机、树莓派与笔记本运行。</li>
+    <li>三混合架构：13 层门控短卷积 + 5 层 256 窗口滑动注意力 + 6 层全局注意力；<strong>22T token</strong> 预训练，后训练含 1.75T token SFT 与六教师多域蒸馏。</li>
+    <li>WebArena-Verified 得分 <strong>38.42</strong>（前代 3.02）；VL 版 62 项视觉基准均值由 57.6 升至 <strong>71.4</strong>，以 1.9B 参数对平 Gemma 4 12B。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>「一条主干 + 多模态分支 + 决策头」的家族化路线在 2B 量级跑通，直接降低了 OEM 的适配与维护成本，是端侧 AI 从「塞一个聊天模型」走向「一套可复用能力栈」的关键一步。对高通、联发科、英特尔 NPU 生态是明确利好（首发伙伴已覆盖四家），对云端小模型 API 则是价格挤压。</div>
+  <div class="src">来源：Liquid AI / Hugging Face Blog / Unite.AI（2026-10-27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">10</div><h3>南栖湖畔开源 Nanbeige4.3-33B：20 项评测 17 项第一，Terminal-Bench 压过千问 3.8-27B</h3></div>
+  <div class="tags"><span class="tag t-up">开源上新</span><span class="tag t-green">效率竞争</span><span class="tag t-blue">智能体</span></div>
+  <ul class="facts">
+    <li>BOSS 直聘支持的南栖湖畔研究所发布 <strong>33B</strong> 稠密模型 Nanbeige4.3-33B，<strong>Apache 2.0</strong> 许可、中英双语，权重已在 Hugging Face 开放，支持商用。</li>
+    <li>在 20 项评测中 <strong>17 项</strong>居首，Terminal-Bench 2.1 得 <strong>80.9</strong>（Qwen3.8-27B 为 73.0），DeepSWE 得 <strong>65.5</strong>（42.5）。</li>
+    <li>采用<strong>稠密架构</strong>而非 MoE，部署更简单、行为更可预测；YC-Bench 创业模拟中营收 <strong>102 万美元</strong>，千问同项为 64 万美元。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这个结果对「MoE 一定更优」的默认假设是一次修正：33B 稠密模型在 agentic coding 上压过同级 MoE，说明后训练质量与执行环境适配的权重正在超过架构选择。对买方而言，「单机可部署 + 行为可预测」在私有化场景里比参数效率更值钱，中型闭源 API 的定价空间会被进一步压缩。</div>
+  <div class="src">来源：AI Times Korea / Global AI News / Hugging Face（2026-10-27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">11</div><h3>DeepSeek V4.1-Flash 单周 33.6 万亿 Token 登顶全球，环比暴增 801%</h3></div>
+  <div class="tags"><span class="tag t-up">商业化落地</span><span class="tag t-violet">定价策略</span><span class="tag t-blue">模型迭代</span></div>
+  <ul class="facts">
+    <li>据 OpenRouter 数据（10 月 19—25 日），全球 AI 大模型周调用量 <strong>188 万亿 Token</strong>，环比 <strong>+14.63%</strong>。</li>
+    <li>中国模型周调用 <strong>93.54 万亿</strong>（+18.14%），美国 <strong>22.47 万亿</strong>（+29.44%）；中国已连续 <strong>26 周</strong>居首，且当周前五名全部为中国模型。</li>
+    <li><strong>DeepSeek V4.1-Flash-1017</strong> 以 <strong>33.6 万亿</strong> Token 位列第一、环比 <strong>+801%</strong>；旧版 V4.1 Flash 为 18 万亿、环比 <strong>-45%</strong>，显示开发者正快速迁移。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>调用量是需求的前置指标，这组数据确认了推理已主导算力消耗，且中国模型的份额优势从「单周领先」变成「结构性领先」。但必须分清：Token 用量 ≠ 收入，前五名清一色中国模型的背后是极致性价比策略。下一阶段的胜负手会从「谁被调用得多」转向「谁能在低价下守住毛利与生态黏性」——单位推理成本与付费转化率是唯一可验证的两个指标。</div>
+  <div class="src">来源：OpenRouter / 经济日报 / 每日经济新闻 / 财联社（2026-10-27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">12</div><h3>讯飞发布 SparkAudio 1.0 语音基座（全国产算力训练），同日开源端侧 Spark X2.6-1.7B</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-green">端侧推理</span><span class="tag t-amber">自主可控</span></div>
+  <ul class="facts">
+    <li>科大讯飞发布语音基座大模型 <strong>SparkAudio 1.0</strong>，<strong>全国产算力</strong>训练，采用 SemiEnc、S-S2S、CoDec 三项技术分别强化表征、压低时延、降低算力开销。</li>
+    <li>基于基座孵化 <strong>Spark-ASR-2.0</strong> 等三款专用模型，同传 MOS 由 <strong>4.4</strong> 升至 <strong>4.6</strong>；已落地讯飞输入法，并推出 <strong>35 克</strong> AI 录音环（2 小时录音约 10 秒传至手机）。</li>
+    <li>同日开源 <strong>Spark X2.6-1.7B</strong>（Apache 2.0、<strong>1M</strong> 上下文、三档思考档位、面向端侧 agent），权重与 base checkpoint 已在 Hugging Face 开放。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>语音链路正在复制语言模型的「基座 + 专用模型」分层，端侧 1.7B 把同传与录音硬件的成本门槛压到消费级。差异化在于全栈国产算力训练——这在政企与信创采购中是硬性加分项，但对海外开发者生态的渗透仍然有限。真正的观察点是硬件出货：录音环这类载体一旦规模化，会把语音模型从「API 计费」变成「硬件毛利」。</div>
+  <div class="src">来源：科大讯飞 / 腾讯研究院 AI 速递 / LLM Reference / Hugging Face（2026-10-27）</div>
+</div>
+
+<!-- ============ 下游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>下游 · AI 应用落地 / 商业化 / 需求侧大单 / 监管环境</h2><span class="cnt">4 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">13</div><h3>ServiceNow × 谷歌云：Gemini Enterprise 首次直连行业工作流，MCP + A2A 接入四大场景</h3></div>
+  <div class="tags"><span class="tag t-up">商业化落地</span><span class="tag t-blue">平台级开放</span><span class="tag t-green">智能体</span></div>
+  <ul class="facts">
+    <li>10 月 27 日双方宣布扩大合作，把 ServiceNow <strong>Action Fabric</strong> 的行业流程上下文通过 <strong>MCP</strong> 与 <strong>A2A</strong> 接入 <strong>Gemini Enterprise</strong>，用户可在日常助手内直接执行多步操作。</li>
+    <li>零售门店运维与现场服务派单、CRM、ITSM/ITOM/CMDB 四类集成<strong>已全面可用</strong>；电信网络库存与服务订单管理预计 <strong>2027 年初</strong> GA。</li>
+    <li>连接器将作为插件上架 <strong>Google Cloud Marketplace</strong>，并配套联合演示与参考架构；强调企业级安全、低时延与治理。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>企业智能体的竞争焦点已经从「模型会不会做」转到「能否触达系统 of record」。ServiceNow 掌握的是流程与配置数据，这类上下文正成为比模型更稀缺的资产。MCP + A2A 被两家头部厂商同时采纳，基本确立了企业集成的默认协议栈——受益方是治理层、连接器与审计中间件，而不是又一家模型公司。</div>
+  <div class="src">来源：Google Cloud 新闻室 / ServiceNow 官方（2026-10-27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">14</div><h3>智元精灵 G2 Max：双臂 40kg 且精度 ±0.5mm，已进沪光等真实产线「机器人造机器人」</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-green">具身智能</span><span class="tag t-blue">商业化落地</span></div>
+  <ul class="facts">
+    <li>10 月 26 日智元发布安规级重载具身机器人<strong>精灵 G2 Max</strong>：单臂负载 <strong>20kg</strong>、双臂额定 <strong>40kg</strong>、峰值 <strong>50kg</strong>，重复定位精度 <strong>≤±0.5mm</strong>，为业内首款兼顾长程多任务的重载具身机器人。</li>
+    <li>垂直作业区间 <strong>0.1–2.5m</strong>、水平覆盖 <strong>1.2m</strong>；腰部俯仰支持单面拆码垛，托盘可贴墙摆放，省去背后 <strong>1.5m</strong> 绕行空间，无需改造既有厂房。</li>
+    <li>40kg 双臂负载覆盖市面 <strong>95% 以上</strong>工业料箱与零部件搬运；电商仓作业成功率 <strong>&gt;99%</strong>，每小时拆垛 <strong>80 箱</strong>、码垛 <strong>75 箱</strong>。</li>
+    <li>已进入昆山沪光工厂（启元 T1 零部件搬运）、头部物流与头部食品企业产线联合验证；原生适配 Genie Studio 2.0 平台。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>具身智能的估值锚正在从「Demo 能力」切到「节拍、成功率、部署周期」这三个可审计指标。重载与精细合一打开的是工业搬运这一最大存量市场，而「不改造厂房」是真正的商业化钥匙——它把客户的隐性成本砍掉一大截。接下来需要验证的是单台价格与回本周期，以及「以天为单位」的现场适配能否在非标场景里复现。</div>
+  <div class="src">来源：新华社上海 / 上观新闻 / 南方+ / 第一财经（2026-10-26/27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">15</div><h3>《国家信息化「十五五」规划》印发：智能体普及率 40%→90%，算力设施 PUE 收紧至 1.2 以下</h3></div>
+  <div class="tags"><span class="tag t-up">政策定调</span><span class="tag t-blue">算力基建</span><span class="tag t-amber">监管环境</span><span class="tag t-green">东数西算</span></div>
+  <ul class="facts">
+    <li>中央网信委印发《国家信息化「十五五」规划》，部署 <strong>10 个方面 25 项</strong>重点任务与 <strong>7 个</strong>专栏；到 2030 年新一代通信网全面建成、适时启动 <strong>6G</strong> 商用。</li>
+    <li>12 项主要指标中含：新一代智能终端与智能体应用普及率 <strong>40%→&gt;90%</strong>；新建大型/超大型算力设施 PUE <strong>1.25→&lt;1.2</strong>；数字经济核心产业增加值占 GDP <strong>10.5%→12.5%</strong>。</li>
+    <li>明确「加快构建全国一体化算力网，推动<strong>算力、电力、网络协同</strong>发展」，并首次写入「探索太空算力前瞻研究」；技术侧要求突破先进制程、存算一体、三维集成、光电融合。</li>
+    <li>智能体专栏要求推进<strong>互信互联互操作</strong>、研制智能体身份标识标准、建立技术成熟度评价体系。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>智能体第一次被写进国家级指标考核，等于给了一个 5 年期的需求锚，对 agent 平台、端侧终端与身份/授权基础设施都是制度性利好。PUE 收紧至 1.2 以下则是双刃剑：抬高液冷、余热回收与绿电直供的准入门槛，同时抑制低效智算中心扩张——利好头部 IDC 与液冷供应链，利空中小算力租赁商。「算力+电力+网络协同」的提法也解释了近期运营商与电力侧订单同步放量的政策来源。</div>
+  <div class="src">来源：中央网信办·中国网信网 / 证券时报 / 广州市科技局转载（2026-10-27）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">16</div><h3>蚂蚁灵光 2.0：从「任务执行者」升级为「事务管理者」，主动托管长期事务</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-blue">商业化落地</span><span class="tag t-violet">生态开放</span></div>
+  <ul class="facts">
+    <li>蚂蚁集团发布 <strong>灵光 2.0</strong> 并逐步放量，从执行单次任务升级为主动式个人助理，关闭对话窗口后任务仍在后台持续运行并按信息变化调整方案。</li>
+    <li>覆盖管钱、管娃、管琐事、管出行四类场景：账单梳理与无用续费标记、机票酒店降价监控、班级群通知整理待办、疫苗/年检/纪念日/宠物照料周期提醒。</li>
+    <li>接入蚂蚁 <strong>APASS</strong>，把身份核验、意图安全与隐私管控嵌入 Agent 执行流程，<strong>授权密钥与 Agent 分离托管</strong>，用户可随时查看、调整或撤销授权。</li>
+    <li>支持 <strong>MCP、CLI</strong> 调用，打通钉钉、飞书、邮箱、米家；对标 Meta Muse 的长期记忆 + 跨应用执行路线。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>国内个人 Agent 进入「长期托管」竞赛，但胜负手不在模型能力，而在授权机制与支付闭环——这恰好是蚂蚁的既有资产（账户、风控、商户网络）。「授权密钥与 Agent 分离托管」这个设计值得单独看：它是主动式 Agent 能否被监管接受的必要非充分条件。风险同样明确——主动执行带来误操作责任归属问题，一旦出现资金类事故，整个品类的合规口径都会收紧。</div>
+  <div class="src">来源：蚂蚁集团 / 雷峰网 / AITOP100 / 腾讯研究院 AI 速递（2026-10-27）</div>
+</div>
+
+<!-- ============ 延伸线索 ============ -->
+<div class="section-head"><div class="bar"></div><h2>延伸线索（不计入主榜，供次日跟踪）</h2></div>
+<div class="extra">
+  <ul>
+    <li><b>台积电 CoWoS 再传涨 10%–20%：</b>《工商时报》称 2026 年月产能将破 <b>13 万片</b>、2027 年上看 <b>20 万片</b>以上，需求已从 GPU 外溢至服务器 CPU 与定制 ASIC；台积电未证实，价格传闻已在上期列示，本期仅追踪产能口径。</li>
+    <li><b>General Compute 完成 1 亿美元 A 轮：</b>投后估值 <b>8 亿美元</b>（5 月种子轮仅 6000 万美元）；已签 <b>4 亿美元</b> SambaNova 芯片采购，并接入 Positron 与 Cerebras，2027 年计划部署 <b>75MW</b>，是 neocloud 逆势融资的样本。</li>
+    <li><b>光模块排产继续走强：</b>新易盛称在手订单充足、Q4 产量与出货环比大幅增长，1.6T 放量加快，另推 <b>8–10 亿元</b>回购；中际旭创将于 <b>10 月 30 日</b>披露三季报。</li>
+    <li><b>算力拉动的宏观数据：</b>国家统计局称 1—9 月算力与数据中心建设带动光纤制造利润 <b>+5.7 倍</b>、光缆制造 <b>+1.1 倍</b>；工信部称截至 9 月底智能算力达 <b>2592 EFLOPS</b>、同比 <b>+146%</b>。</li>
+    <li><b>英特尔 × 甲骨文：</b>多年期合作把 OCI 扩至下一代 <b>Diamond Rapids</b>（X14），强化 AMX 的 FP8/FP16/BF16 推理与 APX 指令集，服务器 CPU 在 agent 时代的价值被重新主张。</li>
+    <li><b>韩国开发者对中国底座的依赖：</b>韩国智库称 2026 年 1—8 月韩国开发者在 Hugging Face 发布 <b>1845 个</b>模型，其中 <b>49.3%</b> 基于中国底座，阿里 Qwen 占 <b>46.8%</b>，高于美国的 35.9%。</li>
+    <li><b>泰国收紧数据中心审批：</b>按用电规模分 <b>7 类</b>管理，现有运营商一年内达标，2027 年初重开新项目申请；目前全国 42 座数据中心、IT 负载 <b>3400MW</b>，约 <b>7500 亿泰铢</b>投资。</li>
+    <li><b>OpenAI 称证伪「指数时间假设」：</b>已发布 Lean 形式化，ETH 原始提出者团队正在复核，尚未同行评审；同期还公布 Kakeya 猜想与量子色动力学方向结果，属待验证的高影响声明。</li>
+  </ul>
+</div>
+
+<footer>
+  <h4>信源清单与校验说明</h4>
+  <ol>
+    <li><b>上游</b>：CNBC、Oracle 官方新闻稿、SambaNova 新闻稿、英伟达公告、证券时报、财联社、首尔经济日报、ZDNet Korea、RBC Capital、野村、中国移动采购与招标网、通信产业报、C114、新浪财经、科技日报、科普中国、通信世界、长江网、上海证券报·中国证券网、韩国原子能安全委员会、ETNews、BusinessKorea、IAEA。</li>
+    <li><b>中游</b>：Google DeepMind 官方博客、Google 官方博客、Liquid AI、Hugging Face Blog、Unite.AI、AI Times Korea、OpenRouter、经济日报、每日经济新闻、科大讯飞、LLM Reference。</li>
+    <li><b>下游</b>：Google Cloud 新闻室、ServiceNow 官方新闻稿、新华社上海、上观新闻、南方+、第一财经、中央网信办·中国网信网、证券时报、蚂蚁集团、雷峰网、AITOP100。</li>
+    <li>已剔除范围：自媒体爆料、无署名聚合日报、纯营销软文、无原始信源的二次转载；对仅有单一供应链消息源的条目（如台积电 CoWoS 涨价）只作延伸线索列示，不计入主榜。微软 6 万人自愿离职、Anthropic 递交 S-1、SpaceX 400 亿美元 GPU 融资、Meta 950 亿美元融资框架均已在 10-27 期覆盖，本期不重复计入，仅就英伟达 30 亿美元认购与融资规模上调作增量追踪。</li>
+  </ol>
+  <div class="disc">
+    <b>免责与不确定性提示：</b>本报告为公开信息汇编，仅供研究参考，不构成任何投资建议。<br>
+    ① SK 海力士 50 万亿–60 万亿韩元追加股东回报仍为《首尔经济日报》报道口径，公司对特别股息猜测回应「尚未确认」，最终规模与回购/分红比例须以 <b>10 月 28 日董事会决议</b>为准；「全年 90 万亿–100 万亿韩元」为媒体加总，非公司指引。<br>
+    ② HBM4 八层 <b>2027 年二季度</b>量产为供应链人士与韩媒（ZDNet Korea）口径，英伟达未确认 Rubin Ultra 最终堆叠方案；该节点与整机交付强绑定，任一方延期都会改写明年算力供给曲线。<br>
+    ③ 甲骨文「数吉瓦级」未披露合同金额与部署时间表；谷歌 TPU 在 OCI 需 <b>2027 年</b>才可用，属计划而非已交付容量；OpenAI「Jalapeño」芯片亦未公布规格。<br>
+    ④ 台积电 CoWoS 涨价 10%–20% 源自《工商时报》供应链消息，台积电未证实；本报告仅将其产能数字列入延伸线索。<br>
+    ⑤ 智元 G2 Max、Liquid LFM3、Nanbeige4.3-33B、SparkAudio 1.0 的性能与效率数字均为厂商或模型卡口径，缺第三方复现；DeepSeek 调用量来自 OpenRouter 单一边界平台，不代表全市场用量。<br>
+    ⑥ 宁夏移动 13.4 亿元为框架含税总额，实际结算以具体订单为准；采购标的为国产算力服务器，芯片型号与供应商未披露。
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
