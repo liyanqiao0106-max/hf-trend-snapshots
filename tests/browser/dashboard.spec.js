@@ -1,9 +1,9 @@
 const {test,expect}=require('@playwright/test');
 const manifest={schema_version:2,snapshot_date:'2026-10-05',history_days:90,modules:{token:{status:'ok',rows:3},models:{status:'ok',rows:4},gpu:{status:'ok',rows:3},storage:{status:'ok',rows:4},'hugging-face':{status:'ok',rows:3},'github-trending':{status:'ok',rows:15},github:{status:'ok',rows:2},'ai-financials':{status:'ok',rows:1},'ai-frontier':{status:'partial',rows:2}},terms:{HBM:'高带宽内存'}};
 const token={schema_version:2,dataset:'token_usage_weekly',status:'ok',rows:[
-  {id:'2026-09-14',week_start:'2026-09-14',label:'2026-09-14—2026-09-20',status:'complete',observed_days:7,total_tokens:'1000',top_models:[{id:'alpha',tokens:'600',share:.6},{id:'beta',tokens:'300',share:.3}],others_tokens:'100'},
-  {id:'2026-09-21',week_start:'2026-09-21',label:'2026-09-21—2026-09-27',status:'complete',observed_days:7,total_tokens:'800',top_models:[{id:'alpha',tokens:'300',share:.375},{id:'gamma',tokens:'400',share:.5}],others_tokens:'100'},
-  {id:'2026-09-28',week_start:'2026-09-28',label:'2026-09-28—2026-10-04',status:'preview',observed_days:2,total_tokens:'180',top_models:[{id:'gamma',tokens:'100',share:.5556},{id:'beta',tokens:'40',share:.2222}],others_tokens:'40'}
+  {id:'2026-09-14',week_start:'2026-09-14',label:'2026-09-14—2026-09-20',status:'complete',observed_days:7,total_tokens:'1000',top_models:[{id:'openai/alpha',tokens:'600',share:.6},{id:'anthropic/beta',tokens:'300',share:.3}],others_tokens:'100'},
+  {id:'2026-09-21',week_start:'2026-09-21',label:'2026-09-21—2026-09-27',status:'complete',observed_days:7,total_tokens:'800',top_models:[{id:'openai/alpha',tokens:'300',share:.375},{id:'google/gamma',tokens:'400',share:.5}],others_tokens:'100'},
+  {id:'2026-09-28',week_start:'2026-09-28',label:'2026-09-28—2026-10-04',status:'preview',observed_days:2,total_tokens:'180',top_models:[{id:'google/gamma',tokens:'100',share:.5556},{id:'anthropic/beta',tokens:'40',share:.2222}],others_tokens:'40'}
 ]};
 const models={schema_version:2,dataset:'model_api_prices',status:'ok',rows:[
   {id:'openai/mini',name:'OpenAI Mini',vendor:'OpenAI',input_usd_per_million:.2,output_usd_per_million:.8,context_length:128000,input_modalities:['text'],url:'https://example.com/openai-mini'},
@@ -92,12 +92,24 @@ test('Token explains total changes with stacks and discontinuous model trends',a
   await expect(page.locator('.token-stack-svg')).toBeVisible();
   await expect(page.locator('[data-token-week]')).not.toHaveCount(0);
   await expect(page.locator('.token-stack-svg')).toHaveCSS('max-height','none');
-  await page.locator('[data-trend-tip][data-tip-name="alpha"]').first().hover();
-  await expect(page.locator('.chart-tooltip')).toContainText('alpha');
+  await page.locator('[data-trend-tip][data-tip-name="openai/alpha"]').first().hover();
+  await expect(page.locator('.chart-tooltip')).toContainText('openai/alpha');
   await expect(page.locator('.chart-tooltip')).toContainText('600');
   await expect(page.locator('.chart-tooltip')).not.toContainText('2026-09');
   await expect(page.getByText('入榜模型连续趋势')).toBeVisible();
   await expect(page.locator('.trend-line')).not.toHaveCount(0);
+  const pickerPanel=page.locator('#trend-picker-token');
+  await expect(pickerPanel).toBeHidden();
+  await page.locator('[data-trend-vendor="token"]').selectOption('OpenAI');
+  await expect(pickerPanel).toBeHidden();
+  await page.getByRole('button',{name:/展开/}).click();
+  await expect(pickerPanel).toBeVisible();
+  await expect(pickerPanel.locator('fieldset:not([hidden])')).toHaveCount(1);
+  await expect(page.locator('.trend-legend span')).toHaveCount(2);
+  for(const id of ['openai/alpha','google/gamma']){
+    await expect(page.locator(`[data-trend-series="${id}"]`)).toHaveCount(1);
+    await expect(page.locator(`[data-trend-series-point="${id}"]`)).not.toHaveCount(0);
+  }
   await page.getByRole('button',{name:'100% 堆积'}).click();
   await expect(page.getByText('模型份额构成')).toBeVisible();
   await expect(page.locator('.token-stack-svg')).toHaveAttribute('aria-label','Token 份额堆积柱状图');
@@ -255,7 +267,12 @@ test('price pages default to benchmarks and retain filtered detail views',async(
   const searchBox=await page.getByRole('searchbox').boundingBox();
   const filterBox=await page.locator('#filter').boundingBox();
   expect(searchBox.height).toBe(filterBox.height);
-  await expect(page.locator('#chart circle').first()).toHaveAttribute('r','3.2');
+  await expect(page.locator('#chart circle').first()).toHaveAttribute('r','3.5');
+  const scatterBounds=await page.locator('.scatter-svg circle').evaluateAll(points=>({x:points.map(point=>Number(point.getAttribute('cx'))),y:points.map(point=>Number(point.getAttribute('cy')))}));
+  expect(Math.min(...scatterBounds.x)).toBeLessThanOrEqual(43);
+  expect(Math.max(...scatterBounds.x)).toBeGreaterThanOrEqual(687);
+  expect(Math.min(...scatterBounds.y)).toBeLessThanOrEqual(13);
+  expect(Math.max(...scatterBounds.y)).toBeGreaterThanOrEqual(261);
   await page.locator('#chart circle').first().hover();
   await expect(page.locator('#model-point-label')).toContainText('输入 $');
   await page.locator('#filter').selectOption('OpenAI');

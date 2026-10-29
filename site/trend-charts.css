@@ -12,10 +12,20 @@
 .token-segment:hover,.token-segment:focus-visible{filter:brightness(1.14)}
 .token-segment.preview{opacity:.58}
 .trend-picker{margin:0 0 14px}
-.trend-picker summary{color:var(--accent);font-weight:600}
-.trend-picker>div{display:flex;flex-wrap:wrap;gap:7px 14px;max-height:132px;overflow:auto;margin-top:9px;padding:4px 2px}
-.trend-picker label{display:flex;align-items:center;gap:5px;font-size:11px;max-width:310px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trend-picker-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.trend-picker-label{color:var(--accent);font-weight:650}
+.trend-picker-toggle{padding:3px 9px;color:var(--accent);font-size:10px;font-weight:650}
+.trend-vendor-filter{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:11px}
+.trend-vendor-filter select{height:32px;padding:4px 28px 4px 8px}
+.trend-picker-panel{display:flex;flex-wrap:wrap;gap:10px 18px;max-height:190px;overflow:auto;margin-top:9px;padding:9px;border:1px solid var(--line);border-radius:9px;background:var(--bg)}
+.trend-picker-panel fieldset{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:7px 14px;width:100%;min-width:0;margin:0;padding:8px 10px 10px;border:1px solid var(--line);border-radius:8px}
+.trend-picker-panel legend{padding:0 5px;color:var(--accent);font-size:11px;font-weight:650}
+.trend-picker label{display:flex;align-items:center;gap:5px;font-size:11px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .trend-picker input{width:auto;height:auto}
+.trend-legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin:2px 0 6px}
+.trend-legend span{display:flex;align-items:center;gap:5px;min-width:0;max-width:280px;color:var(--text);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trend-legend i{flex:0 0 18px;width:18px;height:3px;border-radius:4px}
+.trend-legend small{color:var(--muted);font-size:9px}
 .chart-title{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
 .chart-tooltip{position:fixed;z-index:1000;pointer-events:none;min-width:166px;max-width:min(300px,calc(100vw - 24px));padding:10px 13px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);box-shadow:0 12px 32px #0e293729;opacity:0;transform:translateY(5px);transition:opacity .1s ease,transform .1s ease}
 .chart-tooltip.is-visible{opacity:1;transform:translateY(0)}
@@ -33,4 +43,4 @@
 .chart-area .gpu-trend-card svg{display:block;width:100%;min-width:0;height:94px;max-height:none;margin:11px 0 4px;overflow:visible}
 .gpu-trend-dates{display:flex;justify-content:space-between}
 .gpu-trend-meta{margin-top:10px;border-top:1px solid var(--line);padding-top:9px;font-variant-numeric:tabular-nums}
-@media(max-width:700px){.trend-section{padding:13px}.trend-picker>div{max-height:170px}.trend-picker label{max-width:100%}.trend-svg text,.token-stack-svg text{font-size:9px}.gpu-trend-grid{grid-template-columns:1fr}.gpu-trend-card{padding:14px}}
+@media(max-width:700px){.trend-section{padding:13px}.trend-picker-panel{max-height:230px}.trend-picker-panel fieldset{grid-template-columns:1fr}.trend-picker label{max-width:100%}.trend-svg text,.token-stack-svg text{font-size:9px}.gpu-trend-grid{grid-template-columns:1fr}.gpu-trend-card{padding:14px}}
