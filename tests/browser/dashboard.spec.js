@@ -212,6 +212,9 @@ test('Hugging Face task filter uses task_type and returns matching models',async
   await expect(page.locator('#content')).not.toContainText('本期增加了下载量');
   await expect(page.locator('#content tbody tr').nth(1).locator('td').nth(5)).toHaveText('暂无可核实简介');
   for(const column of [3,4])expect(await page.locator('.hf-table tbody tr').first().locator('td').nth(column).evaluate(el=>getComputedStyle(el).whiteSpace)).toBe('nowrap');
+  await expect(page.locator('.hf-model-scroll').first()).toHaveAttribute('tabindex','0');
+  expect(await page.locator('.hf-table tbody tr').first().locator('td').nth(1).evaluate(el=>getComputedStyle(el).width)).toBe('500px');
+  expect(await page.locator('.hf-model-scroll').first().evaluate(el=>getComputedStyle(el).overflowX)).toBe('auto');
   await page.locator('#filter').selectOption('Audio / Speech');
   await expect(page.locator('#content tbody tr')).toHaveCount(1);
   await expect(page.getByRole('link',{name:/audio-model/})).toBeVisible();
