@@ -2,6 +2,31 @@
 
 每个角色完成、暂停或遇到阻塞时，在本文件顶部追加一条记录。不得记录 API Key、Token 或其他密钥。
 
+## 2026-10-29 — 04 → 01 — Hugging Face 与 GitHub 列表优化验收
+
+- `site/app.js`、`site/styles.css` 已将 Hugging Face 数字列和 GitHub 两视图的 Stars 数字列设为单行，缩小列内间距，手机横向滚动；仅说明列换行。Hugging Face 显示官方模型卡用途段落或“暂无可核实简介”，GitHub AI 项目显示官方仓库简介、README 摘录或缺失标记，不再把下载变化放在说明里。
+- `dashboard/hf_cards.py` 接入周采集，为模型卡简介记录来源 URL、检查日与提取状态，成功结果 28 天内复用；本地旧榜单 500 行已补齐 473 行，27 行保留缺失标记。原有下载历史事实未改，`site/data/` 未纳入 Git。
+- 与 GitHub 趋势榜合并后，Python 全套 44/44、Playwright 桌面/手机全套 26/26、静态契约、JS 语法与差异检查均通过。工作区仍有 X 快照、`.gitignore` 及本地管理文档等无关改动，选择性提交时继续排除。
+
+## 2026-10-29 — 02 → 01 — GitHub 全站趋势榜本地交接
+
+- 已按用户确认的口径新增 `dashboard/github_trending.py`，复用并扩展 GitHub Trending 解析器；`dashboard.run_daily --scope daily` 每天采集 daily、weekly、monthly 三个原榜，写入独立 `site/data/github-trending/latest.json`，复用现有归档、来源状态和 Pages 上传链路。AI 项目原采集节奏与筛选不变。
+- 前端侧栏只保留“GitHub”，页内“数据与图表”工具栏在搜索框左侧增加“趋势榜 / AI 项目”切换，趋势榜在左并默认显示。趋势榜周期下拉显示排名、名称、总 Stars、该周期新增 Stars、原文简介；采集时间只在页面顶部出现一次。AI 项目原结构保留。红字仅标记各完整榜单正增量前 20%：趋势榜新增 Stars、AI 项目净变化、Hugging Face 加速度；Hugging Face 本期下载不标红。
+- 验证：Python 全套 44/44、Playwright 桌面/移动端全套 26/26、静态契约、JS 语法、Git 差异检查通过。GitHub 网页可通过公开浏览工具确认三个窗口及对应期间 Stars 标签；本机代理端口 17891 未监听、直连 GitHub 超时，因此真实采集交由 GitHub Actions，发布后须核验 `github-trending` 状态、三档数据与公开页面。
+- 选择性提交只应包含本轮趋势榜、Hugging Face 列表增强、关联测试和本记录；继续排除 `.gitignore`、X 快照、AGENTS、BACKLOG、DECISIONS、ROLE_PROMPTS 等本地或无关改动。
+
+## 2026-10-28 — 01 — 低额度 X 动态采集完成
+
+- OpenCLI daemon 与 Browser Bridge 恢复连接后，按 `collect-x --days 7 --per-account 1` 完成 50 个账号查询；本轮 `partial`，40 个查询成功、10 个查询失败，25 条帖子、25 个账号有返回，15 个账号明确近七天无动态。
+- 失败账号：`zheanxu`、`Guodaya`、`Thom_Wolf`、`ggerganov`、`hwchase17`、`simonw`、`SemiAnalysis_`、`dylan522p`、`ArtificialAnlys`、`EpochAIResearch`。失败不被标记为无动态。
+- 结果写入本机 `site/data/x-watch/latest.json`；未推送、未部署，公开 Pages 仍保持上次已发布快照。每账号最多 1 条，未做 30 天回溯。
+
+## 2026-10-28 — 01 — 轻量 X 动态采集阻塞
+
+- 用户要求以最低额度抓取近 7 天 X 动态；已启动 `collect-x --days 7 --per-account 1`，但前 10 个账号均返回 Browser Bridge 连接错误，未获得有效帖子，随后主动中断以避免继续消耗额度。
+- `opencli doctor -v` 确认 daemon 未运行、Browser Bridge 扩展未连接；`opencli daemon restart` 超时。请用户在主 Chrome 保持 X 登录并确认 Browser Bridge 已连接后再重试。
+- 失败尝试产生的 `status=running` 空快照已从自动备份恢复；当前本机有效快照仍为 135 条帖子，未推送或部署本次失败结果。
+
 ## 2026-10-26 — 04 → 01 — 趋势图视觉与公开页修正
 
 - 公开旧版截图与页面缓存吻合：前次 Pages 部署已成功，但此前入口未给 JS/CSS 独立版本号。本轮给资源加版本号，并修复旧全局 SVG 尺寸规则导致的 Token 图两侧留白及 GPU 小图溢出。

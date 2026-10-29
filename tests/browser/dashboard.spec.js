@@ -1,5 +1,5 @@
 const {test,expect}=require('@playwright/test');
-const manifest={schema_version:2,snapshot_date:'2026-10-05',history_days:90,modules:{token:{status:'ok',rows:3},models:{status:'ok',rows:4},gpu:{status:'ok',rows:3},storage:{status:'ok',rows:4},'hugging-face':{status:'ok',rows:3},github:{status:'ok',rows:2},'ai-financials':{status:'ok',rows:1},'ai-frontier':{status:'partial',rows:2}},terms:{HBM:'高带宽内存'}};
+const manifest={schema_version:2,snapshot_date:'2026-10-05',history_days:90,modules:{token:{status:'ok',rows:3},models:{status:'ok',rows:4},gpu:{status:'ok',rows:3},storage:{status:'ok',rows:4},'hugging-face':{status:'ok',rows:3},'github-trending':{status:'ok',rows:15},github:{status:'ok',rows:2},'ai-financials':{status:'ok',rows:1},'ai-frontier':{status:'partial',rows:2}},terms:{HBM:'高带宽内存'}};
 const token={schema_version:2,dataset:'token_usage_weekly',status:'ok',rows:[
   {id:'2026-09-14',week_start:'2026-09-14',label:'2026-09-14—2026-09-20',status:'complete',observed_days:7,total_tokens:'1000',top_models:[{id:'alpha',tokens:'600',share:.6},{id:'beta',tokens:'300',share:.3}],others_tokens:'100'},
   {id:'2026-09-21',week_start:'2026-09-21',label:'2026-09-21—2026-09-27',status:'complete',observed_days:7,total_tokens:'800',top_models:[{id:'alpha',tokens:'300',share:.375},{id:'gamma',tokens:'400',share:.5}],others_tokens:'100'},
@@ -23,14 +23,15 @@ const storage={schema_version:2,dataset:'storage_hardware_prices',status:'ok',sn
   {id:'ssd',category:'SSD',item:'2TB NVMe',price:180,currency:'USD',unit:'per drive',usd_per_tb:90,quote_type:'street_average',url:'https://example.com/ssd',history:[{date:'2026-10-05',price:180}]}
 ]};
 const huggingFace={schema_version:2,dataset:'hugging_face_trends',status:'ok',snapshot_date:'2026-10-05',rows:[
-  {rank:1,id:'org/text-model',task_type:'LLM / Text Generation',status:'exact',downloads_this_period:1000,download_acceleration:100,use_case_zh:'文本生成',model_url:'https://huggingface.co/org/text-model'},
+  {rank:1,id:'org/text-model',task_type:'LLM / Text Generation',status:'exact',downloads_this_period:12345678,download_acceleration:1234567,use_case_zh:'文本生成',download_note:'本期增加了下载量',model_description:'A text model for multilingual question answering.',model_description_status:'verified',model_url:'https://huggingface.co/org/text-model'},
   {rank:2,id:'org/audio-model',task_type:'Audio / Speech',status:'exact',downloads_this_period:800,download_acceleration:80,use_case_zh:'语音识别',model_url:'https://huggingface.co/org/audio-model'},
   {rank:3,id:'org/image-model',task_type:'Image Generation',status:'watch',downloads_this_period:500,download_acceleration:null,use_case_zh:'图像生成',model_url:'https://huggingface.co/org/image-model'}
 ]};
 const github={schema_version:2,dataset:'github_ai_projects',status:'ok',rows:[
-  {full_name:'org/agent',domain:'Agent',category:'legacy-category',source_type:'trending',stars:100,stars_net_change:10,use_case_zh:'智能体',url:'https://github.com/org/agent'},
+  {full_name:'org/agent',domain:'Agent',category:'legacy-category',source_type:'trending',stars:12345678,stars_net_change:1234567,use_case_zh:'主要用于Agent；简介：协调多个 AI 代理的工具包。',use_case_translation_status:'machine',description_raw:'Official repository for a toolkit that coordinates AI agents.',url:'https://github.com/org/agent'},
   {full_name:'org/vision',domain:'Vision',category:'legacy-category',source_type:'topic',stars:50,stars_net_change:5,use_case_zh:'视觉',url:'https://github.com/org/vision'}
 ]};
+const trending={schema_version:2,dataset:'github_trending_all',status:'ok',captured_at_utc:'2026-10-05T07:48:00Z',methodology:'GitHub 原榜单',rows:['daily','weekly','monthly'].flatMap(period=>[100,80,60,40,20].map((new_stars,index)=>({period,rank:index+1,full_name:`owner/${period}-${index+1}`,url:`https://github.com/owner/${period}-${index+1}`,stars:1000+index,new_stars,description_raw:index===4?'':`Original ${period} description ${index+1}`})))};
 const xWatch={schema_version:2,dataset:'x_industry_watch',status:'ok',snapshot_date:'2026-10-10',days:7,accounts_count:50,priority_accounts_count:15,returned_accounts_count:2,checked_accounts:['thsottiaux','OpenAI'],failed_accounts:[],finished_at:'2026-10-10T12:30:00+08:00',methodology:'浏览器只读抽样。',rows:[
   {url:'https://x.com/thsottiaux/status/123',handle:'thsottiaux',account_name:'Tibo',category:'研究员、工程师与开发者',focus:'OpenAI；Codex、ChatGPT 产品迭代',priority:true,text:'Codex workflow update',published_at:'2026-10-10T10:00:00+08:00',likes:12,views:340,oembed_status:'ok'},
   {url:'javascript:alert(1)',handle:'OpenAI',account_name:'OpenAI',category:'模型厂商与官方账号',focus:'GPT、ChatGPT、前沿研究',priority:true,text:'<img src=x onerror=alert(1)>',published_at:'2026-10-10T09:00:00+08:00',likes:null,views:null,oembed_status:'unavailable'}
@@ -51,6 +52,7 @@ test.beforeEach(async({page})=>{
   await page.route('**/data/storage/latest.json*',route=>route.fulfill({json:storage}));
   await page.route('**/data/hugging-face/latest.json*',route=>route.fulfill({json:huggingFace}));
   await page.route('**/data/github/latest.json*',route=>route.fulfill({json:github}));
+  await page.route('**/data/github-trending/latest.json*',route=>route.fulfill({json:trending}));
   await page.route('**/x-watch/latest.json*',route=>route.fulfill({json:xWatch}));
   await page.route('**/data/ai-financials/latest.json*',route=>route.fulfill({json:aiFinancials}));
   await page.route('**/data/ai-frontier/latest.json*',route=>route.fulfill({json:aiFrontier}));
@@ -60,6 +62,8 @@ test('ten entries and overview load without eager module requests',async({page})
   const requests=[];page.on('request',request=>requests.push(request.url()));
   await page.goto('/');
   await expect(page.locator('[data-module]')).toHaveCount(10);
+  await expect(page.locator('[data-module="github"]')).toContainText('GitHub');
+  await expect(page.getByRole('button',{name:/趋势榜/})).toHaveCount(0);
   await expect(page.getByRole('heading',{name:'AI 行业总览'})).toBeVisible();
   expect(requests.some(url=>url.includes('/data/storage/latest.json'))).toBeFalsy();
 });
@@ -192,6 +196,10 @@ test('storage shows prices and category trends without news cards',async({page})
 test('Hugging Face task filter uses task_type and returns matching models',async({page})=>{
   await page.goto('/#hugging-face');
   await expect(page.locator('#content tbody tr')).toHaveCount(3);
+  await expect(page.locator('#content tbody tr').first().locator('td').nth(5)).toHaveText('A text model for multilingual question answering.');
+  await expect(page.locator('#content')).not.toContainText('本期增加了下载量');
+  await expect(page.locator('#content tbody tr').nth(1).locator('td').nth(5)).toHaveText('暂无可核实简介');
+  for(const column of [3,4])expect(await page.locator('.hf-table tbody tr').first().locator('td').nth(column).evaluate(el=>getComputedStyle(el).whiteSpace)).toBe('nowrap');
   await page.locator('#filter').selectOption('Audio / Speech');
   await expect(page.locator('#content tbody tr')).toHaveCount(1);
   await expect(page.getByRole('link',{name:/audio-model/})).toBeVisible();
@@ -200,9 +208,45 @@ test('Hugging Face task filter uses task_type and returns matching models',async
 
 test('GitHub filters use the domain field displayed by their dropdown',async({page})=>{
   await page.goto('/#github');
+  await page.getByRole('button',{name:'AI 项目',exact:true}).click();
+  await expect(page.locator('.project-table tbody tr').first().locator('td').last()).toHaveText('协调多个 AI 代理的工具包。');
+  expect(await page.locator('.project-table tbody tr').first().locator('td').nth(3).evaluate(el=>getComputedStyle(el).whiteSpace)).toBe('nowrap');
+  expect(await page.locator('.project-table tbody tr').first().locator('td').nth(4).evaluate(el=>getComputedStyle(el).whiteSpace)).toBe('nowrap');
   await page.locator('#filter').selectOption('Vision');
   await expect(page.getByRole('link',{name:/org\/vision/})).toBeVisible();
   await expect(page.getByRole('link',{name:/org\/agent/})).toHaveCount(0);
+});
+
+test('Trending period selector keeps GitHub order, original text and one capture time',async({page})=>{
+  await page.goto('/#github');
+  await expect(page.getByRole('heading',{name:'GitHub'})).toBeVisible();
+  const filterChildren=page.locator('#filters').locator(':scope > *');
+  await expect(filterChildren.first()).toHaveClass(/github-view-nav/);
+  await expect(filterChildren.nth(1).getByRole('searchbox')).toBeVisible();
+  await expect(page.locator('#date')).toContainText('采集于');
+  await expect(page.locator('#content tbody tr')).toHaveCount(5);
+  await expect(page.getByRole('link',{name:/owner\/daily-1/})).toBeVisible();
+  await expect(page.locator('#content tbody tr').first().locator('.growth-hot')).toHaveText('+100');
+  await expect(page.locator('#content .growth-hot')).toHaveCount(1);
+  await expect(page.locator('#content')).toContainText('原站未提供项目简介');
+  await page.locator('#trending-period').selectOption('weekly');
+  await expect(page.getByRole('columnheader',{name:'本周新增 Stars'})).toBeVisible();
+  await expect(page.getByRole('link',{name:/owner\/weekly-1/})).toBeVisible();
+  await expect(page.getByRole('link',{name:/owner\/daily-1/})).toHaveCount(0);
+  await page.locator('#trending-period').selectOption('monthly');
+  await expect(page.getByRole('columnheader',{name:'本月新增 Stars'})).toBeVisible();
+  await expect(page.getByRole('link',{name:/owner\/monthly-1/})).toBeVisible();
+});
+
+test('AI stars and Hugging Face acceleration mark only top positive quintile',async({page})=>{
+  await page.goto('/#github');
+  await page.getByRole('button',{name:'AI 项目',exact:true}).click();
+  await expect(page.locator('#content .growth-hot')).toHaveCount(1);
+  await expect(page.locator('#content .growth-hot')).toHaveText('+'+Math.max(...github.rows.map(row=>row.stars_net_change||0)).toLocaleString('zh-CN'));
+  await page.goto('/#hugging-face');
+  await expect(page.locator('#content .growth-hot')).toHaveCount(1);
+  await expect(page.locator('#content .growth-hot')).toHaveText('+'+Math.max(...huggingFace.rows.map(row=>row.download_acceleration||0)).toLocaleString('zh-CN'));
+  await expect(page.locator('#content tbody td:nth-child(4) .growth-hot')).toHaveCount(0);
 });
 
 test('price pages default to benchmarks and retain filtered detail views',async({page})=>{

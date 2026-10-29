@@ -62,6 +62,10 @@ def match(pattern: str, text: str) -> str:
 
 
 def parse_trending(page: str, source_url: str, captured_at: str) -> list[dict[str, Any]]:
+    period = urllib.parse.parse_qs(urllib.parse.urlparse(source_url).query).get("since", ["daily"])[0]
+    labels = {"daily": "today", "weekly": "this week", "monthly": "this month"}
+    if period not in labels:
+        raise ValueError(f"Unsupported GitHub Trending period: {period}")
     blocks = re.findall(r'<article\b[^>]*class="[^\"]*\bBox-row\b[^\"]*"[^>]*>(.*?)</article>', page, flags=re.I | re.S)
     rows: list[dict[str, Any]] = []
     for rank, block in enumerate(blocks, 1):
@@ -71,13 +75,14 @@ def parse_trending(page: str, source_url: str, captured_at: str) -> list[dict[st
             continue
         owner, repo = href.split("/", 1)
         path = f"/{owner}/{repo}"
-        plain = clean(block)
+        period_stars = integer(match(rf"(\d[\d,]*)\s+stars?\s+{re.escape(labels[period])}", html.unescape(block)))
         rows.append({
             "rank": rank,
             "full_name": f"{owner}/{repo}",
             "url": f"https://github.com/{owner}/{repo}",
             "source_url": source_url,
-            "stars_this_week": integer(match(r"(\d[\d,]*)\s+stars?\s+this\s+week", plain)),
+            "stars_this_week": period_stars if period == "weekly" else None,
+            "stars_in_period": period_stars,
             "page_stars": integer(clean(match(rf'<a\b[^>]*href="{re.escape(path)}/stargazers"[^>]*>(.*?)</a>', block))),
             "page_description": clean(match(r"(<p\b.*?</p>)", block)),
             "language": clean(match(r'<span\b[^>]*itemprop="programmingLanguage"[^>]*>(.*?)</span>', block)),

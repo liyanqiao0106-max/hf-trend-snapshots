@@ -11,6 +11,7 @@ from typing import Any, Callable
 from .common import ROOT, SCHEMA_VERSION, archive, percentile, utc_now, write_json
 from .ai_financials import collect_ai_financials
 from .ai_frontier import collect_ai_frontier
+from .github_trending import collect_github_trending
 from .prices import collect_gpu, collect_models
 from .storage import bundle, restore, select_spaced
 from .storage_market import collect_storage
@@ -50,8 +51,9 @@ def add_gpu_history(payload: dict[str, Any], previous: dict[str, Any] | None, da
     payload["price_history"] = history
 
 
-def collect_hugging_face(day: str, history: Path, dist: Path, raw_paths: list[Path], reuse_hf: Path | None) -> dict[str, Any]:
+def collect_hugging_face(day: str, history: Path, dist: Path, raw_paths: list[Path], reuse_hf: Path | None, previous: dict[str, Any] | None = None) -> dict[str, Any]:
     from collector import collect
+    from .hf_cards import enrich_rows
     from weekly_dashboard import build_payload, load_snapshot, local_snapshot_refs, validate_payload
 
     if reuse_hf:
@@ -72,6 +74,7 @@ def collect_hugging_face(day: str, history: Path, dist: Path, raw_paths: list[Pa
         raise ValueError("周下载加速度需要当前、约7日前、约14日前三期有效快照")
     payload = build_payload([load_snapshot(refs[value]) for value in selected])
     validate_payload(payload)
+    enrich_rows(payload["rows"], previous, day)
     payload.update(schema_version=SCHEMA_VERSION, snapshot_date=day, as_of=day, status="ok",
         methodology="累计下载量快照差分；完整历史模型最多450个，历史不足的观察模型最多50个。非七日间隔按实际天数折算。")
     payload.setdefault("sources", [{"name": "Hugging Face Hub official API", "url": "https://huggingface.co/api/models", "status": "ok", "tier": 1}])
@@ -168,6 +171,7 @@ def main() -> None:
             statuses.append({"module": "translation", "status": "error", "error": str(exc), "rows": 0})
 
     if args.scope in ("daily", "all"):
+        run("github-trending", lambda previous: collect_github_trending(day))
         def models(previous: dict[str, Any] | None) -> dict[str, Any]:
             payload = collect_models(day)
             add_model_history(payload, previous, day)
@@ -191,7 +195,7 @@ def main() -> None:
             except Exception:
                 key = None
         run("token", lambda previous: collect_usage(day, key) if key else (_ for _ in ()).throw(ValueError("OPENROUTER_API_KEY 未配置")))
-        run("hugging-face", lambda previous: collect_hugging_face(day, history, dist, raw_paths, args.reuse_hf))
+        run("hugging-face", lambda previous: collect_hugging_face(day, history, dist, raw_paths, args.reuse_hf, previous))
         run("github", lambda previous: collect_github(day, history, raw_paths, previous, translator))
 
     if translator is not None:

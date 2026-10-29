@@ -1,6 +1,18 @@
 # 项目状态
 
-最后更新：2026-10-26（Asia/Shanghai）
+最后更新：2026-10-29（Asia/Shanghai）
+
+## 2026-10-29 — 04 Hugging Face 与 GitHub 列表可读性
+
+- Hugging Face 的本期下载、加速度以及 GitHub 的 Stars 数字列改为单行显示，缩小单元格间距；窄屏横向滚动，说明列继续换行。GitHub 的“趋势榜”和“AI 项目”两视图共用该布局。
+- Hugging Face “说明”改取官方模型卡的短用途段落，不再显示下载差分；本地现有 500 行中 473 行有可核实简介，其余如实标注缺失。未来周采集增补模型卡字段并复用 28 天内成功结果。GitHub “用途”改取仓库官方简介，缺失时用 README 摘录，再缺失明确标注。
+- 与 GitHub 趋势榜合并后，Python 全套 44/44、Playwright 桌面/手机全套 26/26、静态契约、JS 语法与 Git 差异检查均通过。本地 `site/data/` 继续保留且未入 Git；待选择性提交、Actions 真实采集及 Pages 线上验收。
+
+## 2026-10-29 — 02 GitHub 趋势榜本地实现
+
+- 新增独立 `github-trending` 数据集，日报每日抓取 GitHub 全站 Trending 今日、本周、本月页面；单份快照保留原站排名、总 Stars、周期新增 Stars、原文简介、来源 URL 和统一采集时间。任何周期缺少 Stars 数据时沿用日报既有 stale 回退，不伪造数值。
+- 侧栏将原“GitHub AI 项目”改为单一“GitHub”入口；GitHub 页工具栏在搜索框左侧提供“趋势榜 / AI 项目”切换，趋势榜在左并默认显示。趋势榜支持周期下拉、搜索、项目链接和简介缺失标注；AI 项目维持既有筛选和字段。正值前 20% 增量红字用于趋势榜新增 Stars、AI 项目净变化、Hugging Face 加速度，按各自完整榜单判定。
+- 验证：Python 全套 44/44、Playwright 桌面和移动端全套 26/26、静态契约、JS 语法、`git diff --check` 通过。真实 GitHub Trending HTML 本机抓取因代理未监听、直连超时尚未验证；不在本机生成或覆盖正式快照，改由发布后的 GitHub Actions 真实采集并验收。
 
 ## 2026-10-26 — 04 趋势图视觉修正与公开缓存处理
 
