@@ -2,9 +2,15 @@
 
 每个角色完成、暂停或遇到阻塞时，在本文件顶部追加一条记录。不得记录 API Key、Token 或其他密钥。
 
+## 2026-10-29 — 01 — GitHub 趋势榜已发布并完成线上验收
+
+- 选择性提交 `1cb5ad8` 已推送 `main`；提交包含 GitHub 三档趋势采集、GitHub 页内双视图、Hugging Face 列表增强、测试与协作文档。`.gitignore`、`site/x-watch/latest.json`、本地管理文档和正式本机数据状态均未提交。
+- Actions run `40828585249` 的 `collect`、`deploy-dashboard` 成功。公开快照 `data/github-trending/latest.json` 为 `ok`，采集于 2026-10-29 14:22（上海时间），今日 14、本周 11、本月 19，共 44 行；周期新增 Stars 无缺失，2 条缺失原站简介如实标注。
+- 已用公开 Pages 实际页面验收：侧栏为单一“GitHub”，页内左侧为“趋势榜”、右侧为“AI 项目”，切换位于搜索框左侧且默认趋势榜；统一采集时间、周期下拉、原文描述和正增量前 20% 红字均显示正常。发布前 Python 44/44、Playwright 26/26、静态契约、JS 语法与差异检查均通过。
+
 ## 2026-10-29 — 04 → 01 — Hugging Face 与 GitHub 列表优化验收
 
-- `site/app.js`、`site/styles.css` 已将 Hugging Face 数字列和 GitHub 两视图的 Stars 数字列设为单行，缩小列内间距，手机横向滚动；仅说明列换行。Hugging Face 显示官方模型卡用途段落或“暂无可核实简介”，GitHub AI 项目显示官方仓库简介、README 摘录或缺失标记，不再把下载变化放在说明里。
+- `site/app.js`、`site/styles.css` 已将 Hugging Face 数字列和 GitHub 两视图的 Stars 数字列设为单行，缩小列内间距，手机横向滚动；仅说明列换行。Hugging Face 显示官方模型卡用途段落或“暂无可核实简介”，GitHub AI 项目优先显示已有的仓库简介中文译文，再回退到官方原文、README 摘录或缺失标记，不再把下载变化放在说明里。
 - `dashboard/hf_cards.py` 接入周采集，为模型卡简介记录来源 URL、检查日与提取状态，成功结果 28 天内复用；本地旧榜单 500 行已补齐 473 行，27 行保留缺失标记。原有下载历史事实未改，`site/data/` 未纳入 Git。
 - 与 GitHub 趋势榜合并后，Python 全套 44/44、Playwright 桌面/手机全套 26/26、静态契约、JS 语法与差异检查均通过。工作区仍有 X 快照、`.gitignore` 及本地管理文档等无关改动，选择性提交时继续排除。
 
