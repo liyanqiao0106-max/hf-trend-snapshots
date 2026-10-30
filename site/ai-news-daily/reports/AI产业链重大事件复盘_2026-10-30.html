@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI行业早报 · 2026-10-30</title>
+<style>
+  :root{
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --ink:#1a1d21;
+    --ink-2:#4a5158;
+    --ink-3:#7c848c;
+    --line:#e3e6ea;
+    --up:#d92b2b;
+    --up-bg:#fdf0f0;
+    --blue:#1a5fd0;
+    --blue-bg:#eef4fe;
+    --green:#0f7a4d;
+    --green-bg:#edf7f1;
+    --amber:#a8631a;
+    --amber-bg:#fdf5e9;
+    --violet:#6b3fc7;
+    --violet-bg:#f2eefc;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.7;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px;}
+  header.top{
+    background:linear-gradient(135deg,#111827 0%,#1f2937 55%,#2b3445 100%);
+    color:#fff;border-radius:18px;padding:34px 36px 30px;margin-bottom:26px;
+    box-shadow:0 10px 30px rgba(15,23,42,.18);
+  }
+  .kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#8fa3bd;margin:0 0 12px;}
+  header.top h1{margin:0 0 14px;font-size:30px;line-height:1.3;font-weight:700;letter-spacing:-.01em;}
+  header.top .sub{color:#b8c4d4;font-size:14.5px;margin:0;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+  .chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#dbe4ef;
+    padding:5px 12px;border-radius:999px;font-size:12.5px;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px;}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .stat .n{font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.02em;}
+  .stat .l{font-size:12.5px;color:var(--ink-3);margin-top:2px;}
+  .stat.hl .n{color:var(--up);}
+  .section-head{display:flex;align-items:center;gap:12px;margin:38px 0 16px;}
+  .section-head .bar{width:4px;height:22px;border-radius:2px;background:var(--ink);}
+  .section-head h2{margin:0;font-size:19px;font-weight:700;letter-spacing:-.01em;}
+  .section-head .cnt{font-size:12.5px;color:var(--ink-3);margin-left:auto;
+    background:#fff;border:1px solid var(--line);padding:3px 10px;border-radius:999px;}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin-bottom:14px;transition:box-shadow .18s ease;}
+  .item:hover{box-shadow:0 6px 20px rgba(15,23,42,.07);}
+  .item .hd{display:flex;gap:12px;align-items:flex-start;}
+  .num{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:#111827;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;margin-top:1px;}
+  .item h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.45;letter-spacing:-.01em;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 12px;}
+  .tag{font-size:11.5px;padding:3px 9px;border-radius:6px;font-weight:600;white-space:nowrap;}
+  .t-up{background:var(--up-bg);color:var(--up);}
+  .t-blue{background:var(--blue-bg);color:var(--blue);}
+  .t-green{background:var(--green-bg);color:var(--green);}
+  .t-amber{background:var(--amber-bg);color:var(--amber);}
+  .t-violet{background:var(--violet-bg);color:var(--violet);}
+  .facts{margin:0 0 12px;padding:0;list-style:none;}
+  .facts li{position:relative;padding-left:16px;margin-bottom:6px;font-size:14.5px;color:var(--ink-2);}
+  .facts li::before{content:"";position:absolute;left:2px;top:10px;width:5px;height:5px;
+    border-radius:50%;background:#c2cad4;}
+  .facts strong{color:var(--ink);font-weight:600;}
+  .impact{background:#fafbfc;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;
+    padding:11px 14px;font-size:14px;color:var(--ink-2);}
+  .impact b{color:var(--blue);font-weight:700;}
+  .src{margin-top:11px;font-size:12.5px;color:var(--ink-3);}
+  .src b{color:var(--ink-3);font-weight:600;}
+  .extra{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 24px;}
+  .extra ul{margin:0;padding-left:20px;font-size:14px;color:var(--ink-2);}
+  .extra li{margin-bottom:8px;}
+  .extra li b{color:var(--ink);}
+  footer{margin-top:44px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;}
+  footer h4{margin:0 0 10px;font-size:14px;font-weight:700;}
+  footer ol{margin:0;padding-left:20px;color:var(--ink-2);font-size:13.5px;}
+  footer li{margin-bottom:5px;}
+  .disc{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+    font-size:12.5px;color:var(--ink-3);line-height:1.65;}
+  .disc b{color:var(--ink-2);}
+  @media (max-width:720px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    header.top{padding:26px 22px;}.wrap{padding:24px 14px 60px;}
+    header.top h1{font-size:23px;}
+  }
+</style>
+<link rel="stylesheet" href="../navigation.css">
+</head>
+<body>
+<div class="wrap">
+<a class="return-link" href="../index.html">← 返回 AI 新闻日报</a>
+
+<header class="top">
+  <p class="kicker">AI Industry Daily Recap · Sell-Side Research</p>
+  <h1>AI行业早报</h1>
+  <p class="sub">2026年10月30日（北京时间）</p>
+  <div class="meta-row">
+    <span class="chip">16 条重大事件</span>
+    <span class="chip">上游 8 · 中游 4 · 下游 4</span>
+    <span class="chip">中英文全球信源交叉验证</span>
+    <span class="chip">已剔除传闻类自媒体线索</span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat hl"><div class="n">423.6 亿美元</div><div class="l">亚马逊 TTM 自由现金流净流出（单季 capex 772.6 亿）</div></div>
+  <div class="stat"><div class="n">107.4 万亿韩元</div><div class="l">三星单季营业利润，全球首家破 100 万亿</div></div>
+  <div class="stat hl"><div class="n">1,150 亿美元</div><div class="l">微软 250 亿美元发债的认购峰值</div></div>
+  <div class="stat"><div class="n">2.8 万亿</div><div class="l">Kimi K3.1 Pro 总参数（激活 104B）</div></div>
+</div>
+
+<!-- ============ 上游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>上游 · 芯片 / 算力 / 光互联 / 云算力 / 大额订单</h2><span class="cnt">8 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">1</div><h3>微软、谷歌 capex 同一天停止上修，第三方 GPU 交付延迟至 2027 上半年，neocloud 集体杀估值</h3></div>
+  <div class="tags"><span class="tag t-amber">资本开支</span><span class="tag t-blue">算力基建</span><span class="tag t-up">供应链瓶颈</span></div>
+  <ul class="facts">
+    <li>微软 FY27Q1 资本开支（含融资租赁）<strong>452 亿美元</strong>、同比 +30%，低于市场预期 <strong>507 亿美元</strong>；Alphabet 三季度购置物业与设备 <strong>513.6 亿美元</strong>，低于预期 550.9 亿美元。</li>
+    <li>微软将自然年资本开支指引从 <strong>1750 亿美元下调至约 1700 亿美元</strong>，明确归因于第三方 GPU 供应商交付延迟，部分可用产能顺延至 <strong>2027 年上半年</strong>；Alphabet 维持 1950—2050 亿美元区间未上调。</li>
+    <li>财报后 CoreWeave、Nebius 盘前一度跌 <strong>7%</strong>，IREN 跌逾 5%，Oracle 跌 3%；CoreWeave 2032 年债券收益率一度达 <strong>15.3%</strong>，公司债务规模约 500 亿美元。</li>
+    <li>Gartner 预计到 <strong>2030 年 80% 的 neocloud 将被并购或停止独立运营</strong>；马斯克称 200 多家 neocloud 将出现"孔雀鱼级"的死亡与整合。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是本轮 AI 行情里第一次出现"超大规模云不再上调 capex"。需求端没有坏（微软 Azure +48%、Alphabet 云翻倍），坏的是<b>交付能力与融资能力同时见顶</b>：一边是第三方 GPU 产能推迟，一边是基准利率上行让非投资级算力租赁商借不到钱。结果是订单节奏整体后移半年，而 neocloud 的估值锚从"增速"直接切到"信用"。对上游硬件是"确认时点后移、总量不变"；对 neocloud 是分母端（折现率）与分子端（交付）双杀。</div>
+  <div class="src">来源：CNBC / Quartz / Invezz / MarketShock（2026-10-29）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">2</div><h3>微软近九年首次发债，至少 250 亿美元获 1,150 亿美元认购，AI 债市出现 AAA 与投机级的分层定价</h3></div>
+  <div class="tags"><span class="tag t-up">融资</span><span class="tag t-violet">重大定价策略</span><span class="tag t-blue">资本开支</span></div>
+  <ul class="facts">
+    <li>微软计划通过美国投资级债券市场筹资<strong>至少 250 亿美元</strong>，分最多 <strong>10 档</strong>发行、期限 2 年至 40 年，为其 <strong>2017 年（170 亿美元）以来首次</strong>在美发行高等级债券。</li>
+    <li>认购订单峰值超过 <strong>1,150 亿美元</strong>，为有记录以来需求最旺盛的美国公司债发行之一；2066 年到期的 40 年期初步定价为较美债溢价<strong>最高 135bp</strong>。</li>
+    <li>微软是仅有的两家同时获得穆迪与标普<strong>最高 AAA 评级</strong>的美国上市公司之一（另一家为强生）；募资用于一般公司用途，含资本开支。承销行为富国、摩根大通、瑞银。</li>
+    <li>对照：CoreWeave 同期限债券收益率约 <strong>14%—15%</strong>，10 年期美债收益率近期创 24 年新高。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>"AI 资本开支"正在被债券市场拆成两类资产。同样是给数据中心融资，AAA 主体能以 135bp 拿到 40 年久期、4.6 倍超额认购；靠未来订单背书的算力租赁商要付 15%。这解释了为何微软敢下调 capex 指引却仍维持全财年正自由现金流——<b>融资成本本身就是竞争壁垒</b>。对 2027 年的关键推论：全行业 capex 预计破 1 万亿美元，而四家超大规模云中三家自由现金流已转负，边际资金将越来越依赖债市，此时信用评级的定价权大于算力规模。</div>
+  <div class="src">来源：Bloomberg / Reuters / MarketWatch / 新浪财经（2026-10-29/30）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">3</div><h3>三星单季营业利润 107.4 万亿韩元、全球首家破 100 万亿，明确存储紧缺延续至 2028 年</h3></div>
+  <div class="tags"><span class="tag t-up">业绩超预期</span><span class="tag t-amber">供应链瓶颈</span><span class="tag t-green">产能扩张</span></div>
+  <ul class="facts">
+    <li>三季度营收 <strong>195.3 万亿韩元</strong>、营业利润 <strong>107.4 万亿韩元</strong>，同比增长近九倍，成为全球首家单季营业利润突破 100 万亿韩元的科技公司；DS（半导体）部门营收 147.1 万亿、营业利润 106.5 万亿，占集团营业利润<strong>逾 99%</strong>。</li>
+    <li>三季度 <strong>DRAM 均价环比 +20%、NAND 接近 +20%</strong>；HBM4 收入环比增至约 3 倍，占 HBM 总收入约 <strong>60%</strong>；HBM4E 已送样，计划 2027 上半年量产。</li>
+    <li>2027 年 HBM 供货量已按目标价完成谈判并<b>"售罄"</b>，客户仍在要求追加；管理层称受建厂周期、设备交付与 HBM 工艺约束，<strong>供给紧张将持续至 2028 年</strong>，长期合同目标锁定 <strong>60%—70%</strong> 的中长期产能。</li>
+    <li>2026 年资本开支同比增约<strong>六成</strong>；但受财务费用等非经营性科目影响，净利润低于部分机构预期，股价当日收跌约 <strong>4.13%</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这轮存储景气的本质是<b>"提价"而非"出货"</b>——利润几乎全部来自单价上行。传导链很清楚：服务器 BOM 中内存占比继续抬升 → 云厂商 capex 单位算力成本上升（这也是微软把 capex 下调归因于"组件成本上升将推高 2027 上半年支出"的另一面）→ AI 推理单位成本难以快速下降。对设备与材料是 2027 年扩产确定性；但要留意"2028 年缓解"的前提是三家同步扩产，届时同质化 DRAM 可能重演价格战，而 HBM 因工艺壁垒滞后一到两个季度。</div>
+  <div class="src">来源：三星电子 IR / Aju Press / Digitimes / 同花顺财经（2026-10-29/30）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">4</div><h3>亚马逊单季 capex 772.6 亿美元、超预期 34%，TTM 自由现金流由 +148 亿转为 -423.6 亿</h3></div>
+  <div class="tags"><span class="tag t-blue">资本开支</span><span class="tag t-up">业绩分化</span><span class="tag t-amber">现金流压力</span></div>
+  <ul class="facts">
+    <li>三季度净销售额 <strong>2019.4 亿美元</strong>（+12%），略低于预期 2022.6 亿；EPS <strong>1.89 美元</strong>（-3%），低于预期 1.96 美元；但经营利润 <strong>280.8 亿美元（+61.5%）</strong>、经营利润率 <strong>13.9%</strong> 创公司历史新高。</li>
+    <li>AWS 收入 <strong>459.8 亿美元（+39.3%）</strong>，为近五年最快单季增速，季末年化收入 1840 亿美元、环比 +8.9%；AWS 营业利润 178 亿美元（+55%）。</li>
+    <li>单季购置物业与设备 <strong>772.6 亿美元</strong>，约为去年同期 1.2 倍，<strong>比市场预期高逾 34%</strong>；TTM 自由现金流由上年同期 +148 亿转为<b>净流出 423.6 亿美元</b>，为连续第二季为负。</li>
+    <li>维持 2026 年约 <strong>2200 亿美元</strong> capex 指引不变；CEO 贾西预计 <strong>2027、2028 年 AWS 收入增速均超 40%</strong>；财报后股价收跌 4.25%、盘后一度跌超 10%。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>AWS 加速到 39.3% 说明需求侧毫无问题，但市场第一次对"投得太多"给负分——超预期 34% 的单季 capex 意味着折旧前置、现金流后置。加上 Alphabet 单季烧掉 90.7 亿美元自由现金流、Meta 十余年来首次现金净流出，<b>四大云里三家已进入"负自由现金流"状态</b>。这直接指向 2027 年的两条主线：一是融资结构从经营现金流转向债股并举（微软同日发债即为注脚），二是市场对 capex 的容忍度已从"越多越好"转为"要看到回报时点"。</div>
+  <div class="src">来源：Amazon IR / 腾讯新闻 / 格隆汇 / 每日经济新闻（2026-10-29/30）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">5</div><h3>英特尔数据中心与 AI 收入 +78%，但 Q4 指引远逊预期、盘后跌超 23%，内存短缺已开始限制芯片出货</h3></div>
+  <div class="tags"><span class="tag t-up">业绩分化</span><span class="tag t-amber">供应链瓶颈</span><span class="tag t-blue">芯片自研</span></div>
+  <ul class="facts">
+    <li>三季度营收 <strong>165 亿美元（+21%）</strong>，调整后 EPS <strong>0.52 美元</strong>，高于市场预期 0.41 美元；数据中心与 AI 业务营收 <strong>73 亿美元、同比 +78%</strong>。</li>
+    <li>但公司明确表示<b>内存及部分原材料短缺已限制供货</b>；Q4 营收指引 <strong>150—160 亿美元</strong>，远低于市场预期 170 亿美元，调整后 EPS 指引 0.25 美元 vs 预期 0.43—0.45 美元。</li>
+    <li>10 月以色列工厂爆炸事故预计使 Q4 营收减少约 <strong>3 亿美元</strong>、毛利率压低约 <strong>200bp</strong>，影响可能延续至 2027 年一季度。</li>
+    <li>PC 芯片业务营收同比下降 <strong>5% 至 81 亿美元</strong>，公司预计 PC 市场疲软至少持续到 2027 上半年；财报后股价盘后跌超 <strong>23%</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是一个干净的"需求旺、供给卡"样本：AI 数据中心 +78%，崩的是指引而非订单。真正的信息量在于<b>内存短缺已经从存储厂传导到非存储芯片公司的出货端</b>——这与三星"紧缺延续至 2028"、微软"组件成本上升"形成同一条证据链。推论：2027 上半年"有需求但交不出货"会成为全行业常态，收入确认节奏整体后移，估值上应把"在手订单"与"可交付订单"分开定价。</div>
+  <div class="src">来源：Intel IR / 每日经济新闻 / 网易财经（2026-10-29/30）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">6</div><h3>英伟达 129.3 亿美元收购 Hugging Face 遭美国司法部反垄断问询，调查焦点是"分发枢纽"</h3></div>
+  <div class="tags"><span class="tag t-amber">监管执法</span><span class="tag t-violet">并购·投资</span><span class="tag t-blue">生态开放</span></div>
+  <ul class="facts">
+    <li>路透 10 月 28 日援引两名知情人士：美国司法部已就英伟达以 <strong>129.3 亿美元</strong>收购开源平台 Hugging Face 的交易展开问询，评估其对 AI 领域竞争的影响。</li>
+    <li>交易对价含向 Hugging Face 股东支付约 <strong>119 亿美元</strong> + 约 <strong>10 亿美元</strong>员工留任激励，英伟达称预计 <strong>2027 年上半年</strong>完成，并承诺平台继续支持多家芯片、云与 AI 供应商。</li>
+    <li>司法部核心关切是：收购后英伟达是否掌握 AI 模型与工具的<b>关键分发枢纽</b>，以及开发者是否仍能便利获得替代硬件与云服务。同批审查还包括 SchedMD、与 Groq 的技术授权及工程师招聘、以及此前的 Run:ai。</li>
+    <li>Hugging Face 现托管逾 <strong>300 万个开源模型、50 万个数据集</strong>，服务 <strong>1,800 万开发者与 20 万家企业</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>监管的抓手正从"芯片份额"上移到"分发层"。若交易被迫附条件（强制多芯片兼容、API 中立承诺、禁止与硬件捆绑），对 AMD、谷歌 TPU 与国产芯片是结构性利好——开源权重的主要分发渠道不能被单一硬件厂商锁定。对国内产业链还有一层现实影响：Hugging Face 是 GLM、Qwen、Kimi 等国产开源模型出海的首发渠道，审查周期拉长会提高"渠道被卡"的尾部风险，自建分发（ModelScope 等）的战略价值随之上升。</div>
+  <div class="src">来源：路透社 / 中央社 / 腾讯新闻 / 中华网（2026-10-28/29）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">7</div><h3>Marvell 洽购 Lumentum，标的市值约 830 亿美元，光互联或迎史上最大并购</h3></div>
+  <div class="tags"><span class="tag t-violet">并购·投资</span><span class="tag t-green">光互联·CPO</span><span class="tag t-up">产能锁定</span></div>
+  <ul class="facts">
+    <li>彭博 10 月 29 日报道：Marvell 正就收购光通信器件商 Lumentum 深入谈判，<strong>最快下周官宣</strong>，但尚未签署最终协议，条款与对价仍存变数。</li>
+    <li>截至 10 月 28 日收盘，Lumentum 市值约 <strong>830 亿美元</strong>、Marvell 约 <strong>2210 亿美元</strong>；消息后 Marvell 盘前跌近 <strong>10%</strong>、Lumentum 涨约 5%（盘后一度 +11%），Lumentum 年内累涨 <strong>148%</strong>。</li>
+    <li>Lumentum 的磷化铟激光器部分产品<b>订单已排至 2029 年</b>，CEO 称现有供货能力远不能满足需求；英伟达今年 3 月已向其投资 <strong>20 亿美元</strong>并承诺采购数十亿美元产品。</li>
+    <li>Marvell 近两年已连续收购 Celestial AI（32.5 亿美元）、XConn、Polariton；本月将 2028 财年营收指引从 150 亿上调至 <strong>200 亿美元</strong>，但季末现金仅 <strong>39.2 亿美元</strong>，大额交易或需额外融资。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>光互联正从"零部件采购"走向<b>垂直整合</b>。Marvell 买的是激光器产能与 InP 工艺——这是 1.6T 与 CPO 时代最硬的瓶颈，也是它从"卖 DSP 芯片"升级为"卖光子系统"的必经一步。若成交，英伟达同时是 Lumentum 股东、Marvell 的客户与竞争者，供应优先级将被重新排序；对国内光模块厂，短期是上游激光器更紧、交期更长，中期是美国 IDM 整合后议价权上移。交易未定，831 亿市值对 39 亿现金，融资结构是最大变数。</div>
+  <div class="src">来源：Bloomberg / 财联社 / 科创板日报 / 智通财经（2026-10-29）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">8</div><h3>神州鲲泰签 8.7 亿元昇腾 950DT 首单，同日国联股份 15.13 亿元采购服务器</h3></div>
+  <div class="tags"><span class="tag t-up">大额订单</span><span class="tag t-green">东数西算</span><span class="tag t-blue">算力基建</span></div>
+  <ul class="facts">
+    <li>神州数码控股子公司北京神州鲲泰与某信息科技公司签订《采购合同》，950DT 算力项目含税总金额 <strong>8.70 亿元</strong>（870,184,698.48 元），属日常经营性合同。</li>
+    <li>中标产品为基于昇腾 950DT 的<b>神州鲲泰 KunTai PoD2000 A5 液冷超节点</b>，是华为 OEM 品牌昇腾 950DT 的<b>第一单</b>。</li>
+    <li>昇腾 950DT 支持大模型 <strong>FP4 低精度推理</strong>，采用 SIMD+SIMT 融合编程，搭载<b>灵衢 2.0</b> 高速互联，可支撑万卡级集群调度。</li>
+    <li>同日国联股份控股子公司拟分别以 <strong>12.8 亿元与 2.33 亿元</strong>采购服务器，合计 <strong>15.13 亿元</strong>；湖北广电则公告<b>终止</b>与华鑫信共同投资建设光谷智算中心。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>国产算力进入"950DT 世代"的交付验证期。8.7 亿元单笔对一家子公司并非小数，更关键的是<b>液冷超节点 + 灵衢 2.0 以整机柜形态出货</b>——国产链的竞争单位已从"卡"变成"超节点"，这会把价值量从芯片向液冷、供电、互联与整机集成迁移。同日既有 15 亿元级采购落地、也有智算中心项目终止，说明地方算力投资的筛选在变严：从"上项目"转向"看利用率与订单"，这对有真实客户背书的整机厂是集中度提升的机会。</div>
+  <div class="src">来源：神州数码公告 / 国联股份公告 / 中国经营报 / 新浪财经（2026-10-29）</div>
+</div>
+
+<!-- ============ 中游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>中游 · 大模型发布 / 开源上新 / 推理与定价</h2><span class="cnt">4 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">9</div><h3>Kimi K3.1 Pro 发布：2.8 万亿参数、AA 指数 55 分全球第四，Terminal-Bench 反超 GPT-6 Astra，但主动阉割网安能力</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-green">技术革新</span><span class="tag t-violet">开源上新</span><span class="tag t-amber">能力边界</span></div>
+  <ul class="facts">
+    <li>月之暗面发布 Kimi K3.1 Pro：MoE 总参数 <strong>2.8 万亿</strong>、每 token 激活约 <strong>1,040 亿</strong>，<strong>100 万 token</strong> 上下文，自称幻觉降低 65%。</li>
+    <li>Artificial Analysis Intelligence Index 得分 <strong>55 分、全球第四</strong>（较前代 +11）；完整权重计划 <strong>11 月 4 日前</strong>发布，届时将成为该榜排名最高的开源权重模型。</li>
+    <li>Terminal-Bench 4.0 得分 <strong>65.7%</strong>，高于 OpenAI GPT-6 Astra 的 58.2%，略低于 Claude Opus 5.5 的 66.4%；Coding Agent Index 与 GLM-5.3 同级。</li>
+    <li>主动从训练管线（含强化学习环境）中移出网络安全数据：内部漏洞发现与利用测试得分 <strong>81.0%</strong>，未加该限制的对照版本为 <strong>90.5%</strong>；公司称"不发布会拓展网安能力绝对前沿的开源权重"。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是中国开源模型第一次在"长周期 Agent 任务"这一核心维度上压过美国闭源旗舰（Terminal-Bench 领先 GPT-6 Astra 7.5 个百分点）。更值得记录的是它<b>主动削减网安能力</b>——与 Mistral 把 1 万亿参数权重全量放开形成镜像，开源阵营内部首次就"能力边界"出现明确路线分歧。对云厂商是利好（可自托管旗舰级模型，议价权上升），对闭源 API 定价是持续压力，对安全行业则是"防御方拿到的能力上限被人为设定"的新常态。</div>
+  <div class="src">来源：中国日报（China Daily）/ 国际科技创新中心 / AGI Hunt（2026-10-29）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">10</div><h3>Mistral 开放 1 万亿参数 Large 4 权重，3,800 块 GB200 训练，采用"开源权重 + 转售限制"的改造 MIT 许可</h3></div>
+  <div class="tags"><span class="tag t-violet">开源上新</span><span class="tag t-green">技术革新</span><span class="tag t-up">重大定价策略</span></div>
+  <ul class="facts">
+    <li>10 月 29 日开放 Mistral Large 4（代号 Le Chonk）权重：<strong>1 万亿总参数</strong>、每 token 激活 <strong>490 亿</strong>（含嵌入与输出层为 520 亿），原生多模态，100 万 token 上下文。</li>
+    <li>在 Mistral 欧洲自有数据中心用 <strong>3,800 块 NVIDIA Grace Blackwell</strong> 从零训练，RL 在法国自有算力完成、功耗约 <strong>10MW</strong>；CEO Mensch 称三年累计融资约 60 亿美元，"其他实验室已投入数千亿"。</li>
+    <li>Terminal-Bench 4.0 从预览版 28% 提升至 <strong>41%</strong>（GLM-5.3 为 40%）；AA Coding Agent Index <strong>48%</strong>，与 GLM-5.3 基本持平但每任务 token 少 <strong>47%</strong>；但 AA 智能指数 v5 仅 <strong>26 分</strong>，低于 DeepSeek V4.1 Flash 与 GLM-5.3 的 32 分。</li>
+    <li>定价 <strong>0.70 / 2.10 美元每百万 token</strong>（缓存输入 0.07 美元）；采用修改版 MIT（Mistral Ecosystem Open-Weight）许可，<b>云厂商转售 MaaS 需单独商业授权</b>；已上 Microsoft Foundry、NVIDIA NIM、OpenRouter，vLLM 当日 Day-0 支持。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>欧洲第一次拿出万亿级开源权重，路径是"用十分之一的算力打八成的分"。三个可复用的判断：①前沿规模 MoE 可以在 10MW 量级 RL 算力下完成，算力壁垒没有想象中绝对；②许可正从 Apache/MIT 迁移到<b>"权重开放 + 转售需授权"</b>，这是对 MaaS 转售商的定向收税，也是开源商业化最现实的折中；③Mistral 自己承认"观察到可能提升真实攻击能力"——权重一旦下载就无法回收，<b>安全叙事与开源分发存在结构性矛盾</b>，这一点会比分数更影响企业采购决策。</div>
+  <div class="src">来源：Mistral AI 官方 / TechCrunch / The Next Web / IT之家（2026-10-29/30）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">11</div><h3>豆包工作开放第三方模型调用：首批接入 Kimi K3.1 Pro、GLM 5.3、DeepSeek V4.1 Flash，默认开启</h3></div>
+  <div class="tags"><span class="tag t-up">平台级开放</span><span class="tag t-blue">商业化落地</span><span class="tag t-violet">生态开放</span></div>
+  <ul class="facts">
+    <li>10 月 29 日，字节跳动豆包工作宣布向企业客户推出<b>三方模型服务</b>，首批接入 <strong>Kimi K3.1 Pro、GLM 5.3、DeepSeek V4.1 Flash</strong> 等系列模型。</li>
+    <li>功能上线后<b>默认直接开启</b>，企业无需另行向模型厂商采购、无需额外申请，后续按用量扣减企业已购买的 AI 点数。</li>
+    <li>此前豆包工作仅支持字节自研模型，此次是其企业级产品首次向竞品模型开放。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>字节在企业级 AI 上从"自闭环"转向"开放平台"，把竞争维度从模型能力切到生态与结算。<b>把竞品模型放进自己的入口，实质是把"模型税"降到零、把"平台税"做实</b>：对 Kimi、智谱、DeepSeek 是渠道利好（直接接入字节的企业客户池），对豆包自研模型是内部赛马压力，对客户则意味着"选模型"这件事被平台接管。更宏观的判断是：中国 MaaS 的定价权正从模型层向分发层转移，这与 IDC 数据（MaaS 半年 106.3 亿元、火山引擎 45.1%）互为印证。</div>
+  <div class="src">来源：豆包工作官方 / 每日经济新闻（2026-10-29/30）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">12</div><h3>OpenAI 撤销 Pro 200 额度减半并全线翻倍，定价竞争从"每 token 单价"转向"每席位能跑多少 Agent"</h3></div>
+  <div class="tags"><span class="tag t-violet">重大定价策略</span><span class="tag t-blue">模型迭代</span><span class="tag t-up">产品发布</span></div>
+  <ul class="facts">
+    <li>10 月 29 日 OpenAI 宣布，Pro 100 / Pro 200 / Pro 500 与 Business Premium 的 <b>Work 与 Codex 用量即时翻倍</b>，现有订阅自动生效、无需等待续费，Plus 不变。</li>
+    <li>撤销 9 月 29 日邮件中"Pro 200 额度下调约 50%"的计划：<b>Pro 200 维持 Plus 基线的 20 倍</b>，价格仍为 200 美元/月，并重新向新用户开放订阅。</li>
+    <li><b>dots 常驻智能体单独计量、独立额度</b>，与各档位标准额度分离；Fast 模式消耗额度约为标准模式 2.5 倍、Ultrafast 约 8 倍（仅 Pro 500 可用）。</li>
+    <li>官方提示：额度翻倍不必然带来两倍产出，实际取决于模型、任务复杂度、上下文长度与工具调用。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>一次典型的<b>定价回撤</b>。9 月以"模型效率提升"为由砍额度，一个月后因用户反弹全额撤回并翻倍——说明在前沿推理成本快速下降后，头部 lab 的竞争焦点已从"每 token 价格"转向"每个席位能跑多少 agent 任务"。这对估值模型的含义是：C 端 ARPU 的天花板不由标价决定，而由"额度是否够用"决定；同时这也意味着单用户推理算力消耗会被进一步推高，反向支撑上游算力需求。</div>
+  <div class="src">来源：OpenAI Release Notes / Help Center / IT之家 / LLMs.blog（2026-10-29/30）</div>
+</div>
+
+<!-- ============ 下游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>下游 · AI 应用落地 / 商业化 / 需求侧大单 / 监管环境</h2><span class="cnt">4 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">13</div><h3>OpenAI 参投的 Thrive Holdings 以 153 亿美元私有化 ADT，溢价 45.6%，买的是 1.2 万人上门网络</h3></div>
+  <div class="tags"><span class="tag t-violet">并购·投资</span><span class="tag t-up">商业化落地</span><span class="tag t-blue">智能体安全</span></div>
+  <ul class="facts">
+    <li>ADT 与 Thrive Holdings 签署最终协议：全现金 <b>每股 10.00 美元</b>，股权价值约 <strong>76 亿美元</strong>、企业价值 <strong>153 亿美元</strong>，较 10 月 27 日未受影响收盘价 6.87 美元<b>溢价 45.6%</b>（较 30 日 VWAP 溢价 52.1%），董事会一致通过。</li>
+    <li>融资承诺全部来自 <b>Apollo</b> 关联基金、<b>无融资条件</b>；设 30 天寻购期至 <b>11 月 28 日</b>，预计 <b>2027 年一季度</b>完成，尚需股东与美国反垄断批准。</li>
+    <li>Thrive Holdings 为 Thrive Capital 分拆的<b>永久资本平台</b>，旗下已有 <strong>75 家以上</strong>企业；OpenAI 为其投资方与技术伙伴，以"前置工程师"模式派驻研究与工程团队。ADT 拥有 <strong>1.2 万名员工</strong>、150 余年安防经验与全国上门安装网络。</li>
+    <li>双方表示将用技术降低误报、优化告警信息、提前发现设备故障；<b>ADT 数据与隐私政策不变</b>，未经客户许可不新增数据共享；公告未披露任何具体 AI 安防产品。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是"前沿模型公司通过资本平台收购存量服务网络"的第一个大样本。OpenAI 不出面买公司，而是让被投平台买下 1.2 万人、150 年的上门安装能力——<b>AI 落地最后一公里的瓶颈不是模型，是"上门的人"和存量设备</b>。对下游应用的启示：能被 agent 改造的高价值场景，往往需要先买下物理履约资产，纯软件路径很难闭环。需要冷静的是，公告没有任何具体产品与收入指引，短期这是估值事件而非业绩事件。</div>
+  <div class="src">来源：ADT 新闻稿（GlobeNewswire/Nasdaq）/ Unite.AI / TechCrunch（2026-10-29）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">14</div><h3>腾讯发布 Buddy One 与腾讯网盘：账号、积分、上下文、存储四层打通，WorkBuddy 累计完成 90 亿次任务请求</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-blue">商业化落地</span><span class="tag t-violet">生态开放</span></div>
+  <ul class="facts">
+    <li>10 月 29 日腾讯全球数字生态大会发布面向个人的跨应用 AI 协同体系 <b>Buddy One</b>，打通 WorkBuddy、腾讯文档、腾讯会议、腾讯网盘、ima，共享 WorkBuddy Agent 底座。</li>
+    <li>统一账号（Buddy One ID）、<b>统一积分池</b>（WorkBuddy 积分升级为 Buddy One 积分，可在多产品间通用）、上下文打通，未来实现记忆共享；Buddy One VIP 连续包月 <strong>700 元</strong>。</li>
+    <li>同步发布<b>腾讯网盘</b>，作为 Agent 时代统一存储底座，支持通过 <b>CLI、MCP</b> 接入第三方 Agent 与应用。</li>
+    <li>WorkBuddy 自 3 月上线累计完成 <strong>90 亿次任务请求</strong>；企业版落地 <strong>50 多个行业</strong>，覆盖 <strong>50% 中国 500 强、60% 中国 100 强</strong>，合作伙伴超 2,000 家、纯新伙伴占比超 60%。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是中国版"Agent 时代的 Office"。真正的基础设施不是模型，而是<b>账号 + 积分 + 上下文 + 存储</b>这四层——谁掌握这四层，谁就掌握 agent 的分发与计费。90 亿次请求与 50% 中国 500 强覆盖说明企业侧已过验证期、进入规模化复制。对 SaaS 的冲击很直接：当套件内积分可跨应用通用，单点工具类 SaaS 的定价权会被套件方吸走，未来两年中国办公 SaaS 的竞争会从"功能"转向"是否被纳入某个积分体系"。</div>
+  <div class="src">来源：腾讯官方 / 科技日报 / 北京商报 / 凤凰网科技（2026-10-29）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">15</div><h3>IDC：上半年中国 MaaS 市场 106.3 亿元，火山引擎以 45.1% 居首；值得买 AI 收入占比一年从 4% 升至 13%</h3></div>
+  <div class="tags"><span class="tag t-blue">商业化落地</span><span class="tag t-up">业绩超预期</span><span class="tag t-green">效率竞争</span></div>
+  <ul class="facts">
+    <li>IDC《中国 AI 软件市场半年度追踪，26H1》显示，2026 年上半年中国 <b>MaaS 市场规模达 106.3 亿元</b>，<b>火山引擎以 45.1% 份额</b>位居第一。</li>
+    <li>同日值得买三季报：前三季度营收 <strong>8.28 亿元（+2.79%）</strong>，与 AI 有关的业务收入 <strong>1.08 亿元、占营收 13%</strong>（上年同期为 4%）；研发费用 1.18 亿元、占营收 14.2%。</li>
+    <li>IDC 判断火山引擎份额虽较峰值略有回落，但在市场扩容背景下绝对收入规模仍大幅增长。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>106.3 亿元的半年盘子对应 45.1% 的集中度，说明中国 MaaS 仍是"一超"格局，但龙头份额回落意味着<b>市场扩容速度快于龙头增速</b>，二线厂商（尤其接入字节入口的 Kimi、智谱、DeepSeek）会分到增量。值得买这个样本更有信息量：AI 收入占比一年内从 4% 到 13%，是"AI 改造传统内容/导购平台"第一个可量化的财报证据。投资含义：MaaS 层毛利被价格战压缩，真正的利润落在"有场景 + 有交易闭环"的应用层。</div>
+  <div class="src">来源：IDC / 每日经济新闻 / 值得买三季报（2026-10-29）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">16</div><h3>微软披露单季从 OpenAI 确认 100 亿美元收入，占当季营收近 11%，未结应收升至 72 亿美元</h3></div>
+  <div class="tags"><span class="tag t-up">商业化落地</span><span class="tag t-blue">生态开放</span><span class="tag t-amber">履约风险</span></div>
+  <ul class="facts">
+    <li>微软在监管文件中披露，截至 9 月 30 日的季度从与 OpenAI 的商业安排中确认收入 <strong>100 亿美元</strong>，约占其 <strong>923 亿美元</strong>季度营收的 <strong>11%</strong>。</li>
+    <li>2026 财年与 OpenAI 相关的收入达 <strong>241 亿美元</strong>；来自 OpenAI 的<b>未结应收款升至 72 亿美元</b>。</li>
+    <li>按 2026 年 4 月协议，OpenAI 将继续与微软分成至 <b>2030 年</b>（设有上限），而微软对 OpenAI 的持股已降至 <strong>24%</strong>。</li>
+    <li>微软同时维持全财年正自由现金流指引（FY27Q1 自由现金流同比 -27% 但仍为正），在四大云中为唯一。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是目前最硬的"AI 收入闭环"数据：微软一家从 OpenAI 拿到的年收入 <b>241 亿美元</b>，比多数上市 AI 公司总收入还高，说明"算力—模型—云"的内循环已经跑出规模。但 72 亿美元应收意味着约 <b>30% 尚未现金到账</b>，且高度集中于单一交易对手。对估值方法的直接提示：给"AI 收入"做 DCF 时，必须对关联方收入打折并单独评估对手方信用；当 OpenAI 自身在筹备 2027 年 IPO 时，这笔应收的实质是"以股权融资偿付的云服务承诺"。</div>
+  <div class="src">来源：微软监管文件 / The Continental（2026-10-29）</div>
+</div>
+
+<!-- ============ 延伸线索 ============ -->
+<div class="section-head"><div class="bar"></div><h2>延伸线索（不计入主榜，供次日跟踪）</h2></div>
+<div class="extra">
+  <ul>
+    <li><b>英伟达下调 Rubin 的 HBM4 带宽：</b>Digitimes 称 Vera Rubin NVL72 单 GPU 带宽由 22TB/s 降至 <b>19.2TB/s（-13%）</b>，业内认为有助于平衡性能与量产交付；原因与对供应商订单的实际影响尚未确认。</li>
+    <li><b>国产 HBM 追赶：</b>长鑫存储拟启动 HBM3E 生产，良率目前仅 <b>20%—30%</b>；三星与 SK 海力士 2026 年设备投资合计约 <b>110 万亿韩元</b>，供给增量要到 2028 年才释放。</li>
+    <li><b>走私通道收紧：</b>马来西亚海关 10 月 15 日在吉隆坡机场自贸区查获约 <b>1,240 万美元</b>（4,950 万林吉特）走私 AI 芯片，藏于 30 台服务器、伪报为普通电子品；该网络自 6 月以来至少 5 次被查、累计超 2,500 万美元。</li>
+    <li><b>OpenAI 重写 Model Spec：</b>围绕"忠实于人类意图、伤害最小化、诚实透明、人类自主性、关怀"五项价值重构，新增指令冲突解决链与"接受人类监督"原则，废止大量细粒度文体指南。</li>
+    <li><b>AI 搜索的流量反噬：</b>Reddit Q3 财报电话会上 CEO 称谷歌 AI 搜索模式不为平台导流，10 月搜索推荐平均减少超 <b>100 万次</b>。</li>
+    <li><b>标准落地：</b>ETSI 发布反深度伪造技术规范 <b>TS 104 275</b>（由其 AI 安全技术委员会 TC SAI 制定），为生成式 AI 开发者与运营者提供可验证的风险缓解措施与责任框架。</li>
+    <li><b>Anthropic IPO 节奏：</b>S-1 于 10-26 公开，按 15 日规则路演最早 <b>11 月 10 日</b>启动；Polymarket 对 11 月底前上市定价 <b>88%</b>，发行价区间与股数仍待 S-1/A。</li>
+    <li><b>一级市场：</b>预测市场 Kalshi 以 <b>400 亿美元</b>估值融资 10 亿美元；"一句话生成小应用"的 Wabi 以 12.5 亿美元估值融资 5,500 万美元。</li>
+    <li><b>出海与具身：</b>腾讯加速海外数据中心扩张、以东南亚为基地分销 AI 产品；智元发布物理 AI 度量单位 <b>Worken</b>（活跃机器人数量 × 自主工作时长 × 产出效能比）；启元机器人接入 WorkBuddy。</li>
+  </ul>
+</div>
+
+<footer>
+  <h4>信源清单与校验说明</h4>
+  <ol>
+    <li><b>上游：</b>CNBC / Quartz / Invezz / MarketShock（微软与 Alphabet capex 及 neocloud 抛售）；Bloomberg / Reuters / MarketWatch / Morningstar / 新浪财经（微软 250 亿美元发债与 1,150 亿认购）；三星电子 IR / Aju Press / Digitimes / 同花顺财经（三星 Q3 与存储供需）；Amazon IR / 腾讯新闻 / 格隆汇 / 每日经济新闻（亚马逊、英特尔财报）；路透社 / 中央社 / 腾讯新闻 / 中华网（英伟达收购 Hugging Face 的司法部问询）；Bloomberg / 财联社 / 科创板日报 / 智通财经（Marvell 洽购 Lumentum）；神州数码与国联股份公告 / 中国经营报 / 新浪财经（国产算力订单）。</li>
+    <li><b>中游：</b>中国日报（China Daily）/ 国际科技创新中心 / AGI Hunt（Kimi K3.1 Pro）；Mistral AI 官方 / TechCrunch / The Next Web / IT之家（Mistral Large 4 开放权重）；豆包工作官方 / 每日经济新闻（三方模型服务）；OpenAI Release Notes 与 Help Center / IT之家 / LLMs.blog（Pro 与 Business Premium 额度调整）。</li>
+    <li><b>下游：</b>ADT 新闻稿（GlobeNewswire / Nasdaq）/ Unite.AI / TechCrunch（Thrive Holdings 私有化 ADT）；腾讯官方 / 科技日报 / 北京商报 / 凤凰网科技（Buddy One、腾讯网盘、WorkBuddy 数据）；IDC《中国 AI 软件市场半年度追踪 26H1》/ 每日经济新闻 / 值得买三季报（MaaS 与 AI 收入）；微软监管文件 / The Continental（从 OpenAI 确认的收入与应收）。</li>
+    <li>已剔除范围：① 无署名、条目极多、数字过于整齐的中文聚合日报（其中若干条目无法在官方或权威媒体交叉验证）；② 与 10-29 期重复的 Gemini 4 Carbon 发布（智能指数 59 分、先向网安防御者开放）与 Upwind 4 亿美元 C 轮；③ 与 10-28 期重复的 Meta 975 亿美元融资框架与英伟达 30 亿美元入股 Meta，本期仅在正文对照中引用；④ 纯营销软文、自媒体爆料与无原始信源的二次转载。</li>
+  </ol>
+  <div class="disc">
+    <b>免责与不确定性提示：</b>本报告为公开信息汇编，仅供研究参考，不构成任何投资建议。<br>
+    ① <b>口径差异：</b>微软"约 1700 亿美元"为 CFO 在电话会中给出的<b>自然年</b>表述，与"2027 财年"口径不同，不宜与亚马逊 2,200 亿美元全年指引直接比较；亚马逊 772.6 亿美元为"购置物业与设备"的现金支出，与含融资租赁的口径存在差异。跨公司比较 capex 须先统一口径。<br>
+    ② <b>未确认事项：</b>英伟达下调 Vera Rubin HBM4 带宽（Digitimes 援引业界，未获公司确认）、Marvell 收购 Lumentum（彭博援引知情人士，尚未签署最终协议且可能终止）、CXMT 启动 HBM3E 生产（良率数据来自产业链转述），均属谈判或传闻状态，本报告仅陈述其存在，不作为确定性事实使用。<br>
+    ③ <b>测算来源：</b>CoreWeave"约 830 亿美元可回收资产 vs 约 420 亿美元备考债务"来自卖方 Oppenheimer 的模型，非公司披露，且高度依赖 GPU 折旧年限与残值假设；Gartner"2030 年 80% neocloud 消失"为机构预测而非已发生事实。<br>
+    ④ <b>混合口径：</b>Kimi K3.1 Pro 的 55 分为第三方榜单（Artificial Analysis），Terminal-Bench 65.7% 与"幻觉降低 65%"为公司自报，权重 11 月 4 日发布后才可独立复现；三星"已追平 DRAM 份额"为公司表态，第三方季度份额数据尚未确认；Mistral 的各项分数均为其自报结果。<br>
+    ⑤ <b>事件状态：</b>ADT 交易仍需股东与反垄断批准并设 30 天寻购期，可能被更高报价取代；微软 250 亿美元发债规模与最终定价以发行完成为准；英伟达收购 Hugging Face 处于监管问询阶段，问询不等同于认定违法。
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
