@@ -1,5 +1,10 @@
 # 交接记录
 
+## 2026-11-02 — 自动化 — X 周报公开发布完成
+
+- 已更新“每周 X 动态采集”自动化：采集或失败重试最终为 `ok` 后，只提交 X 快照、对应历史快照与交接记录，并推送 `main` 触发 GitHub Pages；非 `ok` 时不发布。
+- 本轮提交 `98e4302` 已推送 `main`；GitHub Actions run `41375188061` 的 `collect` 与 `deploy-dashboard` 均成功，公开快照已核验为 2026-11-02、112 条。
+
 ## 2026-11-02 — 自动化 — 每周 X 动态采集完成
 
 - OpenCLI daemon 与 Browser Bridge 均已恢复连接；按实际启动时刻 2026-11-02 09:23:09（Asia/Shanghai）向前精确覆盖 7×24 小时，执行 `collect-x --days 7 --per-account 100`。
