@@ -32,6 +32,7 @@ const github={schema_version:2,dataset:'github_ai_projects',status:'ok',rows:[
   {full_name:'org/vision',domain:'Vision',category:'legacy-category',source_type:'topic',stars:50,stars_net_change:5,use_case_zh:'视觉',url:'https://github.com/org/vision'}
 ]};
 const trending={schema_version:2,dataset:'github_trending_all',status:'ok',captured_at_utc:'2026-10-05T07:48:00Z',methodology:'GitHub 原榜单',rows:['daily','weekly','monthly'].flatMap(period=>[100,80,60,40,20].map((new_stars,index)=>({period,rank:index+1,full_name:`owner/${period}-${index+1}`,url:`https://github.com/owner/${period}-${index+1}`,stars:1000+index,new_stars,description_raw:index===4?'':`Original ${period} description ${index+1}`})))};
+const finance={dataset:'github_finance',status:'ok',rows:[{full_name:'org/skill',url:'https://github.com/org/skill',domain:'投研',stars:100,stars_net_change:10,skill_status:'verified',description_raw:'Investment skill'},{full_name:'org/project',url:'https://github.com/org/project',domain:'回测',stars:90,stars_net_change:null,skill_status:'unverified',description_raw:'Backtesting'}]};
 const xWatch={schema_version:2,dataset:'x_industry_watch',status:'ok',snapshot_date:'2026-10-10',days:7,accounts_count:50,priority_accounts_count:15,returned_accounts_count:2,checked_accounts:['thsottiaux','OpenAI'],failed_accounts:[],finished_at:'2026-10-10T12:30:00+08:00',methodology:'浏览器只读抽样。',rows:[
   {url:'https://x.com/thsottiaux/status/123',handle:'thsottiaux',account_name:'Tibo',category:'研究员、工程师与开发者',focus:'OpenAI；Codex、ChatGPT 产品迭代',priority:true,text:'Codex workflow update',published_at:'2026-10-10T10:00:00+08:00',likes:12,views:340,oembed_status:'ok'},
   {url:'javascript:alert(1)',handle:'OpenAI',account_name:'OpenAI',category:'模型厂商与官方账号',focus:'GPT、ChatGPT、前沿研究',priority:true,text:'<img src=x onerror=alert(1)>',published_at:'2026-10-10T09:00:00+08:00',likes:null,views:null,oembed_status:'unavailable'}
@@ -53,6 +54,7 @@ test.beforeEach(async({page})=>{
   await page.route('**/data/hugging-face/latest.json*',route=>route.fulfill({json:huggingFace}));
   await page.route('**/data/github/latest.json*',route=>route.fulfill({json:github}));
   await page.route('**/data/github-trending/latest.json*',route=>route.fulfill({json:trending}));
+  await page.route('**/data/github-finance/latest.json*',route=>route.fulfill({json:finance}));
   await page.route('**/x-watch/latest.json*',route=>route.fulfill({json:xWatch}));
   await page.route('**/data/ai-financials/latest.json*',route=>route.fulfill({json:aiFinancials}));
   await page.route('**/data/ai-frontier/latest.json*',route=>route.fulfill({json:aiFrontier}));
@@ -251,6 +253,28 @@ test('Trending period selector keeps GitHub order, original text and one capture
   await page.locator('#trending-period').selectOption('monthly');
   await expect(page.getByRole('columnheader',{name:'本月新增 Stars'})).toBeVisible();
   await expect(page.getByRole('link',{name:/owner\/monthly-1/})).toBeVisible();
+});
+
+test('finance view filters skills and projects and retains navigation',async({page})=>{
+  await page.goto('/#github');
+  await page.getByRole('button',{name:'金融项目'}).click();
+  await expect(page.locator('#filters > *').first()).toContainText('趋势榜金融项目AI 项目');
+  await expect(page.locator('#finance-kind option')).toHaveText(['全部','Skill','项目']);
+  await page.locator('#finance-kind').selectOption('Skill');
+  await expect(page.locator('#content tbody tr')).toHaveCount(1);
+  await expect(page.locator('#content')).toContainText('org/skill');
+  await page.locator('#finance-kind').selectOption('项目');
+  await expect(page.locator('#content')).toContainText('Skill 未核实');
+});
+
+test('trending sorts each period by period stars rather than original rank',async({page})=>{
+  const shuffled={...trending,rows:[...trending.rows].reverse()};
+  await page.route('**/data/github-trending/latest.json*',route=>route.fulfill({json:shuffled}));
+  await page.goto('/#github');
+  for(const period of ['daily','weekly','monthly']){
+    await page.locator('#trending-period').selectOption(period);
+    await expect(page.locator('#content tbody tr').first()).toContainText(`owner/${period}-1`);
+  }
 });
 
 test('AI stars and Hugging Face acceleration mark only top positive quintile',async({page})=>{

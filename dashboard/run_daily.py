@@ -12,6 +12,7 @@ from .common import ROOT, SCHEMA_VERSION, archive, percentile, utc_now, write_js
 from .ai_financials import collect_ai_financials
 from .ai_frontier import collect_ai_frontier
 from .github_trending import collect_github_trending
+from .github_finance import collect_github_finance
 from .prices import collect_gpu, collect_models
 from .storage import bundle, restore, select_spaced
 from .storage_market import collect_storage
@@ -197,6 +198,7 @@ def main() -> None:
         run("token", lambda previous: collect_usage(day, key) if key else (_ for _ in ()).throw(ValueError("OPENROUTER_API_KEY 未配置")))
         run("hugging-face", lambda previous: collect_hugging_face(day, history, dist, raw_paths, args.reuse_hf, previous))
         run("github", lambda previous: collect_github(day, history, raw_paths, previous, translator))
+        run("github-finance", lambda previous: collect_github_finance(day, previous))
 
     if translator is not None:
         translator.save()
