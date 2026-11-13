@@ -32,6 +32,7 @@ def request_bytes(
     retries: int = 3,
     cache_key: str | None = None,
     timeout: int = 60,
+    allow_stale_cache: bool = True,
 ) -> bytes:
     """Fetch bytes with bounded retries and an optional conditional-request cache."""
     headers = {"User-Agent": UA, "Accept": accept}
@@ -69,7 +70,7 @@ def request_bytes(
                 raise RuntimeError(f"HTTP {exc.code}: {url.split('?')[0]}") from None
         except (urllib.error.URLError, TimeoutError):
             if attempt == retries - 1:
-                if body_path and body_path.exists():
+                if allow_stale_cache and body_path and body_path.exists():
                     return body_path.read_bytes()
                 raise RuntimeError("无法连接来源: " + url.split("?")[0]) from None
         time.sleep(2**attempt)

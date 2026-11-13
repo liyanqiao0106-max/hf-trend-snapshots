@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import datetime as dt
 from typing import Any
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
+import json
 
-from .common import envelope, request_json
+from .common import ROOT, envelope, request_json
 
 URL = "https://openrouter.ai/api/v1/datasets/rankings-daily"
 
@@ -63,7 +64,52 @@ def aggregate_weeks(data: list[dict[str, Any]], start: dt.date, today: dt.date, 
     return rows
 
 
-def collect_usage(day: str, key: str, week_count: int = 52) -> dict[str, Any]:
+def model_metadata(rows: list[dict[str, Any]], previous: dict[str, Any] | None = None,
+                   releases: dict[str, Any] | None = None, as_of: str | None = None) -> dict[str, Any]:
+    """Keep earliest observed top-20 week; only curated first-party release dates qualify.
+
+    Catalog creation timestamps and dates embedded in model IDs are not release
+    evidence. Missing release evidence intentionally falls back to observations.
+    """
+    result: dict[str, Any] = {}
+    old = (previous or {}).get("model_metadata") or {}
+    for week in (previous or {}).get("rows", []) + rows:
+        start = week.get("week_start")
+        try:
+            dt.date.fromisoformat(start)
+        except (ValueError, TypeError):
+            continue
+        for model in week.get("top_models", []):
+            model_id = model.get("id")
+            if not isinstance(model_id, str) or not model_id:
+                continue
+            candidates = [start, result.get(model_id, {}).get("first_seen_week"), old.get(model_id, {}).get("first_seen_week")]
+            valid = []
+            for candidate in candidates:
+                try:
+                    valid.append(dt.date.fromisoformat(candidate).isoformat())
+                except (ValueError, TypeError):
+                    pass
+            result[model_id] = {"first_seen_week": min(valid), "release_date": None,
+                                "release_source_url": None, "date_basis": "first_seen_week"}
+    official_hosts = {"openai.com", "anthropic.com", "deepmind.google", "blog.google", "ai.google.dev",
+                      "deepseek.com", "api-docs.deepseek.com", "moonshot.ai", "kimi.com"}
+    for model_id, evidence in (releases or {}).items():
+        if model_id not in result or not isinstance(evidence, dict):
+            continue
+        try:
+            release = dt.date.fromisoformat(evidence.get("release_date"))
+            url = urlparse(evidence.get("source_url", ""))
+            host = (url.hostname or "").removeprefix("www.")
+            if host not in official_hosts or url.scheme != "https" or (as_of and release > dt.date.fromisoformat(as_of)):
+                continue
+        except (ValueError, TypeError):
+            continue
+        result[model_id].update(release_date=release.isoformat(), release_source_url=url.geturl(), date_basis="official_release")
+    return result
+
+
+def collect_usage(day: str, key: str, week_count: int = 52, previous: dict[str, Any] | None = None) -> dict[str, Any]:
     today = dt.date.fromisoformat(day)
     first_week = monday(today) - dt.timedelta(weeks=week_count - 1)
     end = today - dt.timedelta(days=1)
@@ -82,6 +128,9 @@ def collect_usage(day: str, key: str, week_count: int = 52) -> dict[str, Any]:
         total_tokens=latest["total_tokens"], latest_complete_week=latest["label"],
         source_as_of=(payload.get("meta") or {}).get("as_of"), license="CC BY 4.0",
     )
+    releases = json.loads((ROOT / "config/model_release_dates.json").read_text(encoding="utf-8"))
+    result["model_metadata"] = model_metadata(rows, previous, releases.get("models", {}), day)
+    result["model_date_methodology"] = "优先使用经逐项核实的厂商官方发布日期；未核实时以可用历史中的首次进入周榜日期排序，不代表官方发布日。"
     if any(row["status"] == "partial" for row in rows[-4:]):
         result["status"] = "partial"
     return result

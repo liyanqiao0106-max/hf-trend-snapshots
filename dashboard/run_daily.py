@@ -39,6 +39,17 @@ def add_model_history(payload: dict[str, Any], previous: dict[str, Any] | None, 
 
 def add_gpu_history(payload: dict[str, Any], previous: dict[str, Any] | None, day: str, days: int = 365) -> None:
     old = (previous or {}).get("price_history") or {}
+    def quote_key(row: dict[str, Any]) -> tuple[Any, ...]:
+        return tuple(row.get(key) for key in ("provider", "sku", "region", "billing", "gpu_count"))
+    old_quotes = {quote_key(row): row.get("usd_per_gpu_hour") for row in (previous or {}).get("rows", [])}
+    matched = [row for row in payload["rows"] if quote_key(row) in old_quotes]
+    payload["quote_change_summary"] = {
+        "comparison_snapshot_date": (previous or {}).get("snapshot_date"),
+        "comparable_quotes": len(matched),
+        "changed_quotes": sum(old_quotes[quote_key(row)] != row.get("usd_per_gpu_hour") for row in matched),
+        "new_quotes": len(payload["rows"]) - len(matched),
+        "basis": "same provider, SKU, region, billing and GPU count; median stability does not imply each quote is unchanged",
+    }
     groups: dict[str, list[float]] = {}
     for row in payload["rows"]:
         key = "|".join([row.get("provider", ""), row.get("gpu", ""), row.get("billing", "")])
@@ -195,7 +206,7 @@ def main() -> None:
                 key = load_local_key()
             except Exception:
                 key = None
-        run("token", lambda previous: collect_usage(day, key) if key else (_ for _ in ()).throw(ValueError("OPENROUTER_API_KEY 未配置")))
+        run("token", lambda previous: collect_usage(day, key, previous=previous) if key else (_ for _ in ()).throw(ValueError("OPENROUTER_API_KEY 未配置")))
         run("hugging-face", lambda previous: collect_hugging_face(day, history, dist, raw_paths, args.reuse_hf, previous))
         run("github", lambda previous: collect_github(day, history, raw_paths, previous, translator))
         run("github-finance", lambda previous: collect_github_finance(day, previous))

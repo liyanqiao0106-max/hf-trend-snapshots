@@ -1,5 +1,13 @@
 # 交接记录
 
+## 2026-11-13 — 01 — 多模块优化、GPU/存储价格审计及本地交付
+
+- 完成用户本轮明确范围，并采用用户回复的日期/并列规则。02 改 prices.py/config sources/GPU tests 与审计脚本；04 改 app/styles/index/browser tests；01 改 usage.py/run_daily.py/common.py/storage_market.py、模型日期配置、日期/新鲜度测试和存储审计脚本。代码与事实源已在当前目录同步。
+- 已完成金融 Stars/净变化排序和比较日期、Token 滚动与选择持久化及首次入榜回退、五组模型价格基准/同厂商点色、CapEx 横向财务矩阵。官方发布日期映射暂无可靠完整数据，不能称已补齐，实际回退首次入榜；选择保存在同一浏览器同一站点，跨设备/本机与Pages不自动同步。
+- 当前报价审计：Azure旧156行全部同价，399新增、共555当前有效；Lambda9行有11/16未来生效脚注，已排除（错误564行样本仅审计）。存储18个原表价格完全匹配，18个源日错误已修。独立Samsung官方1TB价格319.99且OutOfStock，与TrendForce10/30街价259.92不是同口径，新增独立类别而非替换。严格请求防旧缓存伪新、空解析防假成功、源失败保旧不追加今日历史。
+- 最终联合验收：60 Python、42 Playwright（桌面/手机）、静态契约与差异检查通过；真实页面也检查了12列表头（指标+11家公司）、彩色散点、GPU/存储/Token，未见页面JS异常。完整证据及多源比较限制见 docs/price-audit-2026-11-13.md；work/tmp/gpu-audit-2026-11-13.json 与 work/tmp/storage-audit-2026-11-13/audit.json 保留原始输入、逐行比较。
+- 预览 http://127.0.0.1:8000/；服务脚本 work/tmp/serve-dashboard-review.py，用work/tmp/dashboard-review独立数据覆盖读取，不写正式site/data。未提交推送，等待用户体验反馈；不能说公开Pages已更新本轮功能。继续保护用户原有.gitignore及未跟踪AGENTS/管理草稿。
+
 ## 2026-11-13 — 金融项目线上验收
 
 - `cdefb0a` 已推送 main；周度 Actions run `43325962651` 的采集与 Pages 部署成功。公开 `github-finance` 状态 ok，2026-11-13 上海时间 07:09 采集 100 项，其中 22 个仓库核实存在 SKILL.md；首次采集 100 项净变化均缺失，待下一次成功快照比较。

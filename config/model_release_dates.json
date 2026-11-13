@@ -1,0 +1,4 @@
+{
+  "description": "仅收录逐项核实的模型官方发布日期，键必须匹配 Rankings model ID；值含 release_date 和厂商官网 source_url。空缺时回退首次进入看板周榜的时间，不推断名称日期或目录收录时间。",
+  "models": {}
+}

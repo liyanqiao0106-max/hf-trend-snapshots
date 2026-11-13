@@ -6,8 +6,13 @@
   "translation": {"provider": "mymemory", "max_characters_per_24h": 3000, "max_bytes_per_request": 450},
   "openrouter_usage": {"zero_credit_verified": true, "verification_date": "2026-10-04", "source": "official-data-api"},
   "gpu_skus": [
-    {"sku": "Standard_ND96isr_H100_v5", "gpu": "H100", "gpu_count": 8, "memory_gb": 80},
-    {"sku": "Standard_ND96amsr_A100_v4", "gpu": "A100 80GB", "gpu_count": 8, "memory_gb": 80}
+    {"sku": "Standard_ND96isr_H100_v5", "gpu": "H100", "gpu_count": 8, "memory_gb": 80, "gpu_class": "Training", "hardware_url": "https://learn.microsoft.com/en-us/azure/virtual-machines/nd-h100-v5"},
+    {"sku": "Standard_ND96amsr_A100_v4", "gpu": "A100 80GB", "gpu_count": 8, "memory_gb": 80, "gpu_class": "Training", "hardware_url": "https://learn.microsoft.com/en-us/azure/virtual-machines/ndm-a100-v4"},
+    {"sku": "Standard_ND96isr_H200_v5", "gpu": "H200", "gpu_count": 8, "memory_gb": 141, "gpu_class": "Training", "hardware_url": "https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/gpu-accelerated/nd-h200-v5-series"},
+    {"sku": "Standard_NC40ads_H100_v5", "gpu": "H100 NVL", "gpu_count": 1, "memory_gb": 94, "gpu_class": "Inference", "hardware_url": "https://learn.microsoft.com/en-us/azure/virtual-machines/ncads-h100-v5"},
+    {"sku": "Standard_NC80adis_H100_v5", "gpu": "H100 NVL", "gpu_count": 2, "memory_gb": 94, "gpu_class": "Inference", "hardware_url": "https://learn.microsoft.com/en-us/azure/virtual-machines/ncads-h100-v5"},
+    {"sku": "Standard_NC24ads_A100_v4", "gpu": "A100 80GB", "gpu_count": 1, "memory_gb": 80, "gpu_class": "Training", "hardware_url": "https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/gpu-accelerated/nca100v4-series"},
+    {"sku": "Standard_NC4as_T4_v3", "gpu": "T4", "gpu_count": 1, "memory_gb": 16, "gpu_class": "Inference", "hardware_url": "https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/gpu-accelerated/ncast4v3-series"}
   ],
   "terms": {
     "Token": "模型处理文本的计量单位，不等于单词数",

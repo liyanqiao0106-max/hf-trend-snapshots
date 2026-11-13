@@ -132,6 +132,19 @@ test('GPU and storage expose selectable, comparable trend series',async({page})=
   await expect(page.getByText(/仅允许同一可比单位/)).toBeVisible();
 });
 
+test('price audit labels distinguish source dates from observation dates',async({page})=>{
+  await page.route('**/data/storage/latest.json*',route=>route.fulfill({json:{...storage,rows:storage.rows.map(row=>({...row,as_of:'2026-10-02',observed_on:'2026-10-05',source_date_status:'source_dated'}))}}));
+  await page.route('**/data/gpu/latest.json*',route=>route.fulfill({json:{...gpu,quote_change_summary:{comparison_snapshot_date:'2026-10-04',comparable_quotes:3,changed_quotes:1,new_quotes:0}}}));
+  await page.goto('/#gpu');
+  await expect(page.locator('#chart')).toContainText('跨区域样本中位数');
+  await expect(page.locator('#chart')).toContainText('3 条同规格可比报价');
+  await page.getByRole('button',{name:/存储硬件价格/}).click();
+  await expect(page.locator('#chart')).toContainText('不是 HBM 芯片价格');
+  await page.getByRole('button',{name:'全部明细'}).click();
+  await expect(page.locator('#content')).toContainText('2026-10-02');
+  await expect(page.locator('#content')).toContainText('2026-10-05');
+});
+
 test('SEC financials and research frontier retain their different evidence labels',async({page})=>{
   await page.goto('/#ai-financials');
   await expect(page.getByRole('button',{name:/上市公司Capex/})).toBeVisible();
@@ -161,24 +174,24 @@ test('financial period, source details and sector filters use the unified metric
   await page.route('**/data/ai-financials/latest.json*',route=>route.fulfill({json:{schema_version:2,dataset:'ai_company_financials',status:'partial',rows}}));
   await page.goto('/#ai-financials');
   await expect(page.getByRole('combobox',{name:'财务期间'})).toHaveValue('FY');
-  await expect(page.locator('.fin-company-row')).toHaveCount(2);
-  await page.getByRole('button',{name:/NVIDIA · NVDA/}).click();
-  const mobile=page.viewportSize().width<=700;
-  const detail=page.locator(mobile?'#drawer-content':'.fin-detail-row:not([hidden])');
+  await expect(page.locator('.fin-matrix thead th')).toHaveCount(3);
+  await expect(page.locator('.fin-matrix tbody tr')).toHaveCount(15);
+  await page.locator('.fin-matrix thead th').nth(1).getByRole('button',{name:/查看全部指标/}).click();
+  const detail=page.locator('#drawer-content');
   await expect(detail.locator('.fin-metric')).toHaveCount(11);
   await expect(detail).toContainText('Reported');
   await expect(detail).toContainText('Derived');
   await expect(detail).toContainText('capex / revenue * 100');
   await expect(detail.locator('a[href*="sec.gov"]')).not.toHaveCount(0);
-  if(mobile)await page.getByRole('button',{name:'关闭'}).click();
+  await page.getByRole('button',{name:'关闭'}).click();
   await page.getByRole('combobox',{name:'财务期间'}).selectOption('TTM');
-  await expect(page.locator('.fin-company-row').first()).toContainText('N/A');
+  await expect(page.locator('.fin-matrix tbody')).toContainText('N/A');
   await page.getByRole('combobox',{name:'产业链分组'}).selectOption('AI Infrastructure Buyers');
-  await expect(page.locator('.fin-company-row')).toHaveCount(1);
-  await expect(page.locator('.fin-company-row')).toContainText('Oracle');
+  await expect(page.locator('.fin-matrix thead th')).toHaveCount(2);
+  await expect(page.locator('.fin-matrix thead')).toContainText('Oracle');
   await page.getByRole('combobox',{name:'财务期间'}).selectOption('FY');
-  await page.getByRole('button',{name:/Oracle · ORCL/}).click();
-  await expect(page.locator(mobile?'#drawer-content':'.fin-detail-row:not([hidden])')).toContainText('标准标签未匹配');
+  await page.locator('.fin-matrix thead th').nth(1).getByRole('button',{name:/查看全部指标/}).click();
+  await expect(page.locator('#drawer-content')).toContainText('标准标签未匹配');
 });
 
 test('X watch is integrated in the sidebar with safe filtering and links',async({page})=>{
@@ -267,6 +280,46 @@ test('finance view filters skills and projects and retains navigation',async({pa
   await expect(page.locator('#content')).toContainText('Skill 未核实');
 });
 
+test('finance sorts total stars by default and missing growth last',async({page})=>{
+  await page.route('**/data/github-finance/latest.json*',route=>route.fulfill({json:{...finance,comparison_snapshot_date:null,rows:[
+    {...finance.rows[0],stars:100,stars_net_change:null},
+    {...finance.rows[1],stars:200,stars_net_change:4},
+    {...finance.rows[1],full_name:'org/third',stars:150,stars_net_change:12}
+  ]}}));
+  await page.goto('/#github');
+  await page.getByRole('button',{name:'金融项目'}).click();
+  await expect(page.locator('#content tbody tr').first()).toContainText('org/project');
+  await expect(page.locator('#chart')).toContainText('需下次成功快照');
+  await page.getByRole('combobox',{name:'金融项目排序'}).selectOption('growth');
+  await expect(page.locator('#content tbody tr').first()).toContainText('org/third');
+  await expect(page.locator('#content tbody tr').last()).toContainText('org/skill');
+});
+
+test('Token empty selection persists and week switch retains hidden models',async({page})=>{
+  await page.goto('/#token');
+  await page.locator('[data-trend-toggle="token"]').click();
+  for(const id of await page.locator('[data-trend-picker="token"]:checked').evaluateAll(nodes=>nodes.map(node=>node.value)))await page.locator(`[data-trend-picker="token"][value="${id}"]`).uncheck();
+  await expect(page.locator('[data-trend-picker="token"]:checked')).toHaveCount(0);
+  await expect.poll(()=>page.evaluate(()=>localStorage.getItem('ai-token-series'))).toBe('[]');
+  await page.getByRole('button',{name:'13周'}).click();
+  await expect(page.locator('[data-trend-picker="token"]:checked')).toHaveCount(0);
+  await page.reload();
+  await expect(page.locator('.trend-picker-label')).toContainText('已选 0');
+});
+
+test('Token picker keeps scroll position while toggling a model in a long list',async({page})=>{
+  const extra=Array.from({length:45},(_,i)=>({id:`openai/new-${i}`,tokens:'1',share:0}));
+  await page.route('**/data/token/latest.json*',route=>route.fulfill({json:{...token,rows:token.rows.map((week,i)=>i===2?{...week,top_models:[...week.top_models,...extra]}:week)}}));
+  await page.goto('/#token');
+  await page.locator('[data-trend-toggle="token"]').click();
+  const panel=page.locator('#trend-picker-token');
+  await panel.evaluate(node=>{node.scrollTop=90;});
+  await expect.poll(()=>panel.evaluate(node=>node.scrollTop)).toBeGreaterThan(0);
+  const before=await panel.evaluate(node=>node.scrollTop);
+  await page.locator('[data-trend-picker="token"][value="openai/alpha"]').evaluate(node=>node.click());
+  await expect.poll(()=>panel.evaluate(node=>node.scrollTop)).toBe(before);
+});
+
 test('trending sorts each period by period stars rather than original rank',async({page})=>{
   const shuffled={...trending,rows:[...trending.rows].reverse()};
   await page.route('**/data/github-trending/latest.json*',route=>route.fulfill({json:shuffled}));
@@ -290,11 +343,11 @@ test('AI stars and Hugging Face acceleration mark only top positive quintile',as
 
 test('price pages default to benchmarks and retain filtered detail views',async({page})=>{
   await page.goto('/#models');
-  await expect(page.getByText('价格分位基准')).toBeVisible();
+  await expect(page.getByText('五组模型基准')).toBeVisible();
   const searchBox=await page.getByRole('searchbox').boundingBox();
   const filterBox=await page.locator('#filter').boundingBox();
   expect(searchBox.height).toBe(filterBox.height);
-  await expect(page.locator('#chart circle').first()).toHaveAttribute('r','3.5');
+  await expect(page.locator('#chart circle').first()).toHaveAttribute('r','3.8');
   const scatterBounds=await page.locator('.scatter-svg circle').evaluateAll(points=>({x:points.map(point=>Number(point.getAttribute('cx'))),y:points.map(point=>Number(point.getAttribute('cy')))}));
   expect(Math.min(...scatterBounds.x)).toBeLessThanOrEqual(43);
   expect(Math.max(...scatterBounds.x)).toBeGreaterThanOrEqual(687);
@@ -312,4 +365,40 @@ test('price pages default to benchmarks and retain filtered detail views',async(
   await page.locator('#filter').selectOption('Lambda');
   await expect(page.locator('#content')).toContainText('A100 80GB');
   await expect(page.locator('#content')).not.toContainText('H100 80GB');
+});
+
+test('five model groups keep tied benchmarks and free prices',async({page})=>{
+  const groupRows=[
+    {id:'openai/a',name:'A',vendor:'OpenAI',input_usd_per_million:0,output_usd_per_million:0,context_length:100,url:'https://example.com/a'},
+    {id:'openai/b',name:'B',vendor:'OpenAI',input_usd_per_million:0,output_usd_per_million:1,context_length:100,url:'https://example.com/b'},
+    {id:'anthropic/a',name:'C',vendor:'Anthropic',input_usd_per_million:1,output_usd_per_million:2,context_length:200,url:'https://example.com/c'},
+    {id:'~google/gemini-pro',name:'Gemini Pro',vendor:'~google',input_usd_per_million:2,output_usd_per_million:3,context_length:300,url:'https://example.com/d'},
+    {id:'deepseek/a',name:'DeepSeek',vendor:'DeepSeek',input_usd_per_million:3,output_usd_per_million:4,context_length:400,url:'https://example.com/e'},
+    {id:'~moonshotai/kimi-a',name:'Kimi',vendor:'~moonshotai',input_usd_per_million:4,output_usd_per_million:5,context_length:500,url:'https://example.com/f'},
+    {id:'qwen/a',name:'Qwen',vendor:'Qwen',input_usd_per_million:0,output_usd_per_million:0,context_length:999,url:'https://example.com/g'}
+  ];
+  await page.route('**/data/models/latest.json*',route=>route.fulfill({json:{...models,rows:groupRows}}));
+  await page.goto('/#models');
+  await expect(page.locator('#content tbody')).toContainText('Gemini');
+  await expect(page.locator('#content tbody')).toContainText('Kimi');
+  await expect(page.locator('#content tbody')).not.toContainText('Qwen');
+  await expect(page.locator('#content tbody tr').filter({hasText:'最低输入价'}).filter({hasText:'OpenAI'})).toHaveCount(2);
+  await expect(page.locator('#content tbody')).toContainText('$0');
+  await expect(page.locator('.model-vendor-legend')).toContainText('OpenAI');
+});
+
+test('scatter gives a vendor one stable color across filters',async({page})=>{
+  const rows=[
+    {id:'google/gemini-pro',name:'Gemini Pro',vendor:'Google',input_usd_per_million:1,output_usd_per_million:2,context_length:100},
+    {id:'~google/gemma',name:'Gemma',vendor:'~google',input_usd_per_million:2,output_usd_per_million:3,context_length:100},
+    {id:'anthropic/a',name:'Anthropic A',vendor:'Anthropic',input_usd_per_million:3,output_usd_per_million:4,context_length:100}
+  ];
+  await page.route('**/data/models/latest.json*',route=>route.fulfill({json:{...models,rows}}));
+  await page.goto('/#models');
+  const googleColors=await page.locator('#chart circle[aria-label*="Gem"]').evaluateAll(nodes=>nodes.map(node=>getComputedStyle(node).fill));
+  expect(new Set(googleColors).size).toBe(1);
+  const original=googleColors[0];
+  await page.locator('#filter').selectOption('Google');
+  await expect(page.locator('#chart circle')).toHaveCount(1);
+  expect(await page.locator('#chart circle').first().evaluate(node=>getComputedStyle(node).fill)).toBe(original);
 });
