@@ -2,9 +2,9 @@
   "schema_version": 1,
   "dataset": "workbuddy_ai_news_board",
   "source": "/Users/liyanqiao/Documents/WorkBuddy/AI每日新闻/ai-news-board",
-  "synced_at_utc": "2026-11-18T02:08:15Z",
+  "synced_at_utc": "2026-11-19T04:45:39Z",
   "board": "index.html",
-  "board_sha256": "09de91ccb3d82118e360699a3c333864cf44a2594c6dbb67ee4f5e679732e260",
+  "board_sha256": "31e3c95d07e665ef8df6fb303831aa752ee505da46cf2f3efed648355ffed1b9",
   "reports": [
     {
       "file": "reports/AI产业链重大事件复盘_2026-10-13.html",
@@ -175,7 +175,12 @@
       "file": "reports/AI产业链重大事件复盘_2026-11-18.html",
       "bytes": 45256,
       "sha256": "4cc451600c9f3daedff65d7ecebacfe510ce0fe6668daedd6a97d3d0d8993620"
+    },
+    {
+      "file": "reports/AI产业链重大事件复盘_2026-11-19.html",
+      "bytes": 53109,
+      "sha256": "07c76c81a70f54c8d8890de6fce1db07fe672d08c6db6f21c7468d0a95c367d6"
     }
   ],
-  "report_count": 34
+  "report_count": 35
 }
