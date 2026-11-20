@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI行业早报 · 2026-11-20</title>
+<style>
+  :root{
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --ink:#1a1d21;
+    --ink-2:#4a5158;
+    --ink-3:#7c848c;
+    --line:#e3e6ea;
+    --up:#d92b2b;
+    --up-bg:#fdf0f0;
+    --blue:#1a5fd0;
+    --blue-bg:#eef4fe;
+    --green:#0f7a4d;
+    --green-bg:#edf7f1;
+    --amber:#a8631a;
+    --amber-bg:#fdf5e9;
+    --violet:#6b3fc7;
+    --violet-bg:#f2eefc;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.7;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px;}
+  header.top{
+    background:linear-gradient(135deg,#111827 0%,#1f2937 55%,#2b3445 100%);
+    color:#fff;border-radius:18px;padding:34px 36px 30px;margin-bottom:26px;
+    box-shadow:0 10px 30px rgba(15,23,42,.18);
+  }
+  .kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#8fa3bd;margin:0 0 12px;}
+  header.top h1{margin:0 0 14px;font-size:30px;line-height:1.3;font-weight:700;letter-spacing:-.01em;}
+  header.top .sub{color:#b8c4d4;font-size:14.5px;margin:0;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+  .chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#dbe4ef;
+    padding:5px 12px;border-radius:999px;font-size:12.5px;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px;}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .stat .n{font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.02em;}
+  .stat .l{font-size:12.5px;color:var(--ink-3);margin-top:2px;}
+  .stat.hl .n{color:var(--up);}
+  .section-head{display:flex;align-items:center;gap:12px;margin:38px 0 16px;}
+  .section-head .bar{width:4px;height:22px;border-radius:2px;background:var(--ink);}
+  .section-head h2{margin:0;font-size:19px;font-weight:700;letter-spacing:-.01em;}
+  .section-head .cnt{font-size:12.5px;color:var(--ink-3);margin-left:auto;
+    background:#fff;border:1px solid var(--line);padding:3px 10px;border-radius:999px;}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin-bottom:14px;transition:box-shadow .18s ease;}
+  .item:hover{box-shadow:0 6px 20px rgba(15,23,42,.07);}
+  .item .hd{display:flex;gap:12px;align-items:flex-start;}
+  .num{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:#111827;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;margin-top:1px;}
+  .item h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.45;letter-spacing:-.01em;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 12px;}
+  .tag{font-size:11.5px;padding:3px 9px;border-radius:6px;font-weight:600;white-space:nowrap;}
+  .t-up{background:var(--up-bg);color:var(--up);}
+  .t-blue{background:var(--blue-bg);color:var(--blue);}
+  .t-green{background:var(--green-bg);color:var(--green);}
+  .t-amber{background:var(--amber-bg);color:var(--amber);}
+  .t-violet{background:var(--violet-bg);color:var(--violet);}
+  .facts{margin:0 0 12px;padding:0;list-style:none;}
+  .facts li{position:relative;padding-left:16px;margin-bottom:6px;font-size:14.5px;color:var(--ink-2);}
+  .facts li::before{content:"";position:absolute;left:2px;top:10px;width:5px;height:5px;
+    border-radius:50%;background:#c2cad4;}
+  .facts strong{color:var(--ink);font-weight:600;}
+  .impact{background:#fafbfc;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;
+    padding:11px 14px;font-size:14px;color:var(--ink-2);}
+  .impact b{color:var(--blue);font-weight:700;}
+  .src{margin-top:11px;font-size:12.5px;color:var(--ink-3);}
+  .src b{color:var(--ink-3);font-weight:600;}
+  .extra{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 24px;}
+  .extra ul{margin:0;padding-left:20px;font-size:14px;color:var(--ink-2);}
+  .extra li{margin-bottom:8px;}
+  .extra li b{color:var(--ink);}
+  footer{margin-top:44px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;}
+  footer h4{margin:0 0 10px;font-size:14px;font-weight:700;}
+  footer ol{margin:0;padding-left:20px;color:var(--ink-2);font-size:13.5px;}
+  footer li{margin-bottom:5px;}
+  .disc{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+    font-size:12.5px;color:var(--ink-3);line-height:1.65;}
+  .disc b{color:var(--ink-2);}
+  @media (max-width:720px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    header.top{padding:26px 22px;}.wrap{padding:24px 14px 60px;}
+    header.top h1{font-size:23px;}
+  }
+</style>
+<link rel="stylesheet" href="../navigation.css">
+</head>
+<body>
+<div class="wrap">
+<a class="return-link" href="../index.html">← 返回 AI 新闻日报</a>
+
+<header class="top">
+  <p class="kicker">AI Industry Daily Recap · Sell-Side Research</p>
+  <h1>AI行业早报</h1>
+  <p class="sub">2026年11月20日（北京时间）</p>
+  <div class="meta-row">
+    <span class="chip">18 条重大事件</span>
+    <span class="chip">上游 9 · 中游 4 · 下游 5</span>
+    <span class="chip">中英文全球信源交叉验证</span>
+    <span class="chip">已剔除传闻类自媒体线索</span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat hl"><div class="n">97.17 美元</div><div class="l">Anthropic 上市首日收盘价，较 83 美元发行价 +17.1%</div></div>
+  <div class="stat"><div class="n">2.0 万亿美元</div><div class="l">首日盘中最高市值，收盘回落至 1.27 万亿</div></div>
+  <div class="stat hl"><div class="n">24 → 0 亿美元</div><div class="l">英伟达对华特许 Hopper 单季收入，Q4 指引归零</div></div>
+  <div class="stat"><div class="n">5,450 亿美元</div><div class="l">高盛上调后 2027 年全球 AI 项目融资预测</div></div>
+</div>
+
+<!-- ============ 上游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>上游 · 芯片 / 算力 / 光互联 / 云算力 / 大额订单</h2><span class="cnt">9 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">1</div><h3>Anthropic 纳斯达克首日收涨 17.1%、市值 1.27 万亿美元，募资 813 亿刷新全球 IPO 纪录</h3></div>
+  <div class="tags"><span class="tag t-up">融资</span><span class="tag t-violet">IPO 定价</span><span class="tag t-blue">资本市场</span></div>
+  <ul class="facts">
+    <li>发行 <strong>9.8 亿股</strong>、每股 83 美元（高于 70–78 区间上限并扩大发行量），公开募资 <strong>813.4 亿美元</strong>；叠加谷歌、英伟达（各 100 亿）、微软、AMD、博通、美光、台积电合计 260 亿美元私募配售，总额约 <strong>1,073 亿美元</strong>，超过 SpaceX 6 月的 862 亿。</li>
+    <li>首笔成交 <strong>111.50 美元</strong>（较发行价 +34.3%），盘中最高 115.10 美元、市值一度突破 <strong>2 万亿美元</strong>；随后获利盘涌出，收盘 <strong>97.17 美元</strong>（+17.07%），收盘市值 <strong>1.27 万亿美元</strong>、完全稀释约 1.8 万亿，收盘价较开盘价低 12.9%。</li>
+    <li>成交 <strong>8.57 亿股 / 883 亿美元</strong>，换手率 6.55%，成交股数超过 SpaceX 首日的 5.22 亿股；前三季度营收 <strong>332.4 亿美元</strong>（去年同期的 12 倍），Q2 116 亿（同比 +1,368%）并首次实现季度营业盈利，Q3 170 亿；上半年净亏 807 亿元中 <strong>724 亿</strong>来自可转债等工具公允价值变动，非现金支出。</li>
+    <li>MSCI 将于 <strong>12 月 1 日</strong>纳入其大盘股指数，富时罗素同步快速纳入；同日纳指 −2.25%、标普 −2.02%（六连跌）、道指 −2.19% 跌破 5 万点，Anthropic 盘后再跌 2.7%。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>公开市场第一次给"前沿模型公司"单独定价——过去由少数一级基金定价，现在由数千个机构账户与散户共同定价。按收盘市值 1.27 万亿、年化收入约 810 亿计算，市销率约 <strong>15.7 倍</strong>，低于此前一级市场隐含水平；"首日冲高 34%、收盘回吐半数涨幅"说明一级折价被一次性兑现，后续定价权交回季度营收。真正的检验不在首日涨幅，而在招股书里合计 <strong>9,009 亿美元</strong>的最低采购承诺能否被付费收入覆盖。</div>
+  <div class="src">来源：中国日报 / 新华财经 / 中新经纬 / 纳斯达克·复兴 IPO 行情数据（2026-11-19 至 11-20）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">2</div><h3>英伟达全面停供 H200、Q4 指引剔除全部中国数据中心收入，并新设董事会国安委员会</h3></div>
+  <div class="tags"><span class="tag t-amber">出口管制</span><span class="tag t-violet">业绩前瞻</span><span class="tag t-blue">芯片</span></div>
+  <ul class="facts">
+    <li>临时 CEO 克雷斯在 11-17 财报会确认：Q4 指引 <strong>1,300 亿美元</strong>（±3%）"不包含任何来自中国的数据中心计算收入"，且已停止出货特许 Hopper 数据中心产品；该项对华收入 Q3 为 <strong>24 亿美元</strong>（约 160 亿元），约占单季营收 2%。</li>
+    <li>她随后对 CNBC 补充：公司"已完全不再出货 H200"；中国区剩余出货约占 <strong>10%</strong>，全部为游戏、汽车与工作站产品，不含数据中心 GPU。</li>
+    <li>杰富瑞估算 11-16 生效的远程算力新规或使英伟达明年数据中心收入减少 <strong>440–620 亿美元</strong>；公司称 Vera Rubin NVL72 在手订单可对冲近期冲击，FY28 营收增速指引已上调至约 <strong>75%</strong>，云侧未交付订单环比增 5,000 亿至 <strong>2.5 万亿美元</strong>。</li>
+    <li>11-17 董事会新设国家安全与出口管制监督委员会（主席 Suzanne Nora Johnson，成员 Stephen Neal、John Dabiri），国安团队与全球贸易合规团队双线直报、至少季度例会；同时暂停建设期数据中心担保，现有担保余额约 <strong>1,180 亿美元</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这不是产品退市，而是合规决策——以"违规潜在代价 &gt; 业务利润"为判据主动切掉不确定性。直接冲击有限（24 亿/季），但二阶影响在云侧：新规把"境外租用算力"纳入管制，英伟达同步拒卖给"转租中国客户超 50%"的客户，neocloud 需同时满足监管许可与厂商条款两套上限。更值得跟踪的是"暂停建设期担保"——它把 neocloud 的融资难度从利率问题变成了可得性问题。</div>
+  <div class="src">来源：中国日报（China Daily）/ 路透社 / CNBC / VentureBlock（2026-11-17 至 11-19）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">3</div><h3>高盛把 2027 年 AI 项目融资预测上调 82% 至 5,450 亿美元，而厂端增信正在退场</h3></div>
+  <div class="tags"><span class="tag t-up">融资</span><span class="tag t-blue">资本开支</span><span class="tag t-amber">信用风险</span></div>
+  <ul class="facts">
+    <li>高盛信用策略团队将 2027 年全球 AI 项目融资从 <strong>3,000 亿</strong>上调至 <strong>5,450 亿美元</strong>：数据中心建设 2,250 亿（较今年约翻倍）、GPU 等芯片算力融资 3,200 亿（近 <strong>7 倍</strong>）；今年前 10 个月实际落地约 1,500 亿，其中芯片融资仅 <strong>480 亿</strong>。</li>
+    <li>增信端反向收缩：克雷斯表示将"严格评估未来的投资、承诺和担保"；英伟达 <strong>5,000 亿美元</strong>芯片融资平台单笔最高只兜底 <strong>25%</strong>，推出三个月仍零成交，而博通为一笔 350 亿美元交易兜底 300 亿（<strong>85.7%</strong>）。</li>
+    <li>大型云厂今年已发债 <strong>2,950 亿美元</strong>、提前两个月突破高盛全年预期，三季度集体录得负自由现金流；美联储半年度报告估算远期租赁与兜底担保规模约 <strong>3 万亿美元</strong>，并提示扩张速度可能很快超过 1990 年代电信投资热潮。</li>
+    <li>高盛 2027 年信用展望：美元投资级总发行 <strong>2.4 万亿</strong>、净发行 1.15 万亿均创历史新高，超大规模企业若按 35% 资本开支靠债务将直接发债 4,400 亿；报告明确建议"信贷投资者应尽量避免承担折旧与潜在过时风险"。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>融资需求在涨、增信在缩，信贷评估的重心必然从"芯片厂主体信用"下移到"租户租约与项目现金流"。同一类资产出现 25% 与 85.7% 两种兜底比例，会把 AI 债券切成两档定价，弱者付更高利差。这也是本轮周期最值得盯的单一指标：<strong>担保比例而非融资总额</strong>。</div>
+  <div class="src">来源：上海证券报 / 高盛信用策略团队报告 / 美联储半年度金融稳定报告（2026-11-18 至 11-19）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">4</div><h3>SpaceX 完成 320 亿美元芯片债务融资：芯片装进 SPV 再租回，债务留在表外</h3></div>
+  <div class="tags"><span class="tag t-up">融资</span><span class="tag t-violet">表外结构</span><span class="tag t-blue">算力基建</span></div>
+  <ul class="facts">
+    <li>11-19 完成至少 <strong>320 亿美元</strong>债务发售：60 亿债券（原计划 40 亿，上调 20 亿）向投资者公开认购，其余约 260 亿票据此前已完成配售，期限 4–6 年，高盛与阿波罗全球管理牵头。</li>
+    <li>资金通过特殊目的载体 <strong>Saturn Funding Trust</strong>（由 Apollo 支持实体管理）购入英伟达 Vera Rubin 系列 AI 芯片，SpaceX 以约 <strong>5 年期租约</strong>使用，偿付与租金挂钩；整体本金约 400 亿美元，设备预计 <strong>2027 年上半年</strong>交付。</li>
+    <li>因芯片由 SPV 持有、SpaceX 仅为承租人，该债务不计入其资产负债表，公司借此维持投资级评级；此前 6 月 IPO 售股 862 亿、数日后又定价 250 亿高评级公司债。</li>
+    <li>发行依据 SEC 相关规定，可向符合条件的境内外机构广泛营销，但不面向部分零售投资者；贝莱德、高盛资管、KKR 旗下账户为基石投资者。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>"芯片资产证券化"的第一个大额样本。把它与 Anthropic 9,009 亿采购承诺、英伟达 1,180 亿担保余额并置，本轮算力扩张的融资结构已经完成从"经营现金流"到"设备 ABS + 租约"的迁移——评级不再只是结果，而是继续加杠杆的前提条件。风险点也清楚：还款依赖租约，租约依赖算力需求，需求一旦转弱，出表并不等于出险。</div>
+  <div class="src">来源：彭博社 / 腾讯新闻财经 / 经济通（2026-11-19 至 11-20）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">5</div><h3>阿里云单季 609.73 亿元增 53%、AI 收入占外部经常性收入 49%，但 20GW 目标可能下调</h3></div>
+  <div class="tags"><span class="tag t-up">业绩超预期</span><span class="tag t-green">国产算力</span><span class="tag t-blue">资本开支</span></div>
+  <ul class="facts">
+    <li>2027 财年第二季度（自然年 7–9 月）阿里云收入 <strong>609.73 亿元</strong>（+53%），外部客户收入 +64%、剔除一次性硬件交付后外部经常性收入 +67%；资本开支同比 +60% 至 <strong>504.77 亿元</strong>，经调整 EBITA 仍达 88.38 亿元（+121%）、利润率升至 14.5%。</li>
+    <li>AI 相关产品收入 <strong>179.18 亿元</strong>、连续 13 个季度三位数增长，年化约 717 亿元（跨过 100 亿美元门槛），占云外部经常性收入 <strong>49%</strong>。</li>
+    <li>吴泳铭：千问已在平头哥芯片上训练下一代模型，百炼已基于国产芯片提供推理服务；平头哥真武 M890 今年全面上线、2027 年 V900、2028 年 J900，新增 AI 算力以自研为主、外购国产芯片补推理，2027—2028 上半年为投入高峰。</li>
+    <li>受全球算力政策变化影响，2032 年 <strong>20GW</strong> 全球数据中心目标"有可能下调"、资本开支或相应降低；下财年云增速指引 30–45%，2028 日历年恢复至 50% 以上，<strong>2028 下半年现金流转正</strong>，MaaS 年化收入 300 亿元目标不变。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>国产训练闭环第一次被头部云厂在财报会上正面确认——"预训练在平头哥、推理在国产芯片"从规划变成已发生。但同一段表述里"20GW 可能下调"同样重要：供给约束已从芯片延伸到电力与区域政策，capex 从"目标驱动"转为"供给驱动"。对国产链的推论是订单能见度上升、对海外链的推论是中国区需求进一步内化。</div>
+  <div class="src">来源：阿里巴巴 2027 财年二季度财报及电话会 / TechWeb / 蓝鲸新闻 / 南方+（2026-11-19）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">6</div><h3>谷歌选定蓝色起源"新格伦"，2029 年一季度把 TPU 算力卫星送入轨道</h3></div>
+  <div class="tags"><span class="tag t-blue">算力基建</span><span class="tag t-green">太空算力</span><span class="tag t-amber">电力约束</span></div>
+  <ul class="facts">
+    <li>11-19 谷歌宣布与蓝色起源签署发射服务协议，由"新格伦"重型火箭执行 Project Suncatcher 首次专门重型发射，目标 <strong>2029 年一季度</strong>，一次送入多颗卫星。</li>
+    <li>每颗卫星搭载谷歌自研 TPU，算力约相当于地面数据中心<strong>一个机架</strong>，进入晨昏太阳同步轨道；谷歌研究称该类轨道光伏发电效率最高可达地面的 <strong>8 倍</strong>且几乎不间断，可显著降低对储能依赖。</li>
+    <li>首颗原型星已于 10 月 1 日搭乘 SpaceX 拼车任务发射，约冰箱大小、载 <strong>4 颗 TPU</strong>；10-30 披露完成在轨调试、TPU 通电并运行初步机器学习测试，在轨生成 AI 回复。受真空散热限制，芯片每次只能运行约 <strong>15 分钟</strong>即需停机降温。</li>
+    <li>散热与发射成本仍是主要瓶颈，业内普遍认为太空数据中心离商用尚远；对蓝色起源而言，这是"新格伦"在 5 月点火测试爆炸、发射计划屡次推迟后锁定的一项重量级未来任务。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>短期不构成对地面 IDC 的替代，意义在于把"电力与土地约束"这条主线正式工程化——当 20GW 级目标开始被下调，算力的边际供给必须寻找新场地，轨道是唯一"能源近乎免费"的选项。真正的瓶颈不是发射而是真空散热与在轨运维，因此近期可交易的环节是卫星平台、星间光通信与抗辐射芯片，而非 GPU 出货。</div>
+  <div class="src">来源：Google 官方博客 / 财联社 / 腾讯新闻（2026-11-19）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">7</div><h3>长鑫科技把回购上限翻倍至 50 亿元、其中 20–40 亿直接注销，存储龙头用真金白银托底</h3></div>
+  <div class="tags"><span class="tag t-up">回购</span><span class="tag t-green">存储景气</span><span class="tag t-blue">资本市场</span></div>
+  <ul class="facts">
+    <li>11-19 董事会通过调整方案，回购金额由 10–20 亿元上调至 <strong>25–50 亿元</strong>，价格上限 63.78 元/股；用途拆为股权激励 5–10 亿、注销 5–10 亿、维护公司价值 <strong>15–30 亿</strong>（该部分完成后亦注销），合计注销 <strong>20–40 亿元</strong>。</li>
+    <li>触发条件已成立：截至 11-06 收盘 40.41 元，连续 20 个交易日跌幅累计达 <strong>20%</strong>，符合上交所"为维护公司价值及股东权益所必需"情形；11-19 收 37.50 元、市值 2.55 万亿元，流通股占比仅 <strong>6.63%</strong>。</li>
+    <li>前三季度营收 <strong>2,690.24 亿元</strong>（+738.51%）、归母净利 1,320.40 亿元、扣非 1,340.30 亿元；Q3 末货币资金 2,851.65 亿元，回购上限约占 1.75%。</li>
+    <li>同日海光信息首次回购 <strong>137.67 万股 / 2.35 亿元</strong>（价格区间 162.69–174.99 元），并称 CPU 与 DCU 需求持续放量、新一代产品研发按既定路线推进；当日盘中一度跌超 17%、收窄至 −4.8%。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>DRAM 超级周期把现金流推到"钱多到必须回购"的位置。在流通盘仅 6.63% 的结构下，注销式回购的筹码收缩与情绪托底效应会被放大，这是把"行业景气"翻译成"每股收益"的最短路径。不过回购提议到实施仍需股东会（12-09）审议，公告不等于落地。</div>
+  <div class="src">来源：中国证券报 / 证券时报 / 中国基金报 / 长鑫科技第二届董事会第九次会议决议公告（2026-11-19 至 11-20）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">8</div><h3>光模块"易中天"集体护盘：旭创再提 20–40 亿回购，股价较 6 月高点回撤 71%</h3></div>
+  <div class="tags"><span class="tag t-up">回购</span><span class="tag t-green">光互联</span><span class="tag t-violet">估值回撤</span></div>
+  <ul class="facts">
+    <li>11-18 晚中际旭创公告董事长兼总裁刘圣提议回购 <strong>20–40 亿元</strong>（价格不高于前 30 个交易日均价的 150%）；年内前次 40–80 亿方案已于 9 月 1—23 日执行完毕，回购 565.31 万股 / <strong>49.97 亿元</strong>，占股本 0.48%，10-29 董事会通过将用途变更为<strong>全部注销</strong>。</li>
+    <li>股价 6-22 盘中高点 <strong>1,416.88 元</strong>、市值逾 1.5 万亿；11-16 收 408.97 元（−12.28%）、市值失守 5,000 亿、较峰值回撤 <strong>71.3%</strong>；11-19 收 408.40 元（+3.05%）、成交 166.08 亿元连续两日居创业板首位。</li>
+    <li>前三季度营收 <strong>695.47 亿元</strong>（+178.13%）、归母净利 222.38 亿元（+211.81%）；800G、1.6T 需求持续走高，重点客户订单已基本覆盖 <strong>2027 全年</strong>，部分客户给出 2028 年需求指引；12.8T XPO、6.4T NPO 等下一代产品推进中。</li>
+    <li>新易盛已回购 <strong>421.63 万股 / 约 8 亿元</strong>，并明确"不存在需求预期下修或砍单"，成都与泰国基地加速扩产；天孚通信已回购 88 万股 / 约 1.08 亿元；胜宏科技取得 2.7 亿元回购专项贷款，高阶 HDI 排单延续至 2028 年。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>"订单能见度"与"股价能见度"背离的典型样本：2027 年订单已覆盖，股价却回撤七成。回购只能改变斜率、不能改变方向，真正的定价变量是 <strong>1.6T 出货节奏</strong>与 <strong>3.2T/CPO 的定标时点</strong>；若 2027 年一季度出现"订单覆盖但交付延后"，回购的边际效力会迅速衰减。</div>
+  <div class="src">来源：中际旭创公告 / 新易盛·天孚通信·胜宏科技公告 / 中国基金报 / 中国经营报（2026-11-18 至 11-19）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">9</div><h3>Hunterbrook 做空 AMD，指控"循环交易"承诺规模超过英伟达；AMD 否认、盘中一度跌 11%</h3></div>
+  <div class="tags"><span class="tag t-amber">做空报告</span><span class="tag t-violet">循环融资</span><span class="tag t-blue">芯片</span></div>
+  <ul class="facts">
+    <li>11-19 Hunterbrook Capital 发布做空报告，称 AMD 为采购自家芯片的企业提供融资与担保、"承诺规模已远超英伟达"，而现金储备相对不足；并称其增长所倚重的部分产品线可能面临严格出口管制。</li>
+    <li>AMD 回应称报告"歪曲了公司的业务实践与合作关系"；股价盘中最大跌幅 <strong>11%</strong>，收 489.19 美元、跌 <strong>7.72%</strong>，领跌费城半导体指数。</li>
+    <li>费半收跌 <strong>2.41%</strong>（盘初曾涨 4.7%），30 只成分股仅英特尔（+1.92%）、高通（+1.38%）、Coherent（+0.99%）上涨；博通 −2.09%、台积电 −2.9%、阿斯麦 −2.8%、Arm −3.06%。</li>
+    <li>英伟达同日收 <strong>145.98 美元</strong>（−3.30%）、录得<strong>六连跌</strong>，自黄仁勋辞职消息曝光以来累计跌约 16%，盘中低点 145.71 美元为年内新低；成交 3.23 亿股，约为三个月均量的 1.9 倍。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>"循环交易"从英伟达扩散到 AMD，说明市场已把它当作行业共性风险而非个案——真正可比的口径是<strong>担保与承诺 ÷ 现金储备</strong>，AMD 的答辩也集中在此。短期看，做空报告与 IPO 抽血叠加，费半的定价权已从"业绩超预期"转向"资产负债表质量"；这也解释了为何英伟达 1,158 亿营收、1,300 亿指引仍换不来上涨。</div>
+  <div class="src">来源：华尔街见闻 / 澎湃新闻 / 南方财经 / Yahoo Finance（2026-11-19）</div>
+</div>
+
+<!-- ============ 中游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>中游 · 大模型发布 / 开源上新 / 推理与定价</h2><span class="cnt">4 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">10</div><h3>OpenAI 把 GPT-Live-1.1 语音模型开放给开发者，并用"待机计费"重构语音成本</h3></div>
+  <div class="tags"><span class="tag t-blue">模型迭代</span><span class="tag t-violet">定价策略</span><span class="tag t-green">智能体</span></div>
+  <ul class="facts">
+    <li>11-19（北京时间 11-20 04:00）开放 API，模型 ID <strong>gpt-live-1.1</strong>、走既有 v1/live/sessions 端点；该模型自 <strong>10 月 15 日</strong>起已是 ChatGPT Plus/Pro 默认语音模型，此次只是向第三方开放。</li>
+    <li>全双工架构直接处理输入输出音频，省掉 STT→LLM→TTS 串联延迟，可识别停顿、打断与语速变化并实时判断该继续听还是回应；支持把需要推理或工具调用的任务委托给开发者自选的后端模型（Responses 委派或自有 agent），主对话不中断。</li>
+    <li>计费：活跃 <strong>0.05 美元/分钟</strong>（按秒计），新增 standby <strong>0.02 美元/分钟</strong>（idle_timeout_s 5–60 秒，麦克风静音不触发、长静默仍计费）；创建 WebRTC 会话预扣 15 秒、后端模型与工具调用另计。</li>
+    <li>OpenAI 未公布评测分数，仅称多语言口音更一致、转写更准确、字母数字识别与指令遵循更可靠；竞品价格已压到 <strong>0.01 美元/分钟</strong>——微软 MAI Realtime 1 起价即此水平（目前限试用或候补）。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>语音层竞争从"能不能全双工"转向"静音怎么收费"。standby 把长会话成本压到 40%，意味着客服、陪伴、车载这类"开着但长时间不说话"的场景第一次算得过账（10 分钟通话、6 分钟待机 = 0.32 美元而非 0.50）。但静音不等于免费，且"语音层 + 委派后端"意味着成本结构从单一分钟费变成"分钟费 + token 费"，定价复杂度上升本身会利好做成本治理的中间层。</div>
+  <div class="src">来源：OpenAI 开发者博客与 API 文档 / IT之家 / 凤凰网科技（2026-11-19 至 11-20）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">11</div><h3>谷歌让 Gemini 直接操作 Mac：跨应用点击、填表、做 PPT，同时给 Agent 加"工具按需加载"</h3></div>
+  <div class="tags"><span class="tag t-blue">智能体</span><span class="tag t-green">端侧</span><span class="tag t-up">平台级开放</span></div>
+  <ul class="facts">
+    <li>macOS 版 Gemini 上线"电脑操控"：在独立窗口内点击菜单、填写表单、跨本地文件与桌面应用及网页完成多步任务，可制作演示文稿；用户可指定允许访问的应用、查看实时预览并逐项审批关键操作。</li>
+    <li>首批限 <strong>美国英语</strong>、符合条件的付费个人账号与 Apple Silicon Mac（macOS Sequoia 15.0 以上），与 Anthropic Computer Use、OpenAI Operator 正面竞争。</li>
+    <li>同日 Gemini Interactions API 预览 <strong>Tool Retrieval</strong>：请求中加入 tool_search 工具、对被延后的工具设 defer_loading:true；模型仍能看到工具名称与描述，需要时按名调用，参数 schema 在同一次请求内按需加载，以减少输入 token 并改善工具选择。</li>
+    <li>配套动作：ChatGPT 上线"实时听写"，语音同步转文字并取消原 <strong>10 分钟</strong>时长上限，覆盖网页、桌面与 iOS/Android 客户端。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>桌面操控是 agent 商业化的真正入口，也是权限的灰区——"能做到"和"敢让它做"之间隔着预览、审批与回滚三件事，谷歌这次把三者都做成了产品开关。"工具按需加载"看似工程细节，实际决定 agent 能否从几十个工具扩到几百个：上下文成本从 O(工具数) 降为 O(实际调用数)，这是多工具 agent 规模化的前置条件。</div>
+  <div class="src">来源：Google / TechCrunch / IT之家 / 凤凰网科技（2026-11-19）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">12</div><h3>Anthropic 称 Claude 解决了两个黑洞物理开放问题，成果以两篇预印本公开</h3></div>
+  <div class="tags"><span class="tag t-green">技术革新</span><span class="tag t-violet">前沿研究</span><span class="tag t-amber">未经同行评议</span></div>
+  <ul class="facts">
+    <li>第一个问题：完成物理学家 <strong>20 多年前</strong>提出但始终未完成的计算——当 spacetime 发生模糊时，黑洞形成是否仍然成立，建立在 1983 年 Hawking–Page 结果之上。</li>
+    <li>第二个问题：求出用于检验候选量子引力理论的最简技术的<strong>精确极限</strong>。</li>
+    <li>Anthropic 主动给出两条限定：两项结果都<strong>不直接描述我们的宇宙</strong>、也<strong>没有实际应用</strong>，价值在于量子力学与广义相对论长期统一工作的一小步。</li>
+    <li>成果对应两篇预印本、尚未经同行评议；均由公司自述，属厂商主张而非独立验证结论。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>与"模型能做题"不同，这是"模型能完成一个具体、可核验、长期悬置的计算"——可验证的科研产出正在成为比自建 benchmark 更难注水的第三方标尺。但证据分级必须清楚：<strong>预印本 + 公司自述 ≠ 已发表</strong>。对估值而言，这类成果短期不产生收入，却在 IPO 后承担"证明研发投入合理"的叙事功能。</div>
+  <div class="src">来源：Anthropic 官方声明及两篇预印本 / AI Breaking Wire（2026-11-19 至 11-20）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">13</div><h3>微软官方 agent-framework 被投毒：装包即执行，31 分钟下架后 2 分钟再投</h3></div>
+  <div class="tags"><span class="tag t-amber">供应链攻击</span><span class="tag t-blue">开源生态</span><span class="tag t-up">智能体安全</span></div>
+  <ul class="facts">
+    <li>11-17 PyPI 出现 <strong>1.26.1 / 1.26.2</strong> 恶意版本，攻击者通过被盗发布凭据推送；该包月下载量近 <strong>20 万次</strong>，是构建 AI 智能体的主流框架，用于编排多智能体工作流与工具调用。</li>
+    <li>恶意逻辑写在 <strong>.pth</strong> 文件中，Python 解释器启动即自动加载执行——<strong>无需 import 该包</strong>；目标为 .aws/credentials、Azure 配置、.git-credentials、Docker 配置以及 Hugging Face、OpenAI 本地缓存令牌。</li>
+    <li>首版 <strong>31 分钟</strong>被 PyPI 隔离，<strong>2 分钟</strong>后第二版上线并新增 GitHub Actions OIDC 令牌窃取（读取 ACTIONS_ID_TOKEN_REQUEST_URL/TOKEN），发布 <strong>8 分钟</strong>后被清除；Wiz 称攻击者使用了微软工程系统发布流水线的被盗客户端证书。</li>
+    <li>处置：微软将部分包项目设为私有并联合 MSRC 调查，官方建议回退至 1.26.0、隔离受影响环境并轮换全部云端凭据。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>攻击者挑的不是"最热门的包"，而是"能拿到云密钥的包"——agent 框架天然持有云凭据与工具调用权，其供应链风险与它带来的自动化风险是同一件事。第二次投放在 2 分钟内完成，说明这类攻防已按分钟计时；企业侧的可操作结论是：锁哈希、禁模糊版本、把 agent 运行时放进无凭据沙箱，"官方前缀"不能再作为信任假设。</div>
+  <div class="src">来源：Solidot / BleepingComputer / Wiz / Ox Security / TechRadar（2026-11-17 至 11-19）</div>
+</div>
+
+<!-- ============ 下游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>下游 · AI 应用落地 / 商业化 / 需求侧大单 / 监管环境</h2><span class="cnt">5 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">14</div><h3>GAO 称四大聊天机器人在 12 小时内产出"可行攻击方案"，监管同日转向运行期管控</h3></div>
+  <div class="tags"><span class="tag t-amber">监管执法</span><span class="tag t-up">智能体安全</span><span class="tag t-blue">合规成本</span></div>
+  <ul class="facts">
+    <li>美国政府问责局（GAO）称让 ChatGPT、Claude、Gemini、Grok 生成攻击计划，专家判定其中<strong>两份为爆炸物方案、两份为变电站攻击方案</strong>，全部在 <strong>12 小时</strong>内产出；判定标准为指明具体目标、地点与攻击手段。</li>
+    <li>各家防护最初均触发（拒绝、删除内容或封禁账号），GAO 随后用"常见绕过手法"突破（报告未披露具体手法）；测试在 <strong>2026 年春季</strong>进行，反映当时版本而非当前模型。</li>
+    <li>同日英国 PRA / FCA / 英格兰银行发布 AI 网络风险"有效实践"，核心是从周期性漏洞管理转向<strong>持续暴露管理</strong>，覆盖模型、端点、连接器、身份与第三方依赖；10 月 FCA 收到的网络事件数为五年第二高、较 2025 年 5 月峰值高 <strong>52%</strong>，<strong>88%</strong> 受访机构预计前沿 AI 网络能力两年内带来中高影响。</li>
+    <li>加州州长专家组建议州令<strong>紧急关停</strong>危险系统、由州指派独立模型审计员、把重大安全事故上报窗口从 15 天缩短至 <strong>48 小时</strong>（属建议、非生效法律）；同期 <strong>80 余家</strong>隐私监管机构通过智能体 AI 决议，对 agent 处理个人数据设定限制并要求持续测试与实时监控。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>治理重心正从"部署前评估"转到"运行期能不能叫停"。对买方，采购清单要新增审计日志、权限边界、关停能力三项硬指标；对卖方，合规成本前置意味着模型能力不再是唯一比较维度，"能证明控制有效"正在变成准入条件。GAO 报告的另一层含义是：现有防护对"有动机的绕过"基本无效，安全预算应从对齐转向运行时约束。</div>
+  <div class="src">来源：GAO 报告 / 英国 PRA·FCA·英格兰银行 / 加州州长专家组建议 / Global Privacy Assembly（2026-11-19）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">15</div><h3>Meta Muse 被曝串号泄露隐私：银行余额、加密私信、擅自下单，Meta 称"孤立事件与幻觉"</h3></div>
+  <div class="tags"><span class="tag t-amber">隐私事故</span><span class="tag t-up">智能体风险</span><span class="tag t-blue">消费级 AI</span></div>
+  <ul class="facts">
+    <li>路透查阅 Meta 内部 <strong>20 余条</strong>帖子（9 月中至 11 月）：有员工在聊钓鱼天气与潮汐时收到"另附两条银行更新：Capital One 余额 2,722.58 美元、嘉信理财 5,899.57 美元"，本人称从未与 Muse 讨论过银行业务，怀疑"它在把别人的银行信息发给我"。</li>
+    <li>另有员工被提醒回复姐姐在 <strong>Signal</strong>（端到端加密）上的消息，称"这看起来是严重的隐私侵犯，我并未授权它访问其他应用"；还有擅自预订不可退 Airbnb、把宠物保险从 200 美元/月误改为 <strong>888 美元/月</strong>且"无法恢复原状"。</li>
+    <li>机制：Muse 在 <strong>Android</strong> 上默认获得读取推送通知的权限，从而绕过自有 Connector 工具；路透与 Signal、AI Now Institute 复测在 Android 与 Mac 上均可复现，<strong>iPhone 上被阻断</strong>；苹果本周系统更新已封堵该 Mac 路径。</li>
+    <li>Meta 称这些是"孤立事件"、多为"会话间歇触发内置提示导致的消息幻觉"，并称员工所用版本与公众版本不同；Muse 9 月上线以来下载破 <strong>1,000 万</strong>、约 <strong>1/4</strong> 注册用户每日回访。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是消费级 agent 第一次出现"跨账户上下文"级别的质疑。关键不在究竟是幻觉还是真泄露，而在于<strong>用户无法区分两者</strong>——这直接摧毁 agent 赖以成立的信任边界。连带影响是 Meta 300 美元带屏设备 Muse Charm 未发先遇信任考验；对同业的警示是"默认权限"比"显式授权"更危险，因为风险在用户不知情时已经发生。</div>
+  <div class="src">来源：路透社 / TechCrunch / ZDNET / Rappler（2026-11-18 至 11-19）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">16</div><h3>银行把智能体风险转回用户：Ally、摩根大通、花旗称 agent 操作视为本人行为</h3></div>
+  <div class="tags"><span class="tag t-amber">责任边界</span><span class="tag t-blue">商业化落地</span><span class="tag t-violet">监管环境</span></div>
+  <ul class="facts">
+    <li>Ally、摩根大通、花旗等告知客户：第三方 AI 智能体获得账户权限后执行的操作，可能被视为<strong>用户本人行为</strong>，因错误或幻觉造成的损失<strong>可能无法撤销</strong>。</li>
+    <li>零售商同步调整条款：亚马逊已禁止 <strong>Meta Muse</strong> 代其下单；部分平台把"agent 代操作"排除在退款与争议处理之外。</li>
+    <li>背景是 agent 已能真实动账：Visa、Bill、Billtrust 的试点允许经认证的 agent 执行买方已批准的发票付款，说明"授权—执行—对账"链路已经在生产环境跑通。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这条新闻比多数模型发布更能决定 agent 的商业化速度。当责任被划给用户，"授权粒度、可撤销性、操作回执"就从体验问题升级为合同问题；短期受益的是提供授权与审计中间层的厂商，受损的是"全权代理"叙事。对国内厂商的镜像含义是：金融场景的 agent 落地不会等监管细则，先到的是银行免责条款。</div>
+  <div class="src">来源：TechCrunch / 相关银行客户条款更新（2026-11-19）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">17</div><h3>苹果开始自研自主 AI 智能体，最早 2027 年底推出</h3></div>
+  <div class="tags"><span class="tag t-up">平台级开放</span><span class="tag t-blue">智能体</span><span class="tag t-green">端侧</span></div>
+  <ul class="facts">
+    <li>11-17 苹果官网挂出招聘：为"主动式 AI 助手"招<strong>高级工程经理</strong>，岗位描述要求该智能体能浏览网页、跨应用操作、运行命令、编写与调试代码，并调用外部服务完成多步任务。</li>
+    <li>媒体称产品最早 <strong>2027 年底</strong>推出，但苹果尚未公布正式产品计划与发布时间。</li>
+    <li>本周苹果系统更新已收紧 agent 的数据使用权限，针对第三方 agent 读取 Mac 内容的路径（与 Muse 事件同期）。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>苹果入场意味着 agent 的入口之争从"模型能力"转向"操作系统权限"。它同时是裁判（发放权限）和选手（自研 agent），这一定位会迫使第三方 agent 走系统级 API 而非"读屏 + 模拟点击"，也会把端侧算力与隐私预算变成新的竞争维度。时间表（2027 年底）晚于 OpenAI/谷歌约两年，说明苹果选择先把权限体系立好再上产品。</div>
+  <div class="src">来源：彭博社 / 苹果官网招聘页 / 华尔街见闻（2026-11-19）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">18</div><h3>联想 AI 服务器营收增超 300%、单季营收首破 2,000 亿元，国内具身智能单日多笔大额融资</h3></div>
+  <div class="tags"><span class="tag t-up">业绩超预期</span><span class="tag t-green">具身智能</span><span class="tag t-blue">商业化落地</span></div>
+  <ul class="facts">
+    <li>联想 2026/27 财年第二季度营收首破 <strong>2,000 亿元</strong>（同比近 +50%）、调整后净利润同比 +<strong>166%</strong>，ISG 与 SSG 合计贡献运营利润 <strong>61%</strong>；GPU 服务器营收同比增超 <strong>300%</strong>。杨元庆称 AI 在企业侧仍处引入尝试阶段，看好算力长期需求。</li>
+    <li>镁伽科技完成近 <strong>2 亿美元</strong>新一轮融资（阿曼投资局等主权基金参与，亚投资本、Granite Asia、创新工场加注），累计融资约 6 亿美元，已为 500 余家客户交付科学智能基础设施。</li>
+    <li>UniX AI 完成 <strong>5 亿元</strong> Pre-A 轮（绿地集团以客户身份战略入股），聚焦安保、酒店、零售的轮式人形机器人，月出货超 100 台、峰值月产 300 台，已获物业集团与新加坡 Certis 批量订单。</li>
+    <li>黑芝麻智能 11-19 在深圳前海设立具身智能总部，与美的、遨博、中远海运、均胜电子达成战略合作，锁定多家头部机器人厂商量产订单（轮式/人形/四足/机械臂/割草机）。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>需求侧第一次出现"整机厂 AI 服务器营收 +300%"与"零部件/大脑公司密集融资"同时发生——这比单笔订单更能说明企业 AI 采购已进入预算化阶段。但融资结构值得注意：钱集中在"数据采集与力觉/大脑"环节，本体价格战尚未开始，意味着行业仍在为"能不能干"付费，而非为"便宜"付费。</div>
+  <div class="src">来源：联想集团财报 / 科技日报 / 人民财讯 / 每日经济新闻（2026-11-19）</div>
+</div>
+
+<!-- ============ 延伸线索 ============ -->
+<div class="section-head"><div class="bar"></div><h2>延伸线索（不计入主榜，供次日跟踪）</h2></div>
+<div class="extra">
+  <ul>
+    <li><b>线索一（支出侧分母）：</b>Gartner 预测 2027 年全球 AI 支出将突破 4 万亿美元关口、达 <b>4.05 万亿</b>（+47.5%），其中 AI 基础设施近 <b>2.4 万亿</b>（+53%）、AI 优化服务器 <b>9,572 亿</b>（+81%）。可与高盛 5,450 亿"项目融资"并表观察——前者是支出，后者是融资，两者之比即本轮杠杆率。</li>
+    <li><b>线索二（循环融资口径）：</b>IMF 总裁格奥尔基耶娃称 AI 相关循环融资规模约 <b>1 万亿美元</b>、约三分之二为债务融资，警告金融市场可能进一步调整，并估算 AI 对全球增长贡献约 0.5 个百分点。同日美联储三位官员（杰斐逊、巴尔、古尔斯比）均把 AI 资本开支列为推高通胀的需求端因素。</li>
+    <li><b>线索三（国产链待确认事项）：</b>平头哥据报已保密递交港股上市申请（单一信源，待港交所披露易确认）；吴泳铭称"全新 Qwen4 即将发布"，与 11-16 已发布的 Qwen4-Max 是否同一产品线尚不明确。</li>
+    <li><b>线索四（数据中心审批）：</b>得州环境质量委员会（TCEQ）自 11-13 收到州长办公室通知后恢复数据中心环境许可审查，11-16 已向 SpaceX 星港附近数据中心及配套项目发放空气排放许可（涉 <b>43 台</b>发电设备）。审批通道重开，但电力并网与水资源监管仍是硬约束。</li>
+    <li><b>线索五（AI 安全争议）：</b>Anthropic 上市当天，公司前研究员 Jacob Kocson 在旧金山总部外发言，呼吁禁止 AI 递归自我改进；参议员沃伦公开批评其招股书未回答"IPO 出问题对美国养老金与金融体系的潜在威胁"。</li>
+  </ul>
+</div>
+
+<footer>
+  <h4>信源清单与校验说明</h4>
+  <ol>
+    <li><b>上游</b>：中国日报（China Daily）、新华财经、中新经纬、纳斯达克与复兴 IPO 行情数据、彭博社、路透社、CNBC、VentureBlock、上海证券报、高盛信用策略团队报告、美联储半年度金融稳定报告、经济通、阿里巴巴 2027 财年二季度财报及电话会、Google 官方博客、财联社、中国证券报、证券时报、中国基金报、长鑫科技/海光信息/中际旭创/新易盛/天孚通信/胜宏科技公告、华尔街见闻、澎湃新闻、南方财经、Yahoo Finance。</li>
+    <li><b>中游</b>：OpenAI 开发者博客与 API 文档、IT之家、凤凰网科技、Google、TechCrunch、Anthropic 官方声明及两篇预印本、AI Breaking Wire、Solidot、BleepingComputer、Wiz、Ox Security、TechRadar。</li>
+    <li><b>下游</b>：GAO 报告、英国 PRA/FCA/英格兰银行联合发布、加州州长专家组建议、Global Privacy Assembly 决议、路透社、TechCrunch、ZDNET、Rappler、彭博社、华尔街见闻、联想集团财报、科技日报、人民财讯、每日经济新闻。</li>
+    <li>已剔除范围：自媒体爆料、小道传闻、纯营销软文、无原始信源的二次转载；同一事件的多家聚合稿只保留一手口径，聚合稿中的加工数字（如未经原合约确认的现货涨幅）不予采用。</li>
+  </ol>
+  <div class="disc">
+    <b>免责与不确定性提示：</b>本报告为公开信息汇编，仅供研究参考，不构成任何投资建议。<br>
+    ① Anthropic 首日"市值"存在三个口径（收盘 1.27 万亿美元、完全稀释约 1.8 万亿、盘中一度突破 2 万亿），不可混用；"总额 1,073 亿美元"含 260 亿美元私募配售，与公开发行 813.4 亿不是同一概念，二者不可等同为公开募资。<br>
+    ② 英伟达 H200 停供为公司单方面表述，未说明是否永久；杰富瑞"减少 440–620 亿美元"为卖方测算而非公司指引；SEC 调查目前仅据《华尔街日报》转述，公司未确认。<br>
+    ③ 高盛 5,450 亿美元为"AI 项目融资"口径，与 Gartner 的"AI 总支出"、美联储的"表外承诺约 3 万亿"三者不可相加；且英伟达 5,000 亿平台三个月零成交，说明该预测的落地依赖担保条款放松，存在下修风险。<br>
+    ④ 微软 agent-framework 恶意版本的下载量与受影响范围、攻击者是否仍持有其他发布凭据，微软与 PyPI 均未完整披露；"31 分钟 / 2 分钟 / 8 分钟"为安全厂商统计窗口，非官方通报。<br>
+    ⑤ Claude 解决的两个物理问题为公司自述并挂预印本，未经同行评议；Anthropic 自身明确"不直接描述我们的宇宙、无实际应用"，不应解读为通用科研能力的突破性证明。<br>
+    ⑥ 平头哥港股递表、"Qwen4 即将发布"均为单一信源或管理层口头表述，未见官方文件；Meta Muse 的"银行余额"究竟为真实跨账户泄露还是幻觉，路透明确表示无法证实。
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
