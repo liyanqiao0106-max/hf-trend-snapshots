@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI行业早报 · 2026-11-22</title>
+<style>
+  :root{
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --ink:#1a1d21;
+    --ink-2:#4a5158;
+    --ink-3:#7c848c;
+    --line:#e3e6ea;
+    --up:#d92b2b;
+    --up-bg:#fdf0f0;
+    --blue:#1a5fd0;
+    --blue-bg:#eef4fe;
+    --green:#0f7a4d;
+    --green-bg:#edf7f1;
+    --amber:#a8631a;
+    --amber-bg:#fdf5e9;
+    --violet:#6b3fc7;
+    --violet-bg:#f2eefc;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.7;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px;}
+  header.top{
+    background:linear-gradient(135deg,#111827 0%,#1f2937 55%,#2b3445 100%);
+    color:#fff;border-radius:18px;padding:34px 36px 30px;margin-bottom:26px;
+    box-shadow:0 10px 30px rgba(15,23,42,.18);
+  }
+  .kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#8fa3bd;margin:0 0 12px;}
+  header.top h1{margin:0 0 14px;font-size:30px;line-height:1.3;font-weight:700;letter-spacing:-.01em;}
+  header.top .sub{color:#b8c4d4;font-size:14.5px;margin:0;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+  .chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#dbe4ef;
+    padding:5px 12px;border-radius:999px;font-size:12.5px;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px;}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .stat .n{font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.02em;}
+  .stat .l{font-size:12.5px;color:var(--ink-3);margin-top:2px;}
+  .stat.hl .n{color:var(--up);}
+  .section-head{display:flex;align-items:center;gap:12px;margin:38px 0 16px;}
+  .section-head .bar{width:4px;height:22px;border-radius:2px;background:var(--ink);}
+  .section-head h2{margin:0;font-size:19px;font-weight:700;letter-spacing:-.01em;}
+  .section-head .cnt{font-size:12.5px;color:var(--ink-3);margin-left:auto;
+    background:#fff;border:1px solid var(--line);padding:3px 10px;border-radius:999px;}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin-bottom:14px;transition:box-shadow .18s ease;}
+  .item:hover{box-shadow:0 6px 20px rgba(15,23,42,.07);}
+  .item .hd{display:flex;gap:12px;align-items:flex-start;}
+  .num{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:#111827;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;margin-top:1px;}
+  .item h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.45;letter-spacing:-.01em;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 12px;}
+  .tag{font-size:11.5px;padding:3px 9px;border-radius:6px;font-weight:600;white-space:nowrap;}
+  .t-up{background:var(--up-bg);color:var(--up);}
+  .t-blue{background:var(--blue-bg);color:var(--blue);}
+  .t-green{background:var(--green-bg);color:var(--green);}
+  .t-amber{background:var(--amber-bg);color:var(--amber);}
+  .t-violet{background:var(--violet-bg);color:var(--violet);}
+  .facts{margin:0 0 12px;padding:0;list-style:none;}
+  .facts li{position:relative;padding-left:16px;margin-bottom:6px;font-size:14.5px;color:var(--ink-2);}
+  .facts li::before{content:"";position:absolute;left:2px;top:10px;width:5px;height:5px;
+    border-radius:50%;background:#c2cad4;}
+  .facts strong{color:var(--ink);font-weight:600;}
+  .impact{background:#fafbfc;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;
+    padding:11px 14px;font-size:14px;color:var(--ink-2);}
+  .impact b{color:var(--blue);font-weight:700;}
+  .src{margin-top:11px;font-size:12.5px;color:var(--ink-3);}
+  .src b{color:var(--ink-3);font-weight:600;}
+  .extra{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 24px;}
+  .extra ul{margin:0;padding-left:20px;font-size:14px;color:var(--ink-2);}
+  .extra li{margin-bottom:8px;}
+  .extra li b{color:var(--ink);}
+  footer{margin-top:44px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;}
+  footer h4{margin:0 0 10px;font-size:14px;font-weight:700;}
+  footer ol{margin:0;padding-left:20px;color:var(--ink-2);font-size:13.5px;}
+  footer li{margin-bottom:5px;}
+  .disc{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+    font-size:12.5px;color:var(--ink-3);line-height:1.65;}
+  .disc b{color:var(--ink-2);}
+  @media (max-width:720px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    header.top{padding:26px 22px;}.wrap{padding:24px 14px 60px;}
+    header.top h1{font-size:23px;}
+  }
+</style>
+<link rel="stylesheet" href="../navigation.css">
+</head>
+<body>
+<div class="wrap">
+<a class="return-link" href="../index.html">← 返回 AI 新闻日报</a>
+
+<header class="top">
+  <p class="kicker">AI Industry Daily Recap · Sell-Side Research</p>
+  <h1>AI行业早报</h1>
+  <p class="sub">2026年11月22日（北京时间）</p>
+  <div class="meta-row">
+    <span class="chip">16 条重大事件</span>
+    <span class="chip">上游 6 · 中游 5 · 下游 5</span>
+    <span class="chip">中英文全球信源交叉验证</span>
+    <span class="chip">已剔除传闻类自媒体线索</span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat hl"><div class="n">近 300 亿元</div><div class="l">中国移动第二批 AI 超节点集采，5.216 万卡</div></div>
+  <div class="stat"><div class="n">75 亿美元</div><div class="l">亚马逊洽购 Decart，较 5 月估值溢约 88%</div></div>
+  <div class="stat hl"><div class="n">100 亿次</div><div class="l">国产开源大模型全球累计下载量</div></div>
+  <div class="stat"><div class="n">119.1 万亿</div><div class="l">中国模型 OpenRouter 周调用词元，连续 29 周第一</div></div>
+</div>
+
+<!-- ============ 上游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>上游 · 芯片 / 算力 / 光互联 / 云算力 / 大额订单</h2><span class="cnt">6 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">1</div><h3>中国移动启动第二批 AI 超节点集采：5.216 万卡、近 300 亿元，首批 20,480 卡五家全走鲲鹏+昇腾</h3></div>
+  <div class="tags"><span class="tag t-up">大额订单</span><span class="tag t-blue">算力基建</span><span class="tag t-green">东数西算</span><span class="tag t-violet">系统级竞争</span></div>
+  <ul class="facts">
+    <li>11 月 21 日，中国移动启动 <strong>2026—2027 年新一代人工智能超节点设备（第二批）集中采购</strong>，合计 <strong>52,160 卡、金额近 300 亿元</strong>；公告当日尚未揭晓中标人。</li>
+    <li>首批 20,480 卡集采已落地，配套 <strong>448 台 RoCE 交换机、82 套存储</strong>，五家整包报价集中在 <strong>115.99—117.02 亿元</strong>（价差不足 1%），按 <strong>30%/25%/20%/15%/10%</strong> 分卡，对应 6,144/5,120/4,096/3,072/2,048 卡。</li>
+    <li>五家全部为鲲鹏+昇腾生态整机厂（华鲲振宇、宝德计算、华启智慧、百信信息、神州鲲泰）；华启智慧含税中标口径约 <strong>26.3 亿元</strong>、交货期 <strong>30 天</strong>，正式合同待签。</li>
+    <li>中国移动 2027 年采购总额 <strong>5,000 亿元以上</strong>、其中算力投资 <strong>1,000 亿元以上</strong>；2026 年已开工 3 个吉瓦级智算园区、预计交付 <strong>1.5GW</strong>，2027 年再建 2 个、总数达 7 个。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>集采的评价维度已从"单卡峰值"切到"系统级交付"——互联协议、内存统一编址、液冷散热、集群运维成为比价项。五家报价贴身意味着整机柜环节已进入价格竞争，利润向方案与交付迁移；对上游的传导顺序是交换机/光模块 → 液冷 CDU 与高压直流 → 高多层 PCB 与覆铜板，真正的增量在园区配套（不在本次整机招标界面内）。运营商算力也从"以训练为主"转向"以推理资源布局为主"，这一转向比 300 亿元的绝对金额更重要。</div>
+  <div class="src">来源：中国移动采购公告 / 腾讯新闻 / 新浪财经 / 财联社（2026-11-21）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">2</div><h3>亚马逊拟 75 亿美元收购 Decart：买的不是收入，是"把模型搬离 CUDA"的能力</h3></div>
+  <div class="tags"><span class="tag t-up">并购</span><span class="tag t-blue">算力基建</span><span class="tag t-amber">CUDA 生态</span><span class="tag t-violet">战略溢价</span></div>
+  <ul class="facts">
+    <li>《金融时报》11 月 21 日报道，亚马逊收购 Decart 的谈判进入后期，对价约 <strong>75 亿美元</strong>（含五年业绩激励），最快下周初签约、或在 11 月 30 日 AWS re:Invent 公布，谈判仍可能破裂。</li>
+    <li>Decart 2023 年由三位以色列 8200 部队背景工程师创立，今年 5 月融资 3 亿美元后估值 <strong>40 亿美元</strong>（红杉、Benchmark、Radical、英伟达参投），半年溢价约 <strong>88%</strong>；Calcalist 称其收入仅"数千万美元级"，对应市销率 <strong>超过 100 倍</strong>。</li>
+    <li>核心资产是芯片可移植层：把训练好的模型在<strong>数周而非数月</strong>内从英伟达 GPU 迁到 Trainium3，并提升自研芯片单位电力下的 token 产出。Decart 是 Trainium3 早期采用者。</li>
+    <li>交易结构偏"买人"：三位创始人<strong>留任五年</strong>、部分对价第五年支付、签竞业；牵头人为 Annapurna Labs 负责人 Nafea Bshara（该部门 2015 年被亚马逊以 3.75 亿美元收购）。Anthropic 8 月曾谈约 60 亿美元、9 月退出，英伟达亦拒绝重启。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是资本第一次为"算力的可迁移性"单独定价——CUDA 的护城河本质是迁移成本，买方愿意为拆除这一成本付 100 倍以上 PS。对 AWS，价值在于把 Trainium 从"更便宜的算力"变成"可与英伟达混用的算力"；对英伟达，则意味着一家自家参投的企业进入主要挑战者体内。更值得注意的反向信号：最懂算力的两个买家（Anthropic、英伟达）先后放弃，说明该资产的定价高度依赖买方的战略位置，而非现金流。</div>
+  <div class="src">来源：Financial Times / 中新经纬 / Calcalist / SiliconNoon（2026-11-21 至 11-22）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">3</div><h3>郭明錤：谷歌砍 2027 年 TPU 8i 约 100 万颗（−20%）、上调联发科 8t，并转向直采 HBM</h3></div>
+  <div class="tags"><span class="tag t-amber">供给约束</span><span class="tag t-blue">定制硅</span><span class="tag t-green">推理架构</span><span class="tag t-violet">份额再分配</span></div>
+  <ul class="facts">
+    <li>天风国际 11 月 20 日晚产业调查：谷歌下修 2027 年由博通设计的 <strong>TPU 8i 约 100 万颗</strong>（以单价更高的 8i Max / Whalefish 为主），约占该系列 2027 年出货的 <strong>20%</strong>；同时拟增加联发科设计的 <strong>TPU 8t</strong> 出货，幅度尚未确定。</li>
+    <li>分工差异是关键：<strong>8t 主攻大模型训练，8i 偏实时推理</strong>；调整背景是供应链紧张与数据中心供电受限，谷歌近月反复强调"前沿模型研发优先取得算力"。</li>
+    <li>联发科 Q3 法说会披露：首款数据中心 AI 加速器已于 <strong>9 月出货</strong>，2026Q4 相关营收预估 <strong>25 亿美元</strong>，2027 年同一项目力拼约 <strong>160 亿美元</strong>（原目标区间高标）；ToAlpha 预估 2027 年 8t 出货约 340 万颗。</li>
+    <li>同期另有供应链消息：谷歌正转向<strong>直接采购 TPU 用 HBM</strong>，可能改变存储厂与云厂之间的供货与议价结构。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是"电力约束 → 芯片结构"的第一份量化证据：并非总需求下修，而是把推理卡预算挪给训练卡。对博通是 2027 年 ASIC 收入的下修风险（8i Max 单价最高），对联发科是份额上修但增量未定；对存储厂，客户从"经 GPU/ASIC 厂间接采购"变为"云厂直采"，2027 年 HBM4 配额谈判的对手方会变。需注意：8t 增量能否补足 8i 减量尚无数据，不能据此推算谷歌全年 TPU 出货。</div>
+  <div class="src">来源：天风国际（郭明錤）/ 财联社 / 界面新闻 / 优分析（2026-11-20 至 11-21）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">4</div><h3>美光：2027 年产能已有 75% 售罄，HBM 价格同比大幅上涨，客户谈判已转向 2028 年</h3></div>
+  <div class="tags"><span class="tag t-up">产能锁定</span><span class="tag t-amber">供应链瓶颈</span><span class="tag t-blue">HBM</span><span class="tag t-violet">长约机制</span></div>
+  <ul class="facts">
+    <li>11 月 18 日 TomorrowX 峰会（奥斯汀），CEO 梅赫罗特拉称 <strong>2027 年产能已有 75% 售罄</strong>，客户谈判已转向 2028 年；2027、2028 年供需将比 2026 年更紧，CTO 德博尔称"看不到供应何时追上需求"。</li>
+    <li>合同结构：已签 <strong>26 份战略客户协议（SCA）</strong>，客户资金承诺 <strong>320 亿美元</strong>（多为现金预付），覆盖 2030 年前 <strong>35% 以上</strong>收入，剩余履约义务约 <strong>1,500 亿美元</strong>；<strong>锁量不锁价</strong>，价格落在区间内并按年重置。</li>
+    <li>2027 年 HBM bit 供应<strong>绝大部分已被协议覆盖、价格同比大幅上涨</strong>；FY2026 营收 <strong>1,331.9 亿美元（+256%）</strong>、Q4 542.3 亿（+379%）、数据中心 SSD 近 100 亿美元；FQ1'27 指引 615 亿 ±15 亿、毛利率约 86.25%。</li>
+    <li>供给时间表构成硬约束：纽约 megafab 首片晶圆要到 <strong>2030 年</strong>；3D 堆叠 DRAM 预计 <strong>2028—2029 年</strong>进入市场、2030—2031 年普及，散热是首要门槛。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>"售罄"必须拆成"锁量 + 部分锁价"：量被锁定使资本开支可融资，价按年重置使厂商保留上行弹性，这与英伟达的供应承诺是同一套长约机制。真正的风险变量是订单是否含超额下单（PCB 端协会已明确提示此类行为），以及 NAND 与 DRAM/HBM 必须分开看——NAND 合约价 2027Q1 已预期转跌 0 至 −5%，把"售罄"外推到 NAND 会误读周期位置。</div>
+  <div class="src">来源：美光 FY26Q4 电话会 / TomorrowX Summit / 第一财经 / Zacks / VLSI Korea（2026-11-18 至 11-21）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">5</div><h3>全球电子协会发 PCB 供应预警：订单 +56.1%、出货仅 +13.3%，短缺至少延续至 2027 年上半年</h3></div>
+  <div class="tags"><span class="tag t-amber">供应链瓶颈</span><span class="tag t-green">产能扩张</span><span class="tag t-blue">AI 服务器</span><span class="tag t-up">交期拉长</span></div>
+  <ul class="facts">
+    <li>总部位于美国的全球电子协会（Global Electronics Association）发布预警：截至 2026 年 9 月，PCB <strong>订单量同比 +56.1%、出货量仅 +13.3%</strong>，剪刀差逾 40 个百分点；高多层板交期已达 <strong>16—20 周</strong>甚至更长。</li>
+    <li>需求形态变化是根因：普通 PCB 约 <strong>12 层</strong>，AI 服务器用板正从 20 层向 <strong>40—60 层以上</strong>演进，每加一层多耗玻纤布、树脂、半固化片、铜箔与覆铜板，并占用更多加工时间。</li>
+    <li>材料端更紧：标准 FR-4 覆铜板交期由一年前的 <strong>2—3 周</strong>拉长至 <strong>6—8 周</strong>，高端低损耗覆铜板达 <strong>14—18 周</strong>；日本一家主要玻纤织机供应商订单已排至 <strong>2027 年底</strong>，直接制约玻纤布扩产。</li>
+    <li>扩产在加速但远水难解：2026 年上半年 <strong>20 家中国 PCB 企业</strong>新增产能投资超 <strong>100 亿美元</strong>；A 股 PCB 厂商年内已披露扩产及募资计划超 <strong>1,000 亿元</strong>，头部板厂产能利用率九成以上。协会预计常规材料紧张至少延续到 <strong>2027 年上半年</strong>，2028 年中前难明显缓解，风险级别类比 2021 年缺芯。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>短缺性质是"高端产能被集中占用 + 材料端受限"，而非全面缺货，因此价格弹性集中在高多层、高阶 HDI、HVLP4 等少数规格。与 2021 年缺芯的关键差别是瓶颈位置——上一轮卡在晶圆与封测（政策可见度高、扩产有路径），本轮卡在玻纤布/铜箔/织机（设备交期决定节奏、政策难以介入）。协会同时提示提前采购放大了在手订单，2027 年存在订单回吐风险，这是判断"短缺"与"泡沫"的分水岭。</div>
+  <div class="src">来源：全球电子协会报告 / 上海证券报 / 新华财经 / 环球网 / IT之家（2026-11-18 发布，11-22 中文披露）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">6</div><h3>光模块与 PCB 订单能见度延伸至 2028 年：旭创获纳入恒生科技指数，胜宏 Q3 毛利率环比升至 34.17%</h3></div>
+  <div class="tags"><span class="tag t-up">订单能见度</span><span class="tag t-green">光互联</span><span class="tag t-blue">1.6T</span><span class="tag t-violet">估值重估</span></div>
+  <ul class="facts">
+    <li>11 月 20 日恒生指数公司公布：<strong>恒生科技指数成分股由 30 只增至 50 只</strong>，中际旭创等 20 只硬科技标的获纳入，12 月 4 日收市后实施、<strong>12 月 7 日起生效</strong>。</li>
+    <li>中际旭创前三季度营收 <strong>695.47 亿元（+178.13%）</strong>、归母净利 <strong>222.38 亿元（+211.81%）</strong>；主要客户订单已基本覆盖 2027 年全年，部分重点客户给出 <strong>2028 年明确需求指引</strong>。</li>
+    <li>摩根士丹利 11 月 18 日亚太峰会纪要：<strong>1.6T 订单上修、800G 小幅下调、整体在手订单无任何取消</strong>；NPO 需求上调，<strong>2027 年下半年量产</strong>、2028 年进入更大规模增长。</li>
+    <li>PCB 侧同步共振：胜宏科技前三季度营收 <strong>184.61 亿元（+30.77%）</strong>、扣非净利 36.94 亿元（+13.74%），Q3 毛利率环比 <strong>+2.06pp 至 34.17%</strong>，高多层与高阶 HDI 排单已延续至 <strong>2028 年</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>订单能见度从季度延伸到 2028 年，本质是客户用长约换产能优先权，与存储 SCA 是同一套机制，反映的是"供给纪律"而非单纯需求旺盛。但两条曲线驱动不同：光模块靠速率代际（800G→1.6T→NPO/CPO），价格年降可控；PCB 靠层数与材料等级，受玻纤布交期硬约束。指数纳入带来被动资金与流动性，但估值锚仍是 2027 年的价格年降幅度与 NPO 量产良率。</div>
+  <div class="src">来源：恒生指数公司公告 / 摩根士丹利纪要 / 证券时报 / 经济参考报 / 同花顺（2026-11-18 至 11-22）</div>
+</div>
+
+<!-- ============ 中游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>中游 · 大模型发布 / 开源上新 / 推理与定价</h2><span class="cnt">5 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">7</div><h3>腾讯全量开源 770B Hy4：Tencent Hy License 设 5,000 万美元 / 1 亿 MAU 商用门槛，FP8 需 8 卡以上</h3></div>
+  <div class="tags"><span class="tag t-up">开源上新</span><span class="tag t-violet">许可条款</span><span class="tag t-green">稀疏注意力</span><span class="tag t-blue">端侧/私有化</span></div>
+  <ul class="facts">
+    <li>11 月 20 日开放权重：<strong>Hy4 instruct、Hy4-FP8、Hy4-base</strong> 及 GGUF 测试版上线 Hugging Face / ModelScope / GitCode。总参 <strong>770B</strong>、单 token 激活 <strong>49B 文本 + 1.23B 视觉</strong>，78 层（1 层 dense + 77 层 MoE，256 路由专家取 top-8 +1 共享），上下文 <strong>1,048,576 token</strong>。</li>
+    <li>架构组合：MLA + 门控 DeepSeek 稀疏注意力（每步取 <strong>top-2,048</strong> token、IndexCache 跨层复用）+ 内置 <strong>DFly2</strong>（3.3B、五层）投机解码器，复用主模型 KV 与稀疏位置，<strong>零额外 KV 显存</strong>。</li>
+    <li>许可证并非 Apache 2.0：<strong>Tencent Hy License</strong> 在 Apache 2.0 基础上加条款——对外售卖 Hy4 推理服务，年收入超 <strong>5,000 万美元</strong>或月活超 <strong>1 亿</strong>需另行书面许可；自用与中小规模运营不受限。</li>
+    <li>部署门槛现实：BF16 权重约 <strong>1.55TB</strong>、FP8 约 <strong>0.79TB</strong>，8 卡 H100（640GB）装不下，需 H200 级或多机；沐曦曦云 C 系列、燧原等国产 GPU <strong>Day 0 适配</strong>。官方 API 报价 <strong>0.834 / 0.042 / 2.501 美元</strong>（输入/缓存/输出，每百万 token）。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>开源竞争从"参数规模"转向"许可证设计"——腾讯把权重开放到可自建，却把商业化门槛设在 5,000 万美元/1 亿 MAU，等于用开源换生态、用条款保护云业务，这与 DeepSeek 的全开放是两种路线。对国产 GPU 是明确利好：FP8 下 790GB 权重天然需要多卡大显存，是国产卡"以大容量 HBM 换带宽劣势"的适配窗口。对买方，自建总成本要按显存、电力与运维折算，不能只看 API 单价。</div>
+  <div class="src">来源：腾讯混元模型卡 / Hugging Face / TechNode / IT之家 / 腾讯新闻（2026-11-20 至 11-22）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">8</div><h3>工信部：国产开源模型全球累计下载破 100 亿次，OpenRouter 周调用 119.1 万亿词元连续 29 周第一</h3></div>
+  <div class="tags"><span class="tag t-up">生态跃迁</span><span class="tag t-blue">词元计量</span><span class="tag t-green">开源生态</span><span class="tag t-violet">定价口径</span></div>
+  <ul class="facts">
+    <li>《人民日报》11 月 21 日头版"大数据观察"（数据来源：工业和信息化部）：我国人工智能开源大模型<strong>全球累计下载量突破 100 亿次</strong>。</li>
+    <li>11 月 9 日至 15 日，全球开源模型聚合平台 OpenRouter 上中国模型<strong>周调用量 119.1 万亿词元，连续 29 周全球第一</strong>。</li>
+    <li>日均词元调用量已突破 <strong>500 万亿</strong>（截至 2026 年 6 月，中央网信办副主任王京涛披露；2024 年初约 1,000 亿，两年增长上千倍）。</li>
+    <li>生态底盘与商品化同步：国家级开源社区汇聚用户 <strong>1,100 余万</strong>、托管模型超 <strong>7 万个</strong>；Hugging Face 2026 春季报告显示 2025 年 2 月至 2026 年 2 月中国开源模型下载占比 <strong>41%</strong>，为最大单一来源；9 月 3 日起主流网购平台上线词元充值中心，双 11 首次把词元作为独立品类，Token 成交金额环比 <strong>+728%</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>下载量衡量"愿意用"、调用量衡量"在用"，连续 29 周第一意味着国产开源模型已进入生产环境依赖，这比任何跑分都更硬。产业传导在于词元从技术参数变成统计与定价口径：算力采购从"买卡"转向"买单位 token 产出"，资本开支结构会进一步偏向推理侧（低时延、大显存、高带宽），而非纯训练侧。需警惕口径混用——100 亿次是累计值、500 万亿是 6 月时点值、119.1 万亿是单周平台值，三者不可相加。</div>
+  <div class="src">来源：人民日报 / 中国经济网 / 工业和信息化部 / OpenRouter / Hugging Face（2026-11-21）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">9</div><h3>英伟达洽购 Inception 至少 5 亿美元：把扩散式大模型并入 Nemotron，押注"并行生成"架构</h3></div>
+  <div class="tags"><span class="tag t-up">并购</span><span class="tag t-green">技术革新</span><span class="tag t-blue">推理效率</span><span class="tag t-violet">团队锁定</span></div>
+  <ul class="facts">
+    <li>The Information 11 月 20 日独家：英伟达正深入谈判收购 Inception，<strong>基础对价至少 5 亿美元</strong>，另设与员工入职后业绩目标挂钩的 earnout；双方未置评。</li>
+    <li>Inception 2024 年成立于帕洛阿尔托，<strong>30 余人</strong>、累计融资约 <strong>5,000 万美元</strong>（Menlo 领投，英伟达 NVentures 与微软 M12 均参投）；三位创始人 Stefano Ermon、Aditya Grover、Volodymyr Kuleshov 预计全职加入。</li>
+    <li>技术路线是扩散式大语言模型（dLLM）：从噪声草稿并行去噪，而非逐 token 自回归。旗舰 <strong>Mercury 3</strong>（10 月 19 日）称在英伟达 GPU 上 <strong>1,068 token/s</strong>、100 万上下文、<strong>0.20/0.70 美元</strong>每百万 token，但无第三方评测分数。</li>
+    <li>战略指向双向：一方面补强 <strong>Nemotron</strong> 开源模型（已开放 Nemotron-Labs-Diffusion 3B/8B/14B，8B 在 GB200 吞吐为同规模基线 4 倍），一方面服务机器人"物理 AI"。微软此前也表达兴趣，谈判在黄仁勋离职前即已启动。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是一笔"架构期权"而非收入并购——扩散并行生成把逐 token 串行瓶颈转成并行计算，天然贴合 GPU 利用率与低延迟智能体场景。英伟达先用自研 Nemotron-Labs 验证可行性、再买商业化最快的团队，路径与当年收购 Mellanox 一致。买方竞争（微软同为股东）说明稀缺性已被定价；但 dLLM 的质量-速度权衡仍缺独立复现，短期更像"给推理成本曲线买一个下修选项"。</div>
+  <div class="src">来源：The Information / 新浪财经 / The Decoder / 环球市场播报（2026-11-20 至 11-21）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">10</div><h3>Cognition 以 750 亿美元估值洽谈 20 亿美元融资：两个月 +56%，年内第三轮</h3></div>
+  <div class="tags"><span class="tag t-up">融资</span><span class="tag t-violet">估值重估</span><span class="tag t-blue">编程智能体</span><span class="tag t-amber">一级/二级背离</span></div>
+  <ul class="facts">
+    <li>彭博 11 月 20 日报道、11 月 21 日中文披露：Devin 开发商 Cognition 正以 <strong>750 亿美元估值</strong>洽谈融资 <strong>20 亿美元或更多</strong>，细节可变、尚未签约；若完成将是年内第三轮。</li>
+    <li>估值阶梯：2026 年 5 月 <strong>26 亿</strong> → 9 月 <strong>48 亿</strong>（融资超 20 亿）→ 现谈 750 亿，两个月 <strong>+56%</strong>、七个月近 3 倍；年内累计融资已超 <strong>30 亿美元</strong>。</li>
+    <li>收入侧：5 月 run-rate <strong>4.92 亿美元</strong>、9 月初近 <strong>9 亿</strong>、公司称 9 月有望达 <strong>10 亿年化</strong>；客户含花旗、英伟达、高盛、戴尔、思科。</li>
+    <li>竞争格局变化：SpaceX 以 <strong>600 亿美元</strong>收购 Cursor 后，Cognition 成为最大独立编程智能体厂商；本轮由现有投资者 Avenir、Accel、Lightspeed、Lux、Bessemer 洽谈参与。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>750 亿对应约 <strong>75 倍 ARR</strong>，是把"编程智能体"当成下一代 IDE 与劳动力叠加定价。需要拆分的不是总额而是结构：Windsurf 席位收入（并购带来的年化）与 Devin 按用量收入谁在增长——前者是一次性并表，后者才是复利。同日 Databricks 传 2,250 亿、Anthropic 上市次日跌 11%，一级抢筹与二级重定价同时发生，这个估值差是后续最大回撤来源。</div>
+  <div class="src">来源：Bloomberg / 中新经纬 / 路透社 / Value Add VC（2026-11-20 至 11-21）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">11</div><h3>METR 更新"时间跨度"评测：能力仍指数上行，但需要判断力的任务明显落后于编程</h3></div>
+  <div class="tags"><span class="tag t-green">能力评测</span><span class="tag t-blue">可验证性</span><span class="tag t-amber">TAM 重划</span></div>
+  <ul class="facts">
+    <li>评估非营利机构 METR 更新其时间跨度（time horizon）评测，经《MIT Technology Review》报道：部分能力仍沿指数轨迹提升，但在<strong>需要判断力的任务上明显落后于编程类任务</strong>。</li>
+    <li>原版结论是前沿模型可完成的任务时长<strong>每 4 个月翻倍</strong>；本次更新加入更多更长、更开放式的任务，能力分布出现明显分化。</li>
+    <li>核心问题是"可验证性迁移"：在代码、数学等可自动判定对错的任务上的进步，能否迁移到成功标准模糊的任务（研究、运营、决策支持）。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这直接决定"能力—收入"的映射斜率。如果进步集中在可验证域，agent 的商业化会先落在软件工程、客服工单、数据录入等有明确 reward 的场景，通用"数字员工"的渗透曲线将慢于基准分数暗示的速度。对卖方，正确做法是按任务可验证性拆分 TAM，而不是按模型综合分数线性外推市场规模；对买方，选型应以自身任务的失败率与重试成本为准，而非榜单排名。</div>
+  <div class="src">来源：METR / MIT Technology Review（2026-11-21）</div>
+</div>
+
+<!-- ============ 下游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>下游 · AI 应用落地 / 商业化 / 需求侧大单 / 监管环境</h2><span class="cnt">5 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">12</div><h3>美国三参议员致函苹果、谷歌、Meta：135 款 AI 脱衣应用、约 55 亿次下载、39 亿美元收入</h3></div>
+  <div class="tags"><span class="tag t-amber">监管执法</span><span class="tag t-up">平台责任</span><span class="tag t-blue">内容审核</span></div>
+  <ul class="facts">
+    <li>11 月 18 日，参议员怀登、马基、卢汉联名致函苹果、谷歌、Meta 的 CEO，要求解释为何能生成非自愿裸照的应用仍在 App Store / Google Play 上架，并通过 Meta 广告获客；11 月 21 日经《卫报》等披露。</li>
+    <li>调查估算：两大商店存有 <strong>135 款</strong>相关应用，累计下载约 <strong>55 亿次</strong>、终身收入约 <strong>39 亿美元</strong>；AI Forensics 11 月发现 <strong>444 个</strong>相互关联的应用网络，苹果已移除其中 19 个。</li>
+    <li>规避手法明确：部分应用对审核隐藏深度伪造功能、上架后再经广告释放；儿童测试账号仍可接触到此类工具。</li>
+    <li>联合国儿基会 11 国研究：至少 <strong>120 万名儿童</strong>报告过去一年图像被篡改为色情深度伪造品；Meta 回应称已删除 <strong>9,200 万条</strong>色情广告。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>责任被切成"商店审核—广告投放—支付—内容传播"四段，每段都有合规声明却无一段承担闭环，这正是国会出手的抓手。对平台的直接风险不是罚款，而是被要求"默认安全"（年龄门、默认关闭、广告主实名与素材审查），这会实质抬高 AI 图像类应用的分发成本与上架门槛。若进入立法，先受影响的是一批依赖买量增长的中小开发者，而非头部模型厂。</div>
+  <div class="src">来源：The Guardian / IT之家 / 腾讯新闻 / 联合国儿基会报告（2026-11-18 致函，11-21 披露）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">13</div><h3>Meta Muse 下载破 1,000 万、约 1/4 用户日活，300 美元 Muse Charm 硬件瞄准年底出货</h3></div>
+  <div class="tags"><span class="tag t-up">商业化落地</span><span class="tag t-green">端侧智能体</span><span class="tag t-blue">硬件入口</span><span class="tag t-violet">订阅+分成</span></div>
+  <ul class="facts">
+    <li>Muse 自 9 月 8 日在美国上线，<strong>下载量已超 1,000 万次</strong>，约 <strong>四分之一用户每天使用</strong>；扎克伯格在 10 月 21 日电话会披露美加注册用户一个半月内超 1,000 万。</li>
+    <li>产品起点是内部周末实验（用树莓派把 OpenClaw 接入邮箱、日历与家庭自动化，自动整理学校通知并生成简报），<strong>七个月</strong>完成从原型到上线，团队自建评测标准与红队流程。</li>
+    <li>硬件：Muse Charm 预计售价 <strong>300 美元</strong>，内置 5G（与 Verizon 合作最高 12 个月免费数据）、约 2 英寸屏、指纹验证，目标年底假期出货；自研智能手表推迟至 <strong>2027 年</strong>。</li>
+    <li>配套生态：目标 2026 年下半年穿戴设备销量 <strong>1,000 万台</strong>；10 月开源 Muse Gadgets 开发指南（ESP32 固件 + 树莓派 Linux SDK），引入创客生态。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>Muse 的留存来自"授权代理"而非"问答"——用户从提问者变成授权者，这决定其商业模式是订阅 + 交易分成，而非按 token 计费。300 美元硬件 + 免费 5G 是把入口从手机 OS 抢到自有设备，代价是补贴与运营商分成，换来的是权限与场景的独占。真正的风险是信任资产：一旦推荐逻辑偏向平台转化（购物是意外重要场景），最先被消耗的就是留存。</div>
+  <div class="src">来源：钛媒体 / Lenny's Podcast / Meta 财报电话会 / udn 科技玩家（2026-11-21）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">14</div><h3>华为重启双品牌：星芒 OSTA O1 Pro 5,699 元起，首销 16G 版本全平台售罄</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-green">端侧 AI</span><span class="tag t-blue">鸿蒙生态</span><span class="tag t-violet">渠道大单</span></div>
+  <ul class="facts">
+    <li>11 月 20 日，华为发布全新子品牌 <strong>OSTA 星芒</strong>及首款机型 O1 Pro：12+256GB 售 <strong>5,699 元</strong>（限时 5,499 元）、16+1TB 售 <strong>8,999 元</strong>；麒麟 9030S、HarmonyOS 7 AI 先锋版、2 亿像素红枫影像、7,000mAh、昆仑玻璃。</li>
+    <li>11 月 21 日凌晨，品牌总经理刘赫称 <strong>16G 版本已全平台售罄、远超预期</strong>，12G 版本仅部分门店与合作伙伴有现货，正协调产能与版本弹性。</li>
+    <li>渠道侧：京东与星芒签署战略合作，未来三年全品类销售额目标 <strong>700 亿元</strong>；品牌内部酝酿约三年，未来一两年不以销量为主要考核。</li>
+    <li>这是华为继 2020 年出售荣耀后<strong>时隔六年重启双品牌</strong>，在 Mate / Pura / nova / 畅享之外补齐中高端年轻价格带，共享麒麟与鸿蒙技术底座。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>AI 手机的竞争点正从"模型参数"转为"系统级主动智能 + 端侧权限"，星芒首发 HarmonyOS 7 AI 先锋版，把 AI 交互做成系统默认而非应用插件，这与苹果"权限 + 沙盒 + 端侧"的路线同构。首销缺货说明需求侧对"AI 原生形态"有支付意愿，但供应仍受麒麟产能约束。对产业链的直接含义：端侧 NPU 算力、内存容量（模型常驻）、散热与功耗成为新的 BOM 差异项，而非单纯影像升级。</div>
+  <div class="src">来源：证券时报 / 澎湃新闻 / 南方+ / 华为发布会（2026-11-20 至 11-21）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">15</div><h3>韩国国土部退回特斯拉 FSD 豁免申请：材料不全，无法进入技术评估</h3></div>
+  <div class="tags"><span class="tag t-amber">监管审批</span><span class="tag t-blue">自动驾驶</span><span class="tag t-up">市场准入</span></div>
+  <ul class="facts">
+    <li>韩国国土交通部表示，因<strong>申请材料不全</strong>，无法受理特斯拉提出的豁免当地车辆安全标准的请求，该请求旨在获准在韩国提供 FSD 功能；已通知特斯拉韩国补充材料后再做技术评估。</li>
+    <li>韩国对 L3 及以上自动驾驶采取"豁免 + 审批"路径，需提交功能边界、接管机制、数据记录等材料，形式审查不通过即不进入实质评估。</li>
+    <li>同一周形成对照：梅赛德斯-奔驰 MB.DRIVE ASSIST PRO 获德国 KBA 批准，成为德国首个可在全国提供<strong>点到点辅助驾驶</strong>的系统。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>自动驾驶的瓶颈已从技术转向"监管文件完备度"——同一周内德国批、韩国退，说明各国对"点到点"的定义、举证要求与责任划分差异巨大，合规文档能力正在成为出海门槛。对特斯拉，韩国是其亚太重要测试与销售市场，延期会推后 FSD 在该区域的营收确认，也会影响其"数据闭环—版本迭代"的节奏；对供应链，能提供可审计的数据记录与接管日志，正变成 Tier1 的差异化能力。</div>
+  <div class="src">来源：韩国国土交通部 / 陆家嘴财经早餐 / 环球市场播报（2026-11-20 至 11-21）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">16</div><h3>Signal 封堵系统级 AI 智能体读屏：iOS 27 禁止应用内截屏，Android 拦截助手抓取消息</h3></div>
+  <div class="tags"><span class="tag t-blue">智能体安全</span><span class="tag t-amber">权限边界</span><span class="tag t-green">端侧代理</span></div>
+  <ul class="facts">
+    <li>Signal 总裁 Meredith Whittaker 11 月 20 日发文：Signal 开始限制移动操作系统内置 AI 智能体抓取与存储用户消息——<strong>iOS 27 上阻止应用内截屏</strong>，Android 上在 AI 助手尝试读屏时阻断。</li>
+    <li>针对对象明确：Google 的 <strong>Gemini Intelligence</strong> 与苹果 Siri 的 <strong>Onscreen Awareness</strong> 等系统级代理能力。</li>
+    <li>Signal 自评该方案"并不完整"，称操作系统厂商未向开发者提供可正确实现此事的接口；此前曾用同样手段对抗 Windows 11 的 Recall 功能。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>端侧智能体的第一道商业闸门不是模型能力，而是"读屏权限"。如果通讯、银行、医疗类应用普遍阻断，系统级代理的可用数据面会被切碎，agent 的价值将退回各自生态内部——这解释了为何苹果、谷歌都在把代理能力与自有应用绑定。反过来，"权限 + 沙盒 + 可审计"会成为 OS 厂商的差异化卖点，也可能引出反垄断层面的接口开放要求：若系统代理可读第三方应用内容而第三方无法拒绝，竞争格局会被系统性扭曲。</div>
+  <div class="src">来源：Signal 官方博客（Meredith Whittaker）/ AI Breaking Wire（2026-11-20 至 11-21）</div>
+</div>
+
+<!-- ============ 延伸线索 ============ -->
+<div class="section-head"><div class="bar"></div><h2>延伸线索（不计入主榜，供次日跟踪）</h2></div>
+<div class="extra">
+  <ul>
+    <li><b>线索一（Decart 交割）：</b>若在 11 月 30 日 re:Invent 官宣，需看是否同步公布 Trainium3 的客户迁移计划、以及 Lucy / Oasis 两个世界模型接入 AWS 的路径——整合方案缺失会削弱"为迁移付费"的叙事。</li>
+    <li><b>线索二（移动集采结果）：</b>第二批 5.216 万卡的中标结构（6—7 家）与国产芯片占比，是四季度国产算力链最重要的验证点；整机之外的交换机、液冷 CDU、高压直流与 PCB 招标才是真正的增量战场。</li>
+    <li><b>线索三（HBM 直采）：</b>若谷歌直采 HBM 成规模，存储厂客户结构将从"经 GPU/ASIC 厂"变为"云厂直供"，2027 年 HBM4 配额谈判的对手方与价格机制都会改变。</li>
+    <li><b>线索四（开源许可）：</b>腾讯 Hy License 的 5,000 万美元 / 1 亿 MAU 门槛是否被阿里、DeepSeek 跟进，将决定中文语境下"开源"的实际边界，也决定云厂的推理收入护城河有多深。</li>
+    <li><b>线索五（可验证性）：</b>METR 的"判断类任务落后"若在下一版被证实，agent 的 TAM 需要按任务可验证性重划，编程类资产的估值溢价将难以平移到通用运营场景。</li>
+  </ul>
+</div>
+
+<footer>
+  <h4>信源清单与校验说明</h4>
+  <ol>
+    <li><b>上游</b>：中国移动采购公告、腾讯新闻、新浪财经、财联社（超节点集采）；Financial Times、中新经纬、Calcalist、SiliconNoon（亚马逊-Decart）；天风国际郭明錤调查、界面新闻、优分析（谷歌 TPU 8i/8t）；美光 FY26Q4 电话会与 TomorrowX 峰会、第一财经、Zacks、VLSI Korea（HBM 与 SCA）；全球电子协会报告、上海证券报、新华财经、环球网（PCB 预警）；恒生指数公司公告、摩根士丹利纪要、证券时报、经济参考报（光模块与 PCB 订单）。</li>
+    <li><b>中游</b>：腾讯混元模型卡与 Hugging Face 仓库、TechNode、IT之家（Hy4 权重与许可）；人民日报、中国经济网、工业和信息化部、OpenRouter、Hugging Face 报告（开源下载与词元调用）；The Information、新浪财经、The Decoder（英伟达-Inception）；Bloomberg、中新经纬、路透社（Cognition 融资）；METR、MIT Technology Review（时间跨度评测）。</li>
+    <li><b>下游</b>：The Guardian、IT之家、联合国儿基会报告（参议员致函与 AI 脱衣应用）；钛媒体、Lenny's Podcast、Meta 财报电话会、udn 科技玩家（Muse 与 Muse Charm）；证券时报、澎湃新闻、南方+（华为星芒）；韩国国土交通部、陆家嘴财经早餐（特斯拉 FSD 豁免）；Signal 官方博客、AI Breaking Wire（系统级智能体读屏限制）。</li>
+    <li>已剔除范围：自媒体爆料、小道传闻、纯营销软文、无原始信源的二次转载内容；已在 11-21 及更早各期覆盖的事件（英伟达会计调查与单日跌幅、Anthropic 上市定价与首日行情、Gemini 4 Neon 本体、GPT-6.2 Astra/Sol、微软 Ignite 七模型、月之暗面取消印尼租约、得州环评重启、语用科技 50 亿美元估值等）本轮不再重复入榜。</li>
+  </ol>
+  <div class="disc">
+    <b>免责与不确定性提示：</b>本报告为公开信息汇编，仅供研究参考，不构成任何投资建议。<br>
+    ① 亚马逊收购 Decart 的 75 亿美元对价来自《金融时报》与 Calcalist 的连续报道，交易尚未官宣，价格、结构、审批均未经双方确认，谈判仍可能破裂；"下周签约""re:Invent 公布"属媒体推测。<br>
+    ② 郭明錤的 TPU 8i 下修 100 万颗为供应链调查推算，谷歌与博通均未确认；联发科 8t 增量幅度未定，不能据此推算谷歌 2027 年 TPU 总出货是否下修。<br>
+    ③ 美光"75% 售罄"为锁量口径、价格按年重置，不等于价格已锁定；320 亿美元为客户资金承诺（多为预付押金），不可与确认收入直接对应；1,500 亿美元为按既定价格框架计算的剩余履约义务。<br>
+    ④ 参议员信中 135 款应用、约 55 亿次下载、39 亿美元收入均为第三方调查估算，非平台披露数据；AI Forensics 的 444 个应用网络亦为抽样结论。<br>
+    ⑤ 英伟达-Inception 的"至少 5 亿美元"含业绩对赌，最终结构与交割时间未定；Mercury 3 的 1,068 token/s 与定价为厂商自测与官方报价，无第三方复现。
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
