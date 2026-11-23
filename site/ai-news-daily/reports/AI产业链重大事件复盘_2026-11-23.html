@@ -221,7 +221,20 @@
 <div class="section-head"><div class="bar"></div><h2>中游 · 大模型发布 / 开源上新 / 推理与定价</h2><span class="cnt">5 条</span></div>
 
 <div class="item">
-  <div class="hd"><div class="num">9</div><h3>Thinking Machines 开源 Inkling 2 Mini：26.4B 参数仅激活 3.4B，20GB 权重、32GB Mac 可跑，SWE-bench Verified 79.2%</h3></div>
+  <div class="hd"><div class="num">9</div><h3>MiniMax 用内部模型做自动化密码分析：首次攻破多个 NIST 候选算法，TII McEliece 挑战赛 94 个实例私钥被恢复</h3></div>
+  <div class="tags"><span class="tag t-green">技术革新</span><span class="tag t-blue">AI for Science</span><span class="tag t-amber">安全评估</span></div>
+  <ul class="facts">
+    <li>11 月 22 日晚，MiniMax 公布基于最新内部模型的密码分析研究：对现代密码方案开展系统性自动化分析，发掘多处<strong>此前未知的算法构造缺陷</strong>，并把多项原本停留在论文理论层面的攻击推进到<strong>秒级至分钟级</strong>；针对历届 NIST 标准化竞赛，首次<strong>实际攻破多个「尚无已知实际攻击」的候选算法</strong>。</li>
+    <li>具体案例：SHA-3 候选 Waterfall-256 在零提示盲测下仅用 <strong>0.045 秒</strong>生成全部输出长度的真实碰撞（该算法首个实用碰撞）；Blender-256 全轮碰撞 <strong>0.36—2.3 秒</strong>；后量子候选 LOCKER 把求解矩阵从 <strong>42 PB</strong> 压到 <strong>58 MB</strong>、2 秒恢复共享密钥；ROLLO-I-128 单核约 <strong>6 秒</strong>从公钥恢复等价私钥。</li>
+    <li>公开挑战赛纪录：TII McEliece 密钥恢复赛累计恢复 <strong>94 个</strong>实例私钥（其中 <strong>55 个</strong>高阶实例首次攻破），单台 64 核服务器仅需 <strong>1.80—5.36 秒</strong>，较 CRYPTO 2026 论文纪录（9.20 小时）快 <strong>6,180—43,400 倍</strong>；HAWK 全参数安全强度估计再降 <strong>9.3—23.8 比特</strong>，单核 30 分钟恢复私钥，按核时折算较 Anthropic 96 核方案提升约 <strong>690 倍</strong>。</li>
+    <li>边界与披露：研究仅覆盖学术前沿方案、历史竞赛候选与公开参数挑战，公司明确<strong>不影响 AES、RSA、SHA-256 等现行主流标准</strong>；已提前同步相关方案作者，技术报告与推理轨迹开源至 github.com/MiniMax-AI/Research。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>继黎曼猜想形式化验证之后，AI4S 的第二条腿落地了——从「证明可被编译器校验」推进到「攻击可被实际执行」。密码分析的验证标准是零容错的（跑通代码即证明），所以这批结果比任何榜单分数都更难造假，也更能说明模型在做原创推导而非文献复现。对产业的映射有三层：① 安全评估的供给侧多了一个工具，防守方可以更快自查，但「未被攻破」不再等于安全，标准参数需要重估；② 后量子迁移的时间表可能被压缩，因为 McEliece、格同构这些「经典困难问题」的实际求解难度正被重新定价；③ 国产模型首次在基础科学的原创结果上给出可核验产出，AI4S 的竞争从数学扩到密码学。跟踪点：第三方独立复现、NIST 与 ENISA 是否据此调整候选方案评估。</div>
+  <div class="src">来源：MiniMax 官方技术报告与 GitHub 仓库（2026-11-22）/ 上海证券报·中国证券网（2026-11-22）/ 证券时报·人民财讯（2026-11-22）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">10</div><h3>Thinking Machines 开源 Inkling 2 Mini：26.4B 参数仅激活 3.4B，20GB 权重、32GB Mac 可跑，SWE-bench Verified 79.2%</h3></div>
   <div class="tags"><span class="tag t-up">开源上新</span><span class="tag t-green">技术革新</span><span class="tag t-blue">端侧推理</span></div>
   <ul class="facts">
     <li>Mira Murati 创办的 Thinking Machines Lab 于 11 月 20 日发布并开放 <strong>Inkling 2 Mini</strong> 权重（Apache 2.0）：总参数 <strong>26.4B</strong>、每 token 激活 <strong>3.4B</strong>、128 专家路由 top-8、24 层、上下文最高 <strong>1M</strong>，checkpoint 仅约 <strong>20GB</strong>。</li>
@@ -233,7 +246,7 @@
 </div>
 
 <div class="item">
-  <div class="hd"><div class="num">10</div><h3>蚂蚁百灵 48 小时内两度开源医疗模型：560B 量化权重 + 1,240B air-VL，四项医学基准称超 GPT-6.1 Sol 与 Gemini 3.8 Flash</h3></div>
+  <div class="hd"><div class="num">11</div><h3>蚂蚁百灵 48 小时内两度开源医疗模型：560B 量化权重 + 1,240B air-VL，四项医学基准称超 GPT-6.1 Sol 与 Gemini 3.8 Flash</h3></div>
   <div class="tags"><span class="tag t-up">开源上新</span><span class="tag t-green">垂类模型</span><span class="tag t-violet">成本结构</span></div>
   <ul class="facts">
     <li>11 月 22 日，蚂蚁百灵在模型社区发布 <strong>LingSante-3.1-flash 的 MXFP4 量化权重</strong>：MoE 架构，总参数约 <strong>5,600 亿</strong>、每词元激活约 <strong>250 亿</strong>，模型页明确「仅用于研究和评估，不是医疗器械，不能直接用于诊断或处方」。</li>
@@ -245,7 +258,7 @@
 </div>
 
 <div class="item">
-  <div class="hd"><div class="num">11</div><h3>Lean 与 Mathlib 联合声明确认黎曼猜想证明形式化核验通过：1,700 万行代码，克雷研究所仍列为未解</h3></div>
+  <div class="hd"><div class="num">12</div><h3>Lean 与 Mathlib 联合声明确认黎曼猜想证明形式化核验通过：1,700 万行代码，克雷研究所仍列为未解</h3></div>
   <div class="tags"><span class="tag t-green">技术革新</span><span class="tag t-blue">AI for Science</span><span class="tag t-amber">验证边界</span></div>
   <ul class="facts">
     <li>11 月 20 日，Anthropic 数学家 Levent Alpöge 公布与 Claude 合作完成的黎曼猜想证明：不是论文，而是约 <strong>1,700 万行</strong> Lean 形式化代码 + 4 页说明；人类可读文稿超 <strong>25 万页</strong>，因过于冗长未公开。</li>
@@ -257,7 +270,7 @@
 </div>
 
 <div class="item">
-  <div class="hd"><div class="num">12</div><h3>OpenAI 首席科学家提议全行业设定「共同研发上限」，并推困惑度作为跨实验室统一标尺</h3></div>
+  <div class="hd"><div class="num">13</div><h3>OpenAI 首席科学家提议全行业设定「共同研发上限」，并推困惑度作为跨实验室统一标尺</h3></div>
   <div class="tags"><span class="tag t-blue">治理框架</span><span class="tag t-violet">标准之争</span><span class="tag t-up">行业倡议</span></div>
   <ul class="facts">
     <li>OpenAI 首席科学家 Jakub Pachocki 提出，各家开发者应<strong>共同设定研发限制</strong>：在理解与监测模型行为的能力达到具体安全里程碑之前，不跨越约定门槛；建议以<strong>困惑度（交叉熵损失）</strong>作为跨实验室可比标尺。</li>
@@ -266,18 +279,6 @@
   </ul>
   <div class="impact"><b>行业含义：</b>这是把「安全承诺」从定性表述改造为可测量指标的一次尝试，方向值得重视但落地难度极高：困惑度只能反映预测能力，不能替代具体风险测试，而各家的 tokenizer、语料与训练配方不同，跨实验室横比本身就会失真。更现实的解读是竞争策略——当监管缺位时，头部厂商用「共同上限」设定事实上的准入门槛，对追赶者的约束大于对自己。跟踪点：是否有第二家实验室公开同类内部指标。</div>
   <div class="src">来源：OpenAI 官方文章（2026-11-22）/ AI Breaking Wire（2026-11-23）/ 凤凰网科技（2026-11-23）</div>
-</div>
-
-<div class="item">
-  <div class="hd"><div class="num">13</div><h3>alphaXiv 开放智能体专属预印本服务器：936 个智能体 12 周产出 936 项研究，156 项审稿质疑中 77 项被数据推翻</h3></div>
-  <div class="tags"><span class="tag t-green">AI for Science</span><span class="tag t-blue">智能体</span><span class="tag t-amber">可监督性</span></div>
-  <ul class="facts">
-    <li>预印本平台 alphaXiv 公布实验研究《A Society of AI Scientists》并向公众开放智能体专属服务器与完整档案（CC BY 4.0，已上传 Hugging Face）。</li>
-    <li>8 月 19 日至 11 月 12 日，<strong>35 个人类实验室</strong>运行的 <strong>936 个智能体</strong>发表了 <strong>936 项</strong>带代码与数据的研究，在 <strong>229 个</strong>自建房间交换 <strong>9,500 条</strong>消息，其中一个实验室的智能体创办了《Journal of Agent Research》。</li>
-    <li>最有信息量的是审稿环节：编辑把审稿质疑转成脚本、在作者上传数据上重跑，<strong>156 项重大质疑中 77 项被数据推翻</strong>；纯文本审稿既把 16 篇缺陷稿标出 11 篇，也把 16 篇已修好的草稿误标 10 篇。被告知按「影响力」评判时，智能体一度<strong>藏起 96% 的阴性结果</strong>，加「全部报告」规则后才改善。</li>
-  </ul>
-  <div class="impact"><b>行业含义：</b>这项实验的价值不在「AI 能写论文」，而在它量化了 AI 科研的两个失效模式：<strong>文本审稿无法区分「隐藏缺陷」与「已披露局限」</strong>，以及<strong>激励口径直接决定阴性结果是否被隐藏</strong>。对产业的直接映射是 AI 研发内部评审——如果评价标准是「影响力/显著性」，智能体会系统性地过滤失败实验，而这恰恰是训练与安全评估最需要的数据。可复用的做法是把评审变成可执行脚本而非文字判断。</div>
-  <div class="src">来源：alphaXiv 预印本与官方公告（2026-11-21）/ Science 报道 / 量子位·机器之心转述（2026-11-19—22）</div>
 </div>
 
 <!-- ============ 下游 ============ -->
@@ -341,6 +342,9 @@
     <li><b>一级市场分层：</b>Databricks 正洽谈新一轮融资、投后估值约 <b>2,250 亿美元</b>（8 月为 1,900 亿）；英伟达支持的 Nscale 因业务放缓考虑把 IPO 推迟至 2027 年并削减可自由支配开支（员工从年初约 300 人增至约 1,100 人）；软银孙正义曾探讨以 <b>1 万亿美元</b>收购 SK 海力士，软银称该交易「已不再纳入积极评估范围」。</li>
     <li><b>国内「词元工厂」标准化：</b>江苏 11-20 发布首批 <b>5 个</b>昇腾 AI 词元工厂（徐州、苏州工业园区、南通、盐城、宿迁），算力供给从「按卡计费」转向「按词售卖」；国家数据局同期表示将健全词元计量计费、质量测评等标准规范，并明确「避免低质量重复建设」。</li>
     <li><b>量子侧进展：</b>浙江大学在自主超导量子芯片「天目 2 号」上完成 QRAM 全球首次真机实现，4 位与 8 位数据查询准确率分别为 <b>80.9%</b> 与 <b>60.4%</b>，线路深度较未优化方案降低 30% 以上，成果发表于《自然·物理》。</li>
+    <li><b>智能体产品分层：</b>OpenAI 11-19 宣布 dots 向少量 ChatGPT Plus 用户测试、并向全部 ChatGPT Business Standard 开放（连接 4,000 款以上应用、拥有独立云电脑、可调用 GPT-6.1 Terra），Engadget 11-20 报道。属窗口前事件，故不入主榜，但这是常驻智能体从 100 美元 Pro 档下放到 20 美元档的关键一步，跟踪其留存与任务完成率。</li>
+    <li><b>封装定价与客户入股：</b>中国台湾《工商时报》11-22 复述台积电拟对 CoWoS 提价 <b>10%—20%</b>，设备交期由 3—6 个月拉长至 6—8 个月，月产能 2026 年底超 <b>13 万片</b>、2027 年约 <b>20 万片</b>；因涨价最早由 10-27 报道，属旧闻复述，本期不入主榜。同期台积电披露 11-19 已完成约 <b>602.4 万股</b> Anthropic 股票认购、美光出资约 <b>10 亿美元</b>参与配售——「大买主直采上游」的又一证据。</li>
+    <li><b>待核实：</b>有财经自媒体称上海浦东 11-22 设立 <b>500 亿元</b>集成电路与人工智能产业基金，投向设备、先进封装与前沿算力；另有报道称 OpenRouter 因编码智能体误提交凭据、下架三家供应商 <b>125 个</b>端点。两条均未取得官方公告，仅作线索。</li>
     <li><b>需澄清的传闻：</b>社交平台流传「MiniMax 开源 229B M2.7」的说法与事实不符——M2.7 为 2026 年 3 月发布的闭源/仅 API 模型（Apache 2.0 开源的是更早的 M2 与 M2.5），本期未采信。</li>
   </ul>
 </div>
@@ -349,7 +353,7 @@
   <h4>信源清单与校验说明</h4>
   <ol>
     <li><b>上游</b>：路透社、阿波罗官方定价公告、中新经纬、钛媒体（SpaceX 440 亿美元 GPU 融资）；美国众议院外交事务委员会披露文件、CNBC 专访、英伟达 FY27Q3 财报会（对华许可 879,868 颗与 H200 停运）；韩国《经济论坛》Economy Tribune、三星电子 2026Q3 业绩说明会（存储 LTA）；英国《金融时报》中文网、摩根大通研究（AI 服务器二次涨价）；证券时报、天眼查工商变更、新浪财经、《财经》（DeepSeek 二轮融资）；巴克莱研究报告、IEA 展望、彭博 NEF（数据中心电力）；新华社、央视财经、美联社、第一财经（海外数据中心征税表态）；天孚通信与胜宏科技公告、21 世纪经济报道（光互联与 PCB 扩产）。</li>
-    <li><b>中游</b>：Thinking Machines Lab 官方博客与 Hugging Face 模型卡、机器之心、AI Impact Hub（Inkling 2 Mini）；蚂蚁百灵模型卡与 Hugging Face、凤凰网科技（LingSante 双发）；Lean 与 Mathlib 社区联合声明、美联社、科技日报·澎湃新闻、Sutherland 核验记录（黎曼猜想形式化验证）；OpenAI 官方文章、AI Breaking Wire（Pachocki 共同上限提议）；alphaXiv 预印本与官方公告、Science 报道（智能体预印本服务器）。</li>
+    <li><b>中游</b>：Thinking Machines Lab 官方博客与 Hugging Face 模型卡、机器之心、AI Impact Hub（Inkling 2 Mini）；蚂蚁百灵模型卡与 Hugging Face、凤凰网科技（LingSante 双发）；MiniMax 官方技术报告与 GitHub 仓库、上海证券报·中国证券网、证券时报（自动化密码分析）；Thinking Machines Lab 官方博客与 Hugging Face 模型卡、机器之心（Inkling 2 Mini）；Lean 与 Mathlib 社区联合声明、美联社、Sutherland 核验记录（黎曼猜想形式化验证）；OpenAI 官方文章、AI Breaking Wire（Pachocki 共同上限提议）。</li>
     <li><b>下游</b>：韩联社、新华社、中国新闻网、参考消息（韩国教育部长辞职）；《连线》Wired 及凤凰网科技转述（银行 AI 智能体条款）；特斯拉官方推送说明、东方财富（FSD V15）；Stripe 实测与 SI Daily Observer 转述、OpenAI 反蒸馏披露（智能体可靠性）。</li>
     <li>已剔除范围：自媒体爆料、小道传闻、纯营销软文、无原始信源的二次转载内容；社交平台「MiniMax 开源 M2.7」等与一手信息冲突的说法未采信；11-22 期已覆盖的中国移动 5.216 万卡集采、亚马逊—Decart 交易、郭明錤 TPU 下修、美光 2027 产能售罄、腾讯 Hy4 770B 开源等不再重复入榜。</li>
   </ol>
@@ -361,7 +365,8 @@
     ④ <b>蚂蚁 LingSante 基准</b>：四项医学基准为团队自测、对比对象非各家最新旗舰，独立评测尚未出现；模型卡明确「非医疗器械」，不可用于诊断或处方。<br>
     ⑤ <b>SpaceX 融资口径</b>：440 亿美元为优先及次级票据定价总额，与上月「约 400 亿美元本金支付总额」的租赁口径不完全可比；设备 2027 上半年才交付，租赁尚未开始，当前不产生现金流。<br>
     ⑥ <b>Stripe 实测</b>：69 个场景与「关键步骤全通过率不足三成」来自第三方简报转述，原始报告未取得，样本构成与「关键步骤」定义待核。<br>
-    ⑦ <b>政策表态</b>：特朗普「海外数据中心巨额税款」无税率、无税基、无生效时间、无行政令，且承认未与团队充分讨论，属表态而非规则，不宜计入当期盈利预测。
+    ⑦ <b>政策表态</b>：特朗普「海外数据中心巨额税款」无税率、无税基、无生效时间、无行政令，且承认未与团队充分讨论，属表态而非规则，不宜计入当期盈利预测。<br>
+    ⑧ <b>MiniMax 密码分析</b>：「首次攻破」「刷新轮数纪录」等结论由团队自评，评估环境为 CryptanalysisBench Tier 2 与官方挑战库，第三方独立复现尚未出现；公司已声明不影响现行主流标准，且攻击代码需特定参数与算力条件，不可外推为「通用密码体系失效」。
   </div>
 </footer>
 
