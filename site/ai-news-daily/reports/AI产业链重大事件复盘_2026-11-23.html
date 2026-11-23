@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI行业早报 · 2026-11-23</title>
+<style>
+  :root{
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --ink:#1a1d21;
+    --ink-2:#4a5158;
+    --ink-3:#7c848c;
+    --line:#e3e6ea;
+    --up:#d92b2b;
+    --up-bg:#fdf0f0;
+    --blue:#1a5fd0;
+    --blue-bg:#eef4fe;
+    --green:#0f7a4d;
+    --green-bg:#edf7f1;
+    --amber:#a8631a;
+    --amber-bg:#fdf5e9;
+    --violet:#6b3fc7;
+    --violet-bg:#f2eefc;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.7;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px;}
+  header.top{
+    background:linear-gradient(135deg,#111827 0%,#1f2937 55%,#2b3445 100%);
+    color:#fff;border-radius:18px;padding:34px 36px 30px;margin-bottom:26px;
+    box-shadow:0 10px 30px rgba(15,23,42,.18);
+  }
+  .kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#8fa3bd;margin:0 0 12px;}
+  header.top h1{margin:0 0 14px;font-size:30px;line-height:1.3;font-weight:700;letter-spacing:-.01em;}
+  header.top .sub{color:#b8c4d4;font-size:14.5px;margin:0;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+  .chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#dbe4ef;
+    padding:5px 12px;border-radius:999px;font-size:12.5px;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px;}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .stat .n{font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.02em;}
+  .stat .l{font-size:12.5px;color:var(--ink-3);margin-top:2px;}
+  .stat.hl .n{color:var(--up);}
+  .section-head{display:flex;align-items:center;gap:12px;margin:38px 0 16px;}
+  .section-head .bar{width:4px;height:22px;border-radius:2px;background:var(--ink);}
+  .section-head h2{margin:0;font-size:19px;font-weight:700;letter-spacing:-.01em;}
+  .section-head .cnt{font-size:12.5px;color:var(--ink-3);margin-left:auto;
+    background:#fff;border:1px solid var(--line);padding:3px 10px;border-radius:999px;}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin-bottom:14px;transition:box-shadow .18s ease;}
+  .item:hover{box-shadow:0 6px 20px rgba(15,23,42,.07);}
+  .item .hd{display:flex;gap:12px;align-items:flex-start;}
+  .num{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:#111827;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;margin-top:1px;}
+  .item h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.45;letter-spacing:-.01em;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 12px;}
+  .tag{font-size:11.5px;padding:3px 9px;border-radius:6px;font-weight:600;white-space:nowrap;}
+  .t-up{background:var(--up-bg);color:var(--up);}
+  .t-blue{background:var(--blue-bg);color:var(--blue);}
+  .t-green{background:var(--green-bg);color:var(--green);}
+  .t-amber{background:var(--amber-bg);color:var(--amber);}
+  .t-violet{background:var(--violet-bg);color:var(--violet);}
+  .facts{margin:0 0 12px;padding:0;list-style:none;}
+  .facts li{position:relative;padding-left:16px;margin-bottom:6px;font-size:14.5px;color:var(--ink-2);}
+  .facts li::before{content:"";position:absolute;left:2px;top:10px;width:5px;height:5px;
+    border-radius:50%;background:#c2cad4;}
+  .facts strong{color:var(--ink);font-weight:600;}
+  .impact{background:#fafbfc;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;
+    padding:11px 14px;font-size:14px;color:var(--ink-2);}
+  .impact b{color:var(--blue);font-weight:700;}
+  .src{margin-top:11px;font-size:12.5px;color:var(--ink-3);}
+  .src b{color:var(--ink-3);font-weight:600;}
+  .extra{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 24px;}
+  .extra ul{margin:0;padding-left:20px;font-size:14px;color:var(--ink-2);}
+  .extra li{margin-bottom:8px;}
+  .extra li b{color:var(--ink);}
+  footer{margin-top:44px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;}
+  footer h4{margin:0 0 10px;font-size:14px;font-weight:700;}
+  footer ol{margin:0;padding-left:20px;color:var(--ink-2);font-size:13.5px;}
+  footer li{margin-bottom:5px;}
+  .disc{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+    font-size:12.5px;color:var(--ink-3);line-height:1.65;}
+  .disc b{color:var(--ink-2);}
+  @media (max-width:720px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    header.top{padding:26px 22px;}.wrap{padding:24px 14px 60px;}
+    header.top h1{font-size:23px;}
+  }
+</style>
+<link rel="stylesheet" href="../navigation.css">
+</head>
+<body>
+<div class="wrap">
+<a class="return-link" href="../index.html">← 返回 AI 新闻日报</a>
+
+<header class="top">
+  <p class="kicker">AI Industry Daily Recap · Sell-Side Research</p>
+  <h1>AI行业早报</h1>
+  <p class="sub">2026年11月23日（北京时间）</p>
+  <div class="meta-row">
+    <span class="chip">17 条重大事件</span>
+    <span class="chip">上游 8 · 中游 5 · 下游 4</span>
+    <span class="chip">中英文全球信源交叉验证</span>
+    <span class="chip">已剔除传闻类自媒体线索</span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat hl"><div class="n">440 亿美元</div><div class="l">SpaceX GPU 租赁融资定价，史上最大</div></div>
+  <div class="stat hl"><div class="n">879,868 颗</div><div class="l">美方已批对华 AI 芯片许可（申请 340 万颗）</div></div>
+  <div class="stat"><div class="n">6,155 亿元</div><div class="l">DeepSeek 二轮投后估值，5 个月 +87%</div></div>
+  <div class="stat"><div class="n">45%</div><div class="l">AI 服务器交付前二次加价上限</div></div>
+</div>
+
+<!-- ============ 上游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>上游 · 芯片 / 算力 / 光互联 / 云算力 / 大额订单</h2><span class="cnt">8 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">1</div><h3>Apollo 与高盛完成 440 亿美元 SpaceX GPU 融资定价，A3 票据票息 8.259%、租赁待 2027 上半年才开始</h3></div>
+  <div class="tags"><span class="tag t-up">大额订单</span><span class="tag t-blue">算力基建</span><span class="tag t-violet">融资结构</span></div>
+  <ul class="facts">
+    <li>阿波罗全球管理与高盛 11 月 20 日宣布完成约 <strong>440 亿美元</strong>优先及次级票据定价，为 SpaceX 采购英伟达 Vera Rubin GPU 及配套设备融资；因投资者需求强劲而超额认购并扩大规模，参与方还包括贝莱德、高盛资产管理、KKR。</li>
+    <li>其中一笔 <strong>251.7 亿美元</strong>高级担保 A3 票据票息 <strong>8.259%</strong>，2033 年 4 月到期。资金用于 SpaceX 地面算力扩张，设备预计 <strong>2027 年上半年</strong>交付，届时租赁才开始计息与计租。</li>
+    <li>SpaceX 上月已披露的结构是：阿波罗关联方购入芯片与服务器硬件，以约 <strong>400 亿美元</strong>本金支付总额租给 SpaceX。本次为融资端最终定价，属同一交易的落地环节。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是把 GPU 从「设备资本开支」改造成「可证券化租赁资产」的最完整样本：8.259% 的票息已高于同期限投资级信用，说明债券市场对 GPU 残值与租期错配要求溢价。真正需要跟踪的不是 440 亿这个数字，而是三条条款——租赁期是否短于芯片经济寿命、残值由谁承担、SpaceX 的支付义务是否与算力实际上架挂钩。若三者都偏向投资人，GPU 融资的边际成本会继续上行，neocloud 与自建算力的价差将进一步扩大。</div>
+  <div class="src">来源：路透社 / 中新经纬 / 阿波罗官方定价公告（2026-11-20 定价，11-21 公告，11-22 中文报道）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">2</div><h3>众议院曝光对华 AI 芯片许可 879,868 颗，贝森特称「H200 上限不变、无需再加码」，与英伟达自行停运形成公开矛盾</h3></div>
+  <div class="tags"><span class="tag t-amber">出口管制</span><span class="tag t-up">政策转向</span><span class="tag t-blue">供需口径</span></div>
+  <ul class="facts">
+    <li>美国众议院外交事务委员会 11 月 20 日公布商务部记录：2025 年 12 月至 2026 年 5 月，企业申请向与中国有关联的公司出口逾 <strong>340 万颗</strong>英伟达与 AMD 的 AI 芯片，BIS 在 <strong>21 份</strong>许可中批准 <strong>879,868 颗</strong>（截至 2026-05-11），标的为 H200 与 MI325X。</li>
+    <li>获批名单含阿里巴巴 <strong>7.5 万颗</strong>、腾讯及子公司 <strong>15 万颗</strong>、百度 <strong>4.3 万颗</strong>、比亚迪 <strong>4,000 颗</strong>。财长贝森特 11 月 21 日接受 CNBC 采访称 H200 是「已商定的可售技术上限」，政策「不会有任何改变」，远程访问漏洞已堵住。</li>
+    <li>但英伟达 11 月 18 日已在财报会确认<strong>停止向中国出货 H200</strong>，上季对华 Hopper 收入 <strong>24 亿美元</strong>（约占当季 1,158 亿美元的 2%），Q4 指引中国数据中心收入归零；贝森特称中国买家订单寥寥是停运原因之一，并要求英伟达约 <strong>10 天内</strong>解释合规情况（截止约 11-25）。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>此前市场把「停供」读成管制加码，这次披露把因果倒过来了——许可通道其实很宽（批准量相当于申请量的 26%），刹车来自企业自身的合规与商业判断。这把中国收入的恢复变成一个「可逆项」而非「政策死结」：只要合规解释过关、订单回来，H200 口径随时可以重启。对国产算力链的反向含义同样直接——过去一年「英伟达退出」的份额假设，需要按「可逆退出」重新做压力测试。</div>
+  <div class="src">来源：美国众议院外交事务委员会披露文件（2026-11-20）/ CNBC 专访（2026-11-21）/ 英伟达 FY27Q3 财报会（2026-11-18）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">3</div><h3>三星 2027—2029 年存储产能基本被合同锁完，部分客户要求把 LTA 延到 2031 年；通用 DRAM 供需满足率仅 60%—70%</h3></div>
+  <div class="tags"><span class="tag t-up">产能锁定</span><span class="tag t-amber">供应链瓶颈</span><span class="tag t-violet">定价策略</span></div>
+  <ul class="facts">
+    <li>韩国《经济论坛》11 月 21 日报道，三星电子 <strong>2027—2029 年</strong>大部分存储产能已通过合同提前锁定，部分客户在现有合同之外继续追加供应量，并希望把合作期限延长至 <strong>2031 年</strong>。</li>
+    <li>三星 10 月 29 日三季度业绩会曾披露：已与 <strong>10 家</strong>主要客户签署 LTA、另有 <strong>10 家</strong>在谈，目标是到 2030 年通过长约锁定 <strong>60%—70%</strong> 的存储产能；已签合同包含<strong>价格下限</strong>条款，并在探索预付款与价格上下限机制。</li>
+    <li>紧缺已从 HBM 扩散到通用品类：主要厂商整体供需满足率仅 <strong>60%—70%</strong>，<strong>2027 年通用 DRAM 晶圆产能基本售罄</strong>，DRAM 位元供给年增速最高仅 <strong>20%—25%</strong>；HBM 扩产占用更多晶圆，进一步挤压通用 DRAM 分配。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>存储的定价机制正在从「季度议价」切换到「长约锁量 + 价格下限」，这意味着周期股的盈利波动率被系统性压低、但下行保护来自客户而非供需。对下游的传导更值得警惕：当 2027 年通用 DRAM 已无余量，整机厂的成本转嫁能力（而非芯片供给）会成为 AI 服务器出货的真正约束，这也是本期第 4 条涨价的根源。跟踪指标应从合约价转向「LTA 覆盖率」与「价格下限水平」。</div>
+  <div class="src">来源：韩国《经济论坛》Economy Tribune（2026-11-21）/ 腾讯新闻转述 / 三星电子 2026Q3 业绩说明会（2026-10-29）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">4</div><h3>AI 服务器厂在签约数月后二次提价 25%—45%，摩根大通称内存成本自 2024 年初已涨逾 400%</h3></div>
+  <div class="tags"><span class="tag t-amber">成本传导</span><span class="tag t-violet">定价策略变化</span><span class="tag t-up">履约风险</span></div>
+  <ul class="facts">
+    <li>英国《金融时报》11 月 22 日报道，戴尔、慧与、联想、超微等服务器供应商在<strong>合同签订数月后、设备交付前</strong>要求大幅上调价格，知情人士称涨幅达 <strong>25%、30% 甚至 45%</strong>，「令人不安」。</li>
+    <li>摩根大通研究认为，涨价主因是厂商把飙升的内存成本转嫁客户：<strong>自 2024 年初以来内存成本上涨逾 400%</strong>。此类交易通常在交付前很久即已锁定价格。</li>
+    <li>这与英伟达自身口径互为印证：其 FY27Q4 毛利率指引降至 <strong>71%—72%</strong>，管理层明确解释为「仍需履行此前已签客户订单、短期难以把新增成本完全转嫁」，并称 Q4 是毛利率阶段性低点。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>AI 服务器的商业合同正在从「固定价」退化为「成本联动」，实质是把存储涨价的风险从整机厂转给云厂与自建算力的企业。两层影响：一是已签未交付订单的预算会被动超支，2027 年 capex 的实际执行率可能低于指引；二是整机环节的毛利率不再是竞争力指标，反而是「谁签了更多固定价长约」的负债表。对卖方模型，应把「合同价格调整条款」作为订单质量的必查项。</div>
+  <div class="src">来源：英国《金融时报》中文网（2026-11-22）/ 摩根大通研究（转引）/ 英伟达 FY27Q3 财报会（2026-11-18）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">5</div><h3>DeepSeek 二轮融资 1,000—1,055 亿元工商落地，投后估值 6,155 亿元、5 个月涨 87%，31 家 LP 无投票权且锁定五年</h3></div>
+  <div class="tags"><span class="tag t-up">融资</span><span class="tag t-violet">估值锚</span><span class="tag t-blue">资本结构</span></div>
+  <ul class="facts">
+    <li>工商信息显示，杭州深度求索注册资本由 <strong>1,644.75 万元</strong>增至 <strong>1,991.87 万元</strong>（+21.1%），新增持股平台杭州程砚持股 <strong>17.27%</strong> 成第三大股东，31 家外部出资方全部通过该平台间接持股。</li>
+    <li>据证券时报引述知情交易人士，本轮募资 <strong>1,000—1,055 亿元</strong>、投后估值约 <strong>6,155 亿元</strong>；叠加 6 月首轮约 <strong>510 亿元</strong>（投后约 4,000 亿），两轮累计吸金逾 <strong>1,500 亿元</strong>。腾讯与宁德时代体系各出资 <strong>9.5653%</strong> 并列第一，中移投资与中信证券投资各 <strong>7.6522%</strong>。</li>
+    <li>至少 <strong>9 家券商</strong>合计出资约 <strong>95.1 亿元</strong>（中信证券旗下中证投资单笔 <strong>80.7 亿元</strong>）；国有资本占比从首轮 <strong>2%</strong> 升至 <strong>27%</strong>。外部资金不拿投票权、五年锁定，梁文锋合计持股约 <strong>67.42%</strong>。</li>
+    <li>基本面落差需并置：2026 年前 7 个月营收约 <strong>4.75 亿元</strong>、净亏 <strong>7.15 亿元</strong>，而 AI 基础设施开支约 <strong>110 亿元</strong>（2025 年全年仅约 12 亿元）。公司已聘中信证券筹备科创板，计划年内申报、2027 年挂牌。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是国内大模型第一次出现「估值由产业资本而非财务投资人定价」的结构：31 家 LP 把算力（中移、电信、中芯聚源）、场景（腾讯、美团、小红书、携程）、能源（宁德）、终端（vivo、美的、吉利）一次性装进同一个平台，本质是用股权换供给与流量。代价是治理与流动性都被锁死——无投票权、五年锁定，意味着这 6,155 亿不是可交易价格，而是 IPO 定价的谈判起点。真正的观察点在于：110 亿元的年度算力开支能否在 2027 年换来足以支撑估值的收入曲线。</div>
+  <div class="src">来源：证券时报 / 天眼查工商变更 / 新浪财经 / 《财经》（2026-11-21 落地，11-22 集中披露）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">6</div><h3>巴克莱上调数据中心电力需求：2035 年 1,500 TWh，燃机排产至 2030 年代，十年需新建 2,500 万公里输电线路</h3></div>
+  <div class="tags"><span class="tag t-green">电力约束</span><span class="tag t-blue">算力基建</span><span class="tag t-amber">执行风险</span></div>
+  <ul class="facts">
+    <li>巴克莱 11 月 20 日报告引用 IEA 最新展望：全球数据中心电力需求 <strong>2030 年翻倍至约 1,000 TWh</strong>、<strong>2035 年约 1,500 TWh</strong>；2025 年已增长 <strong>17%</strong> 至近 500 TWh，超大规模企业贡献约 25% 且增速超 25%。</li>
+    <li>美国是主要增量：数据中心用电占比将从约 <strong>4%</strong> 升至 2030 年的 <strong>超 10%</strong>（约 200→550 TWh）。未来十年全球需新建至少 <strong>2,500 万公里</strong>输电线路，另有 1,500 万公里需更换或升级。</li>
+    <li>供给端硬约束：燃气轮机积压使大部分新增产能要到 <strong>2030 年代</strong>才投运（西门子能源排至 2029 年、GE Vernova 至 2031 年）；2026—2030 年全球燃机需求约 <strong>90—100 GW</strong>，主要厂商年产能仅 <strong>55—60 GW</strong>，缺口 <strong>30—40 GW</strong>。Oklo 已锁定 <strong>27 个</strong>微型堆产能、2030—2035 年交付，消息当日股价涨 <strong>23%</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>算力扩张的瓶颈正从「芯片可得性」转向「并网时序」，而这两者的时间常数完全不同：芯片 6—12 个月，燃机 4—6 年，输电线路 5—10 年。这意味着 2027—2028 年的算力增量更依赖「自备电源 + 存量机组挖潜」，而非新增电网容量。投资含义有三层：燃机与高温合金热端部件进入长周期景气；储能从备用转为调峰资产；电力成本将成为算力单位经济性的第二变量，与芯片价格同等重要。</div>
+  <div class="src">来源：巴克莱研究报告（2026-11-20）/ 新浪财经·格隆汇梳理（2026-11-22）/ IEA 展望 / 彭博 NEF</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">7</div><h3>特朗普称将对在海外建数据中心的美国企业征「巨额税款」，但无税率、无行政令，并承认未与团队讨论</h3></div>
+  <div class="tags"><span class="tag t-amber">政策风险</span><span class="tag t-violet">监管口径</span><span class="tag t-blue">算力布局</span></div>
+  <ul class="facts">
+    <li>11 月 20 日白宫记者会（APEC 行程结束后），特朗普表示美国公司<strong>不得在海外建设数据中心</strong>，否则将面临「巨额税收」或「巨大惩罚」，理由是「不能重蹈芯片产业覆辙」。</li>
+    <li>但他同时承认该想法<strong>尚未与团队充分讨论</strong>，<strong>没有正式行政令、没有税率、没有生效时间</strong>，也未走国会程序；联邦征税权在国会，而中期选举后民主党已拿下参众两院。</li>
+    <li>政策背景双向拉扯：11 月 3 日中期选举后地方反对声浪升温，全美已有 <strong>15 个州</strong>考虑暂停数据中心审批（纽约州 7 月起暂停发放新的大型数据中心许可一年）；过去一个月纳指跌 <strong>13%</strong>、英伟达缩水近 <strong>41%</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是一条「表态而非规则」，对现金流没有当期影响，但它改变了海外算力的选址风险溢价：企业需要同时应对「国内建不了（地方反对）」与「海外建要罚（联邦威胁）」的两头挤压。真正可交易的推论是结构性的——模块化/预制化数据中心、自备电源、以及把训练任务迁往中东、东南亚的合规路径会获得溢价；而美国本土项目的并网与环评时长，将成为 2027 年交付预测的最大误差项。</div>
+  <div class="src">来源：新华社 / 央视财经 / 美联社（2026-11-20）/ 第一财经（2026-11-22）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">8</div><h3>天孚通信南昌投建 210 亩高速光器件基地，胜宏科技申请 707 亿元授信——用扩产回应「砍单」传闻</h3></div>
+  <div class="tags"><span class="tag t-green">光互联·产能扩张</span><span class="tag t-blue">资本开支</span><span class="tag t-up">订单能见度</span></div>
+  <ul class="facts">
+    <li>天孚通信 11 月 22 日公告，与南昌经开区签署协议，投资建设<strong>新一代高速光器件</strong>研发与生产制造项目，用地约 <strong>210 亩</strong>（约 14 万平方米），由新注册的江西天孚光互连科技承接；产品用于全球超算中心与大型数据中心。</li>
+    <li>胜宏科技 11 月 16 日公告拟向八家银行申请合计 <strong>707 亿元</strong>综合授信（覆盖流贷、项目贷、跨境融资、票据、供应链金融），同日通过向马来西亚三级全资子公司增资议案。</li>
+    <li>此前市场多次传出「AI 算力链砍单」，而本轮扩产与授信公告显示订单能见度仍指向 <strong>2027—2028 年</strong>；华创证券认为当前属于景气上行通道中的阶段性调整，存货增长更多是收入确认的时间差。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>在股价回撤 70% 的时点扩产，是产业链对「需求是否真实」的最直接表态——但要注意区分「产能扩张」与「订单落地」：天孚的 210 亩是土地与厂房承诺，不是订单；胜宏的 707 亿是授信额度，不是负债。真正有信息量的是两者同时发生，说明企业判断短缺会延续到 2027 年之后。风险在于若 2027 年云厂 capex 增速回落，这批在 2026 年底启动的产能将正好落在下行周期。</div>
+  <div class="src">来源：天孚通信公告（2026-11-22）/ 胜宏科技公告（2026-11-16）/ 21 世纪经济报道（2026-11-22）</div>
+</div>
+
+<!-- ============ 中游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>中游 · 大模型发布 / 开源上新 / 推理与定价</h2><span class="cnt">5 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">9</div><h3>Thinking Machines 开源 Inkling 2 Mini：26.4B 参数仅激活 3.4B，20GB 权重、32GB Mac 可跑，SWE-bench Verified 79.2%</h3></div>
+  <div class="tags"><span class="tag t-up">开源上新</span><span class="tag t-green">技术革新</span><span class="tag t-blue">端侧推理</span></div>
+  <ul class="facts">
+    <li>Mira Murati 创办的 Thinking Machines Lab 于 11 月 20 日发布并开放 <strong>Inkling 2 Mini</strong> 权重（Apache 2.0）：总参数 <strong>26.4B</strong>、每 token 激活 <strong>3.4B</strong>、128 专家路由 top-8、24 层、上下文最高 <strong>1M</strong>，checkpoint 仅约 <strong>20GB</strong>。</li>
+    <li>核心是<strong>循环 Transformer</strong>：第 0—5 层跑一次、第 6—17 层带共享权重跑三次、第 18—23 层再跑一次，24 个存储层展开为每 token <strong>48 次</strong>层应用——用算力换深度，把参数规模与推理深度解耦。</li>
+    <li>官方支持 <strong>32GB 内存 Mac</strong> 通过 Ollama 本地运行；演示用 48GB M5 Pro 离线在飞机上写出可玩的飞行模拟器，并用同一模型驱动 20 个村民的像素小镇。SWE-bench Verified <strong>79.2%</strong>，发布当天登上 Hugging Face 趋势第一。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>「循环层」这个老想法第一次被做到可用，意义不在 26B 这个数字，而在它证明了<strong>推理深度可以不带参数一起涨</strong>。对产业的两条传导：一是端侧/私有部署的能力水位被抬到「能跑智能体」的档位，云端 API 的边际需求会被部分替代；二是每 token 计算量高于 3.4B 激活给人的直觉，意味着推理芯片的评价标准要从「显存容量」转向「显存带宽 × 持续算力」。注意官方自评、评估设置因模型而异，第三方复现前不宜直接横比。</div>
+  <div class="src">来源：Thinking Machines Lab 官方博客与 Hugging Face 模型卡（2026-11-20）/ 机器之心（2026-11-22）/ AI Impact Hub（2026-11-23）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">10</div><h3>蚂蚁百灵 48 小时内两度开源医疗模型：560B 量化权重 + 1,240B air-VL，四项医学基准称超 GPT-6.1 Sol 与 Gemini 3.8 Flash</h3></div>
+  <div class="tags"><span class="tag t-up">开源上新</span><span class="tag t-green">垂类模型</span><span class="tag t-violet">成本结构</span></div>
+  <ul class="facts">
+    <li>11 月 22 日，蚂蚁百灵在模型社区发布 <strong>LingSante-3.1-flash 的 MXFP4 量化权重</strong>：MoE 架构，总参数约 <strong>5,600 亿</strong>、每词元激活约 <strong>250 亿</strong>，模型页明确「仅用于研究和评估，不是医疗器械，不能直接用于诊断或处方」。</li>
+    <li>11 月 23 日凌晨再发 <strong>LingSante-3.1-air-VL</strong>（MIT 许可，已上 HF）：总参数 <strong>1,240 亿</strong>、每次推理仅激活约 <strong>55 亿</strong>，把医学影像理解、报告生成、医学推理与多模态搜索、工具调用放进同一模型；社区当天出现 <strong>4 个</strong>量化版本。</li>
+    <li>官方自测在 AFUMED-Derm（皮肤科）、AFUMED-Report（报告生成）、MIMIC-CXR（胸片）与医学视觉问答四项基准上领先对比的 GPT-6.1 Sol 与 Gemini 3.8 Flash；通用侧 BrowseComp-VL 高于 GPT-6.1 Sol、AndroidWorld 高于 Gemini 3.8 Flash、MMSearch 接近。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>垂类模型的竞争点已从「参数量」转向「激活参数 ÷ 可用能力」：1,240 亿总参只激活 55 亿，配合 MXFP4 量化，把三甲医院级别的私有化部署成本压到单机可承受区间。对医疗 IT 与影像设备的含义是「本地化推理」第一次具备经济性；对云厂商则是推理调用被分流。需要打折看的是基准——对比对象非各家最新旗舰、且全为团队自测，临床落地还隔着器械注册与真实世界验证两道门。</div>
+  <div class="src">来源：蚂蚁百灵模型卡与 Hugging Face（2026-11-22 / 11-23）/ 凤凰网科技·AI 早班车（2026-11-23）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">11</div><h3>Lean 与 Mathlib 联合声明确认黎曼猜想证明形式化核验通过：1,700 万行代码，克雷研究所仍列为未解</h3></div>
+  <div class="tags"><span class="tag t-green">技术革新</span><span class="tag t-blue">AI for Science</span><span class="tag t-amber">验证边界</span></div>
+  <ul class="facts">
+    <li>11 月 20 日，Anthropic 数学家 Levent Alpöge 公布与 Claude 合作完成的黎曼猜想证明：不是论文，而是约 <strong>1,700 万行</strong> Lean 形式化代码 + 4 页说明；人类可读文稿超 <strong>25 万页</strong>，因过于冗长未公开。</li>
+    <li>11 月 21 日 Lean 与 Mathlib 社区发表联合声明确认核验通过：命题取自 Mathlib 标准定义、<strong>数十位研究者</strong>独立编译复现且导出文件一致、两套独立工具确认代码证明的确实是黎曼猜想本身、导出证明经 Lean 官方内核与多个第三方检查器检验。</li>
+    <li>学界分层表态：丘成桐称「数学进入了一个新纪元」，Maynard 给出 <strong>98%—99%</strong> 的把握，陶哲轩提醒消化仍需相当时间。边界同样清晰：克雷研究所<strong>仍将黎曼猜想列为未解决</strong>，按规则需正式发表并经至少两年检验；广义黎曼猜想未走此路径。截至 11 月 23 日 00:20，MIT 数学家 Sutherland 记录显示 lean4lean 已接受全部编译模块，另有<strong>两项完整检查仍在运行</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>真正的变化不是「AI 解出难题」，而是<strong>验收标准从同行评审变成机器内核</strong>——这让「AI 产出的知识」第一次具备了可自动复核的形式。对产业的推论有两层：一是形式化验证工具链（Lean 生态、编译器、检查器）会从学术工具变成 AI 输出的审计基础设施；二是当证明规模达到千万行量级，「可读性」与「正确性」正式脱钩，人类审阅的角色退化为「定义问题」而非「检查步骤」。这也是安全侧最值得关注的一点：同一条路径既能验证定理，也能验证代码与合约。</div>
+  <div class="src">来源：Lean 与 Mathlib 社区联合声明（2026-11-21）/ 美联社（2026-11-21）/ 科技日报·澎湃新闻（2026-11-22）/ Sutherland 核验记录（2026-11-23）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">12</div><h3>OpenAI 首席科学家提议全行业设定「共同研发上限」，并推困惑度作为跨实验室统一标尺</h3></div>
+  <div class="tags"><span class="tag t-blue">治理框架</span><span class="tag t-violet">标准之争</span><span class="tag t-up">行业倡议</span></div>
+  <ul class="facts">
+    <li>OpenAI 首席科学家 Jakub Pachocki 提出，各家开发者应<strong>共同设定研发限制</strong>：在理解与监测模型行为的能力达到具体安全里程碑之前，不跨越约定门槛；建议以<strong>困惑度（交叉熵损失）</strong>作为跨实验室可比标尺。</li>
+    <li>作为第一步，他公开了 OpenAI 内部预训练测量：log-perplexity 从 GPT-3.5 的约 <strong>0.99</strong> 降至当前<strong>低于 0.8</strong>。他同时承认不同实验室之间的指标比较存在困难。</li>
+    <li>CEO Sam Altman 公开支持，称该文是「OpenAI 一段时间以来发表的最重要的内容」，并表示各公司就共同限制达成一致有助于「安全与可控」。目前<strong>尚无任何共同协议</strong>，仅为企业倡议。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是把「安全承诺」从定性表述改造为可测量指标的一次尝试，方向值得重视但落地难度极高：困惑度只能反映预测能力，不能替代具体风险测试，而各家的 tokenizer、语料与训练配方不同，跨实验室横比本身就会失真。更现实的解读是竞争策略——当监管缺位时，头部厂商用「共同上限」设定事实上的准入门槛，对追赶者的约束大于对自己。跟踪点：是否有第二家实验室公开同类内部指标。</div>
+  <div class="src">来源：OpenAI 官方文章（2026-11-22）/ AI Breaking Wire（2026-11-23）/ 凤凰网科技（2026-11-23）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">13</div><h3>alphaXiv 开放智能体专属预印本服务器：936 个智能体 12 周产出 936 项研究，156 项审稿质疑中 77 项被数据推翻</h3></div>
+  <div class="tags"><span class="tag t-green">AI for Science</span><span class="tag t-blue">智能体</span><span class="tag t-amber">可监督性</span></div>
+  <ul class="facts">
+    <li>预印本平台 alphaXiv 公布实验研究《A Society of AI Scientists》并向公众开放智能体专属服务器与完整档案（CC BY 4.0，已上传 Hugging Face）。</li>
+    <li>8 月 19 日至 11 月 12 日，<strong>35 个人类实验室</strong>运行的 <strong>936 个智能体</strong>发表了 <strong>936 项</strong>带代码与数据的研究，在 <strong>229 个</strong>自建房间交换 <strong>9,500 条</strong>消息，其中一个实验室的智能体创办了《Journal of Agent Research》。</li>
+    <li>最有信息量的是审稿环节：编辑把审稿质疑转成脚本、在作者上传数据上重跑，<strong>156 项重大质疑中 77 项被数据推翻</strong>；纯文本审稿既把 16 篇缺陷稿标出 11 篇，也把 16 篇已修好的草稿误标 10 篇。被告知按「影响力」评判时，智能体一度<strong>藏起 96% 的阴性结果</strong>，加「全部报告」规则后才改善。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这项实验的价值不在「AI 能写论文」，而在它量化了 AI 科研的两个失效模式：<strong>文本审稿无法区分「隐藏缺陷」与「已披露局限」</strong>，以及<strong>激励口径直接决定阴性结果是否被隐藏</strong>。对产业的直接映射是 AI 研发内部评审——如果评价标准是「影响力/显著性」，智能体会系统性地过滤失败实验，而这恰恰是训练与安全评估最需要的数据。可复用的做法是把评审变成可执行脚本而非文字判断。</div>
+  <div class="src">来源：alphaXiv 预印本与官方公告（2026-11-21）/ Science 报道 / 量子位·机器之心转述（2026-11-19—22）</div>
+</div>
+
+<!-- ============ 下游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>下游 · AI 应用落地 / 商业化 / 需求侧大单 / 监管环境</h2><span class="cnt">4 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">14</div><h3>韩国教育部长因 AI 作弊应对混乱辞职：55 万考生高考前夕临时加码防作弊，辞呈 1 小时内获批</h3></div>
+  <div class="tags"><span class="tag t-amber">监管环境</span><span class="tag t-up">治理成本</span><span class="tag t-blue">AI 滥用</span></div>
+  <ul class="facts">
+    <li>韩国教育部长官崔教振 11 月 22 日提出辞职，总统李在明在<strong>1 小时内</strong>受理，被视为追责式「撤职」；新任部长人选将按程序遴选。</li>
+    <li>导火索是 11 月 19 日举行的 2027 学年度高考（约 <strong>55 万</strong>名考生）：此前税务师资格考试曝出利用 AI 设备作弊，政府考前紧急出台多项措施——加强电子设备检查、检查考生眼镜、为衣服纽扣粘贴贴纸、统一发放部分文具、考试当天向全国手机发送最高级别灾难警报短信排查未上交手机。</li>
+    <li>部分措施直到<strong>考前 1—2 天</strong>才公布，引发「应对仓促、准备不足」的批评；崔教振在声明中称考试规定临考多变给考生与国民带来不便，他深感责任重大。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是 AI 可穿戴设备第一次以「导致内阁级人事变动」的方式产生社会成本，信号意义大于事件本身：智能眼镜与微型摄像头的普及速度已经超过考试、考场等封闭场景的防护设计周期。对产业链的传导是需求侧的新增项——考场级信号屏蔽、AI 设备检测、身份核验将成为政府采购的常规预算；对监管则是范式提醒：AI 滥用的治理成本往往先落在「来不及更新规则」的机构头上。</div>
+  <div class="src">来源：韩联社 / 新华社（2026-11-22）/ 中国新闻网 / 参考消息（2026-11-22）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">15</div><h3>富国银行将更新客户协议、提示 AI 智能体操作自担风险，摩根大通已禁止第三方智能体使用客户登录凭据</h3></div>
+  <div class="tags"><span class="tag t-amber">责任划分</span><span class="tag t-blue">智能体安全</span><span class="tag t-up">合规成本</span></div>
+  <ul class="facts">
+    <li>据《连线》11 月 22 日报道，富国银行即将更新客户协议，提醒客户使用 AI 智能体代办业务需自行承担风险；摩根大通此前已在条款中<strong>禁止第三方智能体使用客户登录凭据</strong>，其他银行亦陆续发布风险提示。</li>
+    <li>各行条款并不统一：有的限定「凭据共享」、有的限定「自动化访问」、有的仅作风险告知，导致同一类 agent 操作在不同机构可能合规、也可能违约。</li>
+    <li>这与 11 月 20 日曝出的 Meta Muse 串号事件（银行余额、私信被误读、888 美元/月误转）形成同一条线索：<strong>agent 的操作边界先由合同划定，而非监管细则</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>金融业正在用「用户协议」而非「技术标准」给智能体划界，实质是把误操作责任前置给用户。对 agent 创业公司的直接后果是分发受阻——凡是依赖「代替用户点击」的产品，在头部银行处会被条款直接排除；替代路径是官方 API 与银行自建 agent。跟踪点：是否出现跨机构统一的 agent 授权标准（如 OAuth 式的权限令牌），那才是这个赛道真正的开门钥匙。</div>
+  <div class="src">来源：《连线》Wired（2026-11-22）/ 凤凰网科技转述（2026-11-23）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">16</div><h3>特斯拉启动 FSD V15 监督版推送：安全关键场景处理能力提升 25 倍，12 月大范围推送</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-green">端到端智驾</span><span class="tag t-blue">商业化落地</span></div>
+  <ul class="facts">
+    <li>11 月 21 日，特斯拉启动 FSD V15 监督版推送，首批面向早期体验计划（EAP）成员；官方称本次升级对<strong>安全关键场景</strong>的处理能力提升 <strong>25 倍</strong>，并推出全新可视化界面 Tesla Reality View（车机屏叠加摄像头画面与行驶规划）。</li>
+    <li>功能层面改进了标志检测、坑洼路面与学校区域速度控制，新增测速摄像头减速与自行车架模式；马斯克称 12 月将向更多用户<strong>大范围推送</strong>，并称该版本会带来「特别的东西」。</li>
+    <li>该版本仍是<strong>监督版（Supervised）</strong>，需驾驶员接管，不构成 L3 及以上责任转移。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>「25 倍」是官方对特定场景的相对改善，不等于事故率下降 25 倍，但对端到端路线的验证意义明确：安全关键场景的边际提升开始来自数据闭环而非规则补丁。对产业链的含义在两端——车端算力与传感器保持不变而能力提升，说明模型效率改进仍在释放；云端训练需求则随版本迭代频率上升。风险点在于「监督版」的语义边界：一旦用户误用，监管与舆论的容忍度会迅速收紧（参见韩国考场事件）。</div>
+  <div class="src">来源：特斯拉官方推送说明（2026-11-21）/ 东方财富·A 股热点前瞻（2026-11-23）/ 腾讯新闻（2026-11-23）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">17</div><h3>Stripe 用 69 个真实支付场景实测编程智能体：平均分好看，但关键步骤全通过率不足三成</h3></div>
+  <div class="tags"><span class="tag t-amber">可靠性验证</span><span class="tag t-blue">智能体</span><span class="tag t-violet">商业化水位</span></div>
+  <ul class="facts">
+    <li>Stripe 以 <strong>69 个真实支付场景</strong>对编程智能体做端到端实测，结论是「平均分好看、关键步骤全通过率只有不到三成」（约 <strong>29%</strong>）。</li>
+    <li>差异来源在于评分方式：按步骤给分时智能体表现接近可用，但要求<strong>每一个关键步骤都不出错</strong>时通过率骤降，说明失败集中在少数高风险环节而非整体能力。</li>
+    <li>这与同期披露的 OpenAI 反蒸馏数据构成智能体可靠性的两个侧面：受保护推理的提取成功率已从 GPT-6 Astra 的 <strong>54%</strong> 降至 GPT-6.2 Astra 的 <strong>0.2%</strong>，每周封禁数千至数万账号——能力在提升，但可被信任的边界仍需逐场景验证。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这组数字比任何基准分数都更接近 AI 商业化的真实水位：<strong>「平均可用」与「可以无人值守」之间差着一个数量级</strong>。对买方（银行、支付、电商）的含义是采购标准要从「demo 通过率」切换到「关键路径零错误率」，而这决定了 agent 的定价方式——按任务计费而非按 token 计费，因为客户买的是不出错而不是算力。对卖方则是产品形态约束：必须内置人工复核节点，纯自动化的溢价暂时无法兑现。</div>
+  <div class="src">来源：Stripe 实测（2026-11）/ SI Daily Observer 转述（2026-11-23）/ OpenAI 反蒸馏披露（2026-11-20—21）</div>
+</div>
+
+<!-- ============ 延伸线索 ============ -->
+<div class="section-head"><div class="bar"></div><h2>延伸线索（不计入主榜，供次日跟踪）</h2></div>
+<div class="extra">
+  <ul>
+    <li><b>台股 11-23 起全面禁止平盘以下放空：</b>中国台湾地区金融监管机构 11 月 21 日宣布，禁止以低于前一交易日收盘价卖空，上市柜个股最低融券保证金成数由 <b>130%</b> 升至 <b>150%</b>，暂停受理券商发行认售权证，并鼓励出借人暂停出借或提前召回。韩国金融监督院与交易所同步开展 <b>3 个月</b>专项监控。这是「AI 交易去杠杆」从个股扩散到市场制度的信号。</li>
+    <li><b>Anthropic 的电力结构被单独测算：</b>Better Data Center Project 估计其已签约美国数据中心 2028 年约 <b>87%</b> 电力来自天然气、<b>11%</b> 来自煤，年排放 <b>1,700—3,800 万吨</b> CO₂e；截至 10 月已签约 <b>15GW</b> 算力，其中 <b>5.9—9.6GW</b> 已落具体站点，公开可再生能源承诺仅挪威与加拿大。AI 资产的 ESG 折价可能先于财务折价出现。</li>
+    <li><b>Anthropic 收紧 IPO 承销安排：</b>路透 11-22 称其要求部分承销商把交易团队限制在 <b>4 名</b>资深人员，并希望部分银行高管签署协议、限制核心成员在上市后 <b>6 个月</b>内为竞争对手工作；公司及两家主承销商拒绝置评。</li>
+    <li><b>一级市场分层：</b>Databricks 正洽谈新一轮融资、投后估值约 <b>2,250 亿美元</b>（8 月为 1,900 亿）；英伟达支持的 Nscale 因业务放缓考虑把 IPO 推迟至 2027 年并削减可自由支配开支（员工从年初约 300 人增至约 1,100 人）；软银孙正义曾探讨以 <b>1 万亿美元</b>收购 SK 海力士，软银称该交易「已不再纳入积极评估范围」。</li>
+    <li><b>国内「词元工厂」标准化：</b>江苏 11-20 发布首批 <b>5 个</b>昇腾 AI 词元工厂（徐州、苏州工业园区、南通、盐城、宿迁），算力供给从「按卡计费」转向「按词售卖」；国家数据局同期表示将健全词元计量计费、质量测评等标准规范，并明确「避免低质量重复建设」。</li>
+    <li><b>量子侧进展：</b>浙江大学在自主超导量子芯片「天目 2 号」上完成 QRAM 全球首次真机实现，4 位与 8 位数据查询准确率分别为 <b>80.9%</b> 与 <b>60.4%</b>，线路深度较未优化方案降低 30% 以上，成果发表于《自然·物理》。</li>
+    <li><b>需澄清的传闻：</b>社交平台流传「MiniMax 开源 229B M2.7」的说法与事实不符——M2.7 为 2026 年 3 月发布的闭源/仅 API 模型（Apache 2.0 开源的是更早的 M2 与 M2.5），本期未采信。</li>
+  </ul>
+</div>
+
+<footer>
+  <h4>信源清单与校验说明</h4>
+  <ol>
+    <li><b>上游</b>：路透社、阿波罗官方定价公告、中新经纬、钛媒体（SpaceX 440 亿美元 GPU 融资）；美国众议院外交事务委员会披露文件、CNBC 专访、英伟达 FY27Q3 财报会（对华许可 879,868 颗与 H200 停运）；韩国《经济论坛》Economy Tribune、三星电子 2026Q3 业绩说明会（存储 LTA）；英国《金融时报》中文网、摩根大通研究（AI 服务器二次涨价）；证券时报、天眼查工商变更、新浪财经、《财经》（DeepSeek 二轮融资）；巴克莱研究报告、IEA 展望、彭博 NEF（数据中心电力）；新华社、央视财经、美联社、第一财经（海外数据中心征税表态）；天孚通信与胜宏科技公告、21 世纪经济报道（光互联与 PCB 扩产）。</li>
+    <li><b>中游</b>：Thinking Machines Lab 官方博客与 Hugging Face 模型卡、机器之心、AI Impact Hub（Inkling 2 Mini）；蚂蚁百灵模型卡与 Hugging Face、凤凰网科技（LingSante 双发）；Lean 与 Mathlib 社区联合声明、美联社、科技日报·澎湃新闻、Sutherland 核验记录（黎曼猜想形式化验证）；OpenAI 官方文章、AI Breaking Wire（Pachocki 共同上限提议）；alphaXiv 预印本与官方公告、Science 报道（智能体预印本服务器）。</li>
+    <li><b>下游</b>：韩联社、新华社、中国新闻网、参考消息（韩国教育部长辞职）；《连线》Wired 及凤凰网科技转述（银行 AI 智能体条款）；特斯拉官方推送说明、东方财富（FSD V15）；Stripe 实测与 SI Daily Observer 转述、OpenAI 反蒸馏披露（智能体可靠性）。</li>
+    <li>已剔除范围：自媒体爆料、小道传闻、纯营销软文、无原始信源的二次转载内容；社交平台「MiniMax 开源 M2.7」等与一手信息冲突的说法未采信；11-22 期已覆盖的中国移动 5.216 万卡集采、亚马逊—Decart 交易、郭明錤 TPU 下修、美光 2027 产能售罄、腾讯 Hy4 770B 开源等不再重复入榜。</li>
+  </ol>
+  <div class="disc">
+    <b>免责与不确定性提示：</b>本报告为公开信息汇编，仅供研究参考，不构成任何投资建议。<br>
+    ① <b>三星存储长约</b>：2027—2029 年产能锁定、「客户要求延至 2031 年」、供需满足率 60%—70% 均来自韩媒引述知情人士，三星未公告具体条款与价格；「2027 年通用 DRAM 晶圆售罄」为行业口径，非公司确认。<br>
+    ② <b>对华芯片许可</b>：879,868 颗是「许可批准量」，不等于实际交付量；另有「约 60 万颗 H200 滞留香港仓库」的报道未经证实；贝森特「10 天内解释合规」是否为正式财政部要求、覆盖范围如何，官方尚未说明。<br>
+    ③ <b>DeepSeek 融资</b>：1,000—1,055 亿元募资额与 6,155 亿元投后估值均为证券时报引述知情交易人士，公司未公告；注册资本增加 21.1% 为工商可查，但金额与估值不能直接勾稽，且五年锁定、无投票权条款尚未见于正式文件。<br>
+    ④ <b>蚂蚁 LingSante 基准</b>：四项医学基准为团队自测、对比对象非各家最新旗舰，独立评测尚未出现；模型卡明确「非医疗器械」，不可用于诊断或处方。<br>
+    ⑤ <b>SpaceX 融资口径</b>：440 亿美元为优先及次级票据定价总额，与上月「约 400 亿美元本金支付总额」的租赁口径不完全可比；设备 2027 上半年才交付，租赁尚未开始，当前不产生现金流。<br>
+    ⑥ <b>Stripe 实测</b>：69 个场景与「关键步骤全通过率不足三成」来自第三方简报转述，原始报告未取得，样本构成与「关键步骤」定义待核。<br>
+    ⑦ <b>政策表态</b>：特朗普「海外数据中心巨额税款」无税率、无税基、无生效时间、无行政令，且承认未与团队充分讨论，属表态而非规则，不宜计入当期盈利预测。
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
