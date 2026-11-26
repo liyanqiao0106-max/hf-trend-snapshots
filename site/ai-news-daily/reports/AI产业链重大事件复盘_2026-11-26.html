@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI行业早报 · 2026-11-26</title>
+<style>
+  :root{
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --ink:#1a1d21;
+    --ink-2:#4a5158;
+    --ink-3:#7c848c;
+    --line:#e3e6ea;
+    --up:#d92b2b;
+    --up-bg:#fdf0f0;
+    --blue:#1a5fd0;
+    --blue-bg:#eef4fe;
+    --green:#0f7a4d;
+    --green-bg:#edf7f1;
+    --amber:#a8631a;
+    --amber-bg:#fdf5e9;
+    --violet:#6b3fc7;
+    --violet-bg:#f2eefc;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.7;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px;}
+  header.top{
+    background:linear-gradient(135deg,#111827 0%,#1f2937 55%,#2b3445 100%);
+    color:#fff;border-radius:18px;padding:34px 36px 30px;margin-bottom:26px;
+    box-shadow:0 10px 30px rgba(15,23,42,.18);
+  }
+  .kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#8fa3bd;margin:0 0 12px;}
+  header.top h1{margin:0 0 14px;font-size:30px;line-height:1.3;font-weight:700;letter-spacing:-.01em;}
+  header.top .sub{color:#b8c4d4;font-size:14.5px;margin:0;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+  .chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#dbe4ef;
+    padding:5px 12px;border-radius:999px;font-size:12.5px;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px;}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .stat .n{font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.02em;}
+  .stat .l{font-size:12.5px;color:var(--ink-3);margin-top:2px;}
+  .stat.hl .n{color:var(--up);}
+  .section-head{display:flex;align-items:center;gap:12px;margin:38px 0 16px;}
+  .section-head .bar{width:4px;height:22px;border-radius:2px;background:var(--ink);}
+  .section-head h2{margin:0;font-size:19px;font-weight:700;letter-spacing:-.01em;}
+  .section-head .cnt{font-size:12.5px;color:var(--ink-3);margin-left:auto;
+    background:#fff;border:1px solid var(--line);padding:3px 10px;border-radius:999px;}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin-bottom:14px;transition:box-shadow .18s ease;}
+  .item:hover{box-shadow:0 6px 20px rgba(15,23,42,.07);}
+  .item .hd{display:flex;gap:12px;align-items:flex-start;}
+  .num{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:#111827;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;margin-top:1px;}
+  .item h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.45;letter-spacing:-.01em;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 12px;}
+  .tag{font-size:11.5px;padding:3px 9px;border-radius:6px;font-weight:600;white-space:nowrap;}
+  .t-up{background:var(--up-bg);color:var(--up);}
+  .t-blue{background:var(--blue-bg);color:var(--blue);}
+  .t-green{background:var(--green-bg);color:var(--green);}
+  .t-amber{background:var(--amber-bg);color:var(--amber);}
+  .t-violet{background:var(--violet-bg);color:var(--violet);}
+  .facts{margin:0 0 12px;padding:0;list-style:none;}
+  .facts li{position:relative;padding-left:16px;margin-bottom:6px;font-size:14.5px;color:var(--ink-2);}
+  .facts li::before{content:"";position:absolute;left:2px;top:10px;width:5px;height:5px;
+    border-radius:50%;background:#c2cad4;}
+  .facts strong{color:var(--ink);font-weight:600;}
+  .impact{background:#fafbfc;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;
+    padding:11px 14px;font-size:14px;color:var(--ink-2);}
+  .impact b{color:var(--blue);font-weight:700;}
+  .src{margin-top:11px;font-size:12.5px;color:var(--ink-3);}
+  .src b{color:var(--ink-3);font-weight:600;}
+  .extra{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 24px;}
+  .extra ul{margin:0;padding-left:20px;font-size:14px;color:var(--ink-2);}
+  .extra li{margin-bottom:8px;}
+  .extra li b{color:var(--ink);}
+  footer{margin-top:44px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;}
+  footer h4{margin:0 0 10px;font-size:14px;font-weight:700;}
+  footer ol{margin:0;padding-left:20px;color:var(--ink-2);font-size:13.5px;}
+  footer li{margin-bottom:5px;}
+  .disc{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+    font-size:12.5px;color:var(--ink-3);line-height:1.65;}
+  .disc b{color:var(--ink-2);}
+  @media (max-width:720px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    header.top{padding:26px 22px;}.wrap{padding:24px 14px 60px;}
+    header.top h1{font-size:23px;}
+  }
+</style>
+<link rel="stylesheet" href="../navigation.css">
+</head>
+<body>
+<div class="wrap">
+<a class="return-link" href="../index.html">← 返回 AI 新闻日报</a>
+
+<header class="top">
+  <p class="kicker">AI Industry Daily Recap · Sell-Side Research</p>
+  <h1>AI行业早报</h1>
+  <p class="sub">2026年11月26日（北京时间）</p>
+  <div class="meta-row">
+    <span class="chip">17 条重大事件</span>
+    <span class="chip">上游 7 · 中游 5 · 下游 5</span>
+    <span class="chip">中英文全球信源交叉验证</span>
+    <span class="chip">已剔除传闻类自媒体线索</span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat hl"><div class="n">1,534 bp</div><div class="l">CoreWeave 五年期 CDS 利差，单日 +209bp 创有记录以来最大升幅</div></div>
+  <div class="stat"><div class="n">70%</div><div class="l">掉期定价折算的 CoreWeave 五年隐含违约概率</div></div>
+  <div class="stat hl"><div class="n">−11.05%</div><div class="l">SK 海力士单日跌幅，KOSPI 同日 −6.16%</div></div>
+  <div class="stat"><div class="n">100 万颗</div><div class="l">FCC 批准的 SpaceX「Starmind」轨道数据中心卫星上限</div></div>
+</div>
+
+<!-- ============ 上游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>上游 · 芯片 / 算力 / 光互联 / 云算力 / 大额订单</h2><span class="cnt">7 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">1</div><h3>标普把英伟达 AA 评级列入负面观察，90 天内或降一级；穆迪同日维持 Aa1 稳定</h3></div>
+  <div class="tags"><span class="tag t-amber">信用评级</span><span class="tag t-blue">公司治理</span><span class="tag t-up">合规成本</span></div>
+  <ul class="facts">
+    <li>11-25 标普全球评级将英伟达的<strong>发行人信用评级与高级无抵押债务评级（均 AA）</strong>列入负面信用观察名单，若治理缺陷未改善，可能在<strong>90 天内下调一个子级至 AA-</strong>；「管理与治理」调整项由「正面」改为「中性」。</li>
+    <li>核心理由三条：对黄仁勋的<strong>关键人物依赖</strong>（11-11 接受辞呈、CFO 代理，11-23 又一致决议复职）、董事任期过长削弱独立性（新任董事长 Harvey Jones 自 <strong>1993 年</strong>起任董事）、出口管制相关披露与内控能力待验证。</li>
+    <li>穆迪同日<strong>维持 Aa1 评级与稳定展望</strong>，称复职降低了短期执行风险，但治理与监管不确定性仍在——两家机构结论分歧，构成罕见的「同一事件、两套评级」。</li>
+    <li>同日美国副总统万斯称黄仁勋<strong>未受司法部或国安部门调查、无需赦免</strong>；路透称司法部是基于对超微与 Megaspeed 的既有调查作出判断，结论仍可能随调查变化。英伟达当日收跌 <strong>3.91% 至 149.30 美元</strong>，市值 3.61 万亿美元、单日蒸发约 <strong>1,468 亿美元</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是本轮 AI 行情第一次由「治理事件」直接触发评级动作，风险从股价迁移到信用。三点含义：① AA→AA- 对 3.6 万亿美元市值公司的财务成本影响很小，真正的影响在<strong>交易对手条款</strong>——长约、预付与担保谈判开始把发行人信用当变量；② 90 天观察窗口恰好覆盖 12 月资本开支指引与 Q4 交付节奏，若期间出现新的出口管制披露，降幅可能超过一个子级；③ 标普与穆迪分歧本身说明评级模型对「创始人依赖」尚无统一口径，这类资产的信用定价会长期存在离散度。</div>
+  <div class="src">来源：标普全球评级 / 路透社 / 中央社 / 第一财经 / 财联社（2026-11-25 至 11-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">2</div><h3>CoreWeave 五年 CDS 单日飙升 209bp 至 1,534bp，隐含违约概率破 70%；摩根大通预警 2027 年 AI 发债 4,500 亿美元</h3></div>
+  <div class="tags"><span class="tag t-amber">信用风险</span><span class="tag t-violet">融资定价</span><span class="tag t-blue">资本开支</span></div>
+  <ul class="facts">
+    <li>ICE Data Services 数据：CoreWeave 五年期 CDS 周三一度<strong>上升 2.09 个百分点至每年 15.34 个百分点（1,534bp）</strong>，为有记录以来最大单日升幅；按掉期模型折算的<strong>五年隐含违约概率超过 70%</strong>，其 2031 年到期债券收益率逼近 <strong>18%</strong>。</li>
+    <li>同日英伟达五年期 CDS 盘中创 <strong>147.27bp</strong> 新高（11-20 前高 145.45bp）；甲骨文 <strong>356bp</strong>（单日 +17bp）纪录高位、部分超长期债收益率接近 <strong>9%</strong>；Alphabet 与 SpaceX 亦创新高，Meta 五年期 CDS 较 6 月底走阔约<strong>六成</strong>。标普道琼斯 CDX 投资级指数利差升至 3 月 31 日以来最高。</li>
+    <li>摩根大通同日预测：<strong>2027 年 AI 资本开支接近翻倍至 1.4 万亿美元</strong>，公开市场投资级发债增加约 <strong>22% 至 4,500 亿美元</strong>。</li>
+    <li>股市与债市明显背离：道指抹去盘中千点跌幅<strong>收涨 0.33%</strong>，标普 −0.25%、纳指 −0.62%，费半 −0.65%（盘中一度跌近 8%）；CoreWeave 周一涨 22.3%，同一天其 2031 债收益率却抬升 20bp。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>股债背离是本轮最重要的信号——指数深 V 收复，信用市场却把 AI 发行人当独立风险池重新定价。① 循环融资与表外承诺（租约、担保）让信用风险沿合约链条传导，CDS 比股价更早反映；② 70% 隐含概率包含风险补偿、不等于真实违约率，但它决定了<strong>再融资边际成本</strong>，18% 的债券收益率就是新增算力租约的资金价格；③ 2027 年 4,500 亿投资级供给意味着 AI 债从「稀缺资产」变成「需要消化的增量供给」，对利率的敏感性系统性上升。观察变量：投资级利差是否持续走阔、Q4 财报中经营现金流与资本开支的缺口。</div>
+  <div class="src">来源：ICE Data Services / 标普全球市场财智 / 财联社 / 凤凰网财经 / 同花顺（2026-11-25 至 11-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">3</div><h3>韩国存储双雄单日跌近两位数，法巴把美光目标价砍半、DRAM/NAND 平衡点提前一年</h3></div>
+  <div class="tags"><span class="tag t-amber">存储周期</span><span class="tag t-violet">定价分歧</span><span class="tag t-green">产能扩张</span></div>
+  <ul class="facts">
+    <li>11-25 KOSPI 收 <strong>4,697.51 点、跌 308.52 点（−6.16%）</strong>；三星电子 <strong>170,700 韩元（−9.87%）</strong>、SK 海力士 <strong>1,030,000 韩元（−11.05%）</strong>，前一交易日涨幅全数回吐。</li>
+    <li>法国巴黎银行把美光目标价由 <strong>1,700 美元下调至 775 美元（−54.4%）</strong>、评级由「跑赢」降至「中性」，并把 DRAM/NAND 供需接近平衡的时点从 <strong>2028 年年中提前至 2027 年年中</strong>；依据为 2028 年投运的大型数据中心许可延误、AI 服务器 HBM 搭载量下降、原厂持续扩产。</li>
+    <li>NAND 现货（1Tb / 512Gb 3D NAND 晶圆）自 2026 年 8 月中下旬触顶后<strong>累计下跌约 20%—30%</strong>；TrendForce 预计 <strong>2027Q1 NAND 合约价持平或季减 5%</strong>，Q2 起跌幅可能扩大，新增供给来自 Solidigm 大连、长江存储与三星西安。</li>
+    <li>DRAM 侧仍紧：TrendForce 估 2027 年 DRAM 位元需求 <strong>+25.3%、ASP +40%</strong>，DDR4 8Gb 合约价由年初 <strong>29.5 美元升至年底 33 美元</strong>；服务器/企业级 SSD 占 NAND 位元比重由 44.2% 升至 <strong>51.1%</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是本轮存储行情第一次出现「品种分歧」而非「需求分歧」，必须把 DRAM/HBM 与 NAND 拆开定价。① DRAM 受 HBM 挤占晶圆驱动，2027 年仍量价齐升；NAND 受三处新增产能驱动，2027Q1 就可能转跌，两者的股价不应再同涨同跌；② 卖方分歧极大（法巴砍半 vs 高盛维持买入、仅下调 2028 年盈利），说明市场争的是「周期顶点的位置」而非「周期是否存在」；③ 对国内模组与封测，NAND 转跌会先体现在<strong>库存减值</strong>而非毛利率，报表顺序是先减记后降价。</div>
+  <div class="src">来源：韩国交易所行情 / 工商时报 / TrendForce / 同花顺财经 / 法国巴黎银行研报转述（2026-11-25）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">4</div><h3>英伟达 B300 交期拉长到 26—40 周，近两季新单排到 2027 年二三季度</h3></div>
+  <div class="tags"><span class="tag t-amber">供应链瓶颈</span><span class="tag t-violet">涨价</span><span class="tag t-blue">先进封装</span></div>
+  <ul class="facts">
+    <li>台湾《工商时报》11-25 引 ODM 厂商：<strong>B300 交期 26—40 周、GB300 约 14—26 周</strong>，DGX Station 桌面版 GB300 超 26 周、RTX Pro 服务器/工作站加速卡 26 周以上；近两个季度新签订单多数要等到 <strong>2027 年第二、三季度</strong>交付。</li>
+    <li>产能重心向 B300、GB300 与已进入量产交付的 <strong>Vera Rubin</strong> 平台倾斜，后者依赖台积电 3nm/5nm 与 CoWoS 先进封装。</li>
+    <li>价格端：多年期协议下 <strong>Hopper 重新签约价最高达原价 2 倍</strong>，<strong>B300 自推出以来涨超 60%</strong>（公司 FY27Q3 财报会口径）。</li>
+    <li>挤压传导至消费端：计划削减 GeForce RTX 50 系列供货，下一代 RTX 60 原定 2027 年底量产、日程可能后移；Counterpoint 同日数据：2026Q3 纯晶圆代工同比 <strong>+36%</strong>，台积电份额升至 <strong>75%</strong>（前两季 73%），2nm 放量、N3 满载、CoWoS 扩产为主要驱动。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>交期是这轮周期里最难伪造的需求指标。26—40 周意味着今天下单、2027 年中才确认收入，等于把 2027 年的能见度提前锁进订单簿。① 2027 年收入的天花板由 <strong>CoWoS 与 3nm 产能</strong>决定，而非订单量；② 涨价（Hopper 2x、B300 +60%）说明议价权仍在供给端，毛利率短期不会因竞争下滑，但会推高云厂的单位算力折旧；③ 游戏卡被挤出是「单位晶圆产值排序」的结果，AI 周期内消费级 GPU 的供给弹性接近于零，这一挤压会先反映在显卡 ASP 而非销量。</div>
+  <div class="src">来源：台湾工商时报 / 科创板日报 / 财联社 / Counterpoint Research（2026-11-25）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">5</div><h3>FCC 首次批准轨道数据中心：SpaceX 可部署至多 100 万颗「Starmind」卫星</h3></div>
+  <div class="tags"><span class="tag t-green">算力基建</span><span class="tag t-blue">太空算力</span><span class="tag t-amber">监管审批</span></div>
+  <ul class="facts">
+    <li>11-25 FCC 附条件批准 SpaceX 的 <strong>Starmind</strong> 星座，用于在轨处理数据、服务地面 AI 算力需求，发射上限 <strong>100 万颗</strong>；条件为 <strong>2033 年 11 月前开始部署、2035 年 11 月前部署 10%（10 万颗）、2038 年 11 月前完成 50%</strong>。</li>
+    <li>部署于 500—2000 公里近连续日照轨道，直接取用太阳能、以太空辐射散热、卫星间激光链路通信；SpaceX 称运维成本极低，并可显著降低地面数据中心的环境影响。</li>
+    <li>目前地球轨道在轨卫星约 <strong>1.69—1.7 万颗</strong>，本次授权上限约为其 60 倍；FCC 收到逾 <strong>1,500 条</strong>公众意见，美国天文学会等要求驳回，Amazon Leo 称申请「不完整、投机且不现实」，FCC 主席 Carr 公开回击。</li>
+    <li>蓝色起源已于 3 月 19 日提交「日出计划」（Project Sunrise），拟在 500—1800 公里太阳同步轨道部署至多 <strong>5.16 万颗</strong>，仍在审批中。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是「电力与土地约束」第一次被监管以「换场地」的方式部分解除，但短期不改变任何供需。① 100 万颗是长期牌照、2033 年才开始计时，实际部署规模高度依赖星舰成本，Amazon Leo 的质疑有历史依据（星链获批 4.2 万颗、实际在轨约 1.1 万颗）；② 真正的技术瓶颈是在轨芯片的辐射加固与散热，而非卫星数量，单位 token 成本能否低于地面仍未知；③ 产业链映射是<strong>太空光伏、激光通信、抗辐射封装</strong>，不是通用 AI 服务器；④ 轨道拥挤与天文观测的外部性会带来长期诉讼与监管摩擦，构成这类项目的隐性成本。</div>
+  <div class="src">来源：FCC 公告 / 路透社 / NBC News / 中央社 / 财联社（2026-11-25 至 11-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">6</div><h3>三星 2027 年 DRAM 产能全部售罄、HBM 配额按约定价卖完，长约延至 2029—2031 年</h3></div>
+  <div class="tags"><span class="tag t-blue">产能锁定</span><span class="tag t-up">大额订单</span><span class="tag t-amber">供应链瓶颈</span></div>
+  <ul class="facts">
+    <li>韩国《Economy Tribune》11-25：三星 <strong>2027 年 DRAM 产能已全部签售</strong>，多数合约锁定至 <strong>2029 年</strong>，部分客户正争取延长至 <strong>2031 年</strong>。</li>
+    <li>三星 <strong>2027 年 HBM 配额已按约定价格售罄</strong>；长约中本就嵌入 HBM 与 NAND 的产能绑定条款；公司目标在 <strong>2030 年前锁定约 70% 产能</strong>。</li>
+    <li>HBM 单位晶圆消耗远高于 DDR5，每片流向 AI 加速器的晶圆都挤占 PC/手机内存供给；新建晶圆厂与封装线需数年，<strong>2030 年前难形成有效增量</strong>。SK 海力士此前称 2026 年 DRAM 产量提升至 8 倍仍填不上缺口。</li>
+    <li>终端已开始降配：华硕联席 CEO 许先越称难以完全转嫁内存成本，正评估把部分机型标配由 <strong>16GB 下调至 8GB</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>售罄窗口从「2027」推进到「2029—2031」，说明买方在为三年后的供给付定金，这是典型短缺后周期行为。① 存储原厂的收入能见度已超过设备厂，估值应给更长久期；② 绑定条款让 HBM 与 NAND 的价格形成联动——NAND 转跌会通过合约结构削弱 HBM 议价，正好与今天法巴的看空逻辑互补；③ 终端降配（16GB→8GB）是需求破坏的第一现场，会在 2027 年反向压制消费级 DRAM 位元需求，这一条比涨价更值得盯。</div>
+  <div class="src">来源：韩国 Economy Tribune / 同花顺财经 / 华商网数码（2026-11-25）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">7</div><h3>华为与行芯完成行业首次国产 EDA 工具「串链」，韬 EDA 进入真实设计流程</h3></div>
+  <div class="tags"><span class="tag t-green">技术革新</span><span class="tag t-blue">芯片自研</span><span class="tag t-violet">生态开放</span></div>
+  <ul class="facts">
+    <li>11-24 第七届华为创新和知识产权论坛，行芯科技披露面向华为「韬（τ）芯片」的国产 EDA「韬 EDA」已与其他国产 EDA 工具完成串链，为<strong>行业首次国产 EDA 工具串链</strong>；Fabless、多家 Fab 与封装厂参与实战项目协同验证。</li>
+    <li>两款核心自研工具：信号路径 RC 抽取 <strong>GloryEX</strong> 与电源路径 PI 签核 <strong>GloryBolt</strong>，对应韬定律「以时间缩微替代几何缩微」下的 <strong>3D-Native τ-Aware Signoff</strong>，解决三维堆叠后寄生参数计算复杂度激增的问题。</li>
+    <li>双方联合创新 2025/2026 年分别落地 <strong>27 项 / 37 项</strong>产品新功能，<strong>2027 年已规划 30 项</strong>；共创融合 PDK，实现多工艺、多尺度、多结构耦合。</li>
+    <li>格局对照：全球 EDA 由新思、楷登、西门子合计约 <strong>75%</strong> 份额主导；国产工具覆盖率已由不足 30% 提升至 <strong>85%</strong>，但整体国产化率仍不足 15%，高端数字工具渗透更低。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>EDA 的壁垒不是单点参数，而是全流程贯通——「串链」比「单点突破」更能改变可替代性。① 韬定律路线（逻辑折叠 + 混合键合 + 三维堆叠）对签核工具提出原生三维要求，给了国产工具一个<strong>没有历史包袱的新赛道</strong>，而不是在老赛道上追三巨头；② 串链意味着从「能做」到「能用」，但商用验证要等 2027 年 30 项功能与量产项目落地；③ 投资映射落在「国产先进封装 + 三维签核 + PDK 协同」，泛 EDA 概念的外延不宜过度扩张。</div>
+  <div class="src">来源：华为创新和知识产权论坛 / 行芯科技官方 / IT之家 / 凤凰网科技 / 腾讯新闻（2026-11-24 至 11-25）</div>
+</div>
+
+<!-- ============ 中游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>中游 · 大模型发布 / 开源上新 / 推理与定价</h2><span class="cnt">5 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">8</div><h3>OpenAI 称 GPT-6 仅凭推理即可设计蛋白质：从头设计命中率 10.9%，序列重设计达 70%</h3></div>
+  <div class="tags"><span class="tag t-green">技术革新</span><span class="tag t-blue">模型迭代</span><span class="tag t-up">产品发布</span></div>
+  <ul class="facts">
+    <li>11-24 OpenAI 发布预印本《GPT-6 as a Universal Foundation Model for Protein Biology: Beyond Specialized Models》，称 GPT-6 系列仅凭<strong>推理与通用编程工具</strong>即可设计蛋白质三维结构与氨基酸序列，生成环节无需调用专用生物模型。</li>
+    <li>与 Onava 的两轮湿实验：基于 GPT-6.2 设计的 <strong>322 个 mini binder 中 35 个（10.9%）</strong>检出与靶点结合，<strong>5 个靶点均有阳性</strong>；对 6 个纳米抗体 3 个结合环重设计 <strong>182 条序列，128 条（70%）</strong>检出结合；5 种治疗性抗体 <strong>272 个片段中 179 个（66%）</strong>保留结合能力。</li>
+    <li>计算评估：MotifBench 上最新内部模型 <strong>43.7%</strong> 的设计同时满足结构保真与整体形状，高于专用模型 RFdiffusion 的 <strong>27.8%</strong>；但 GPT-6.2 的纯三维设计得分略低于 RFdiffusion。</li>
+    <li>OpenAI 自注：10.9% <strong>低于 RFdiffusion 原始论文 19%</strong> 的总体成功率（95 个送测样本），差异来自送测前筛选严格度与「结合」定义；完整结构预测仍是弱项，端到端流程仍依赖外部工具。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这条的价值不在「AI 制药成功」，而在<strong>通用模型开始替代垂直工具链的编排层</strong>。① 70%/66% 的序列重设计成功率说明模型最强的是「在已有骨架上做约束满足」，而这恰好是新药优化阶段工作量最大的环节；② 从头设计 10.9% 低于专用模型，短期证伪不了 RFdiffusion，但把「每个任务是否需要单独训一个专用模型」变成开放问题；③ 对 AI 制药公司，护城河从「模型」回到「湿实验闭环与候选筛选」，数据与实验能力重新变贵——这与过去两年「模型即壁垒」的叙事相反。</div>
+  <div class="src">来源：OpenAI 官方博客与预印本 / Onava / 凤凰网科技 / 科创板日报（2026-11-24 至 11-25）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">9</div><h3>Sand.ai 发布 480B 视频模型 MAGI-2：1080P 生成压到 0.5 元/秒，切镜控制 50 毫秒</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-violet">重大定价</span><span class="tag t-green">国产适配</span></div>
+  <ul class="facts">
+    <li>11-25 三呆科技（Sand.ai）发布 <strong>MAGI-2</strong>，总参数由 114B 扩至 <strong>480B、激活 28B</strong>，训练数据扩大约 3 倍；支持 <strong>4—30 秒</strong>多镜头视频、最多 <strong>20 份</strong>参考素材、<strong>2 万字符</strong>提示词与二次编辑。</li>
+    <li>定价 <strong>0.5 元/秒</strong>起，官方称为同规格主流模型的约<strong>十分之一</strong>；主打 <strong>50 毫秒级</strong>切镜/运镜控制，从「抽卡」转向可复现的镜头调度。</li>
+    <li>Artificial Analysis 视频榜列<strong>全球第二</strong>；已完成 <strong>海光、摩尔线程</strong>等国产芯片适配，API 即日开放申请。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>视频模型的竞争焦点从「画质」转向「可控性 + 每秒钟单价」，这是进入工业化采购的前提。① 0.5 元/秒把 30 秒 1080P 的边际成本压到 15 元量级，短剧、电商素材的成本结构被改写，需求弹性会先于质量评价释放；② 官方适配海光/摩尔线程，意味着国产算力在视频推理这种<strong>高显存带宽</strong>场景拿到了可参照的落地样本；③ 参数从 114B 到 480B 而激活仅 28B，是本轮 MoE 化的标准动作——比拼的是显存带宽与调度效率，不是峰值算力。</div>
+  <div class="src">来源：Sand.ai 官方 / IT之家 / Artificial Analysis 榜单 / 腾讯新闻 AI 日报（2026-11-25）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">10</div><h3>ChatGPT 把 Chat 与 Work 并入同一计量，订阅从「按产品」变成「按额度」</h3></div>
+  <div class="tags"><span class="tag t-violet">定价策略</span><span class="tag t-up">产品发布</span><span class="tag t-blue">商业化落地</span></div>
+  <ul class="facts">
+    <li>OpenAI 发言人向 TechCrunch 确认，已开始向<strong>部分 Pro 用户</strong>推出 ChatGPT 内 Chat 与 Work 的统一体验，二者<strong>共享单一使用计量</strong>。</li>
+    <li><strong>Instant 模型对话仍不限量、不计入共享额度</strong>，即基础层保留「无限」以维持入口竞争力，稀缺性被上移到推理档。</li>
+    <li>同期 OpenAI 面向开发者开放医疗场景模型配置；消费端则推进购物、健康等主动服务入口。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是订阅制从「功能打包」向「算力配额制」过渡的标志性动作。① 当 Agent 与长任务把单用户推理消耗抬高一个数量级，「无限订阅」在数学上不可持续，合并计量是把<strong>成本波动转移给重度用户</strong>的最小摩擦方案；② 保留 Instant 无限，说明入口层仍是免费/扁平定价、变现在推理层，这与运营商「语音包 + 流量包」的分层逻辑同构；③ 对国内厂商的含义是：个人智能体的定价锚不会落在「月费」，而会落在<strong>任务完成次数或 token 额度</strong>，按结果收费（如 Sierra）与按额度收费会长期并存。</div>
+  <div class="src">来源：TechCrunch / OpenAI 官方口径 / JustSayAI 早晚报（2026-11-25 至 11-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">11</div><h3>PrismML 发布三值权重模型 Ternary Bonsai 2.5 27B：体积 5.9GB、上下文 262K，单卡可跑</h3></div>
+  <div class="tags"><span class="tag t-green">端侧推理</span><span class="tag t-up">开源上新</span><span class="tag t-blue">模型迭代</span></div>
+  <ul class="facts">
+    <li>11-25 PrismML 发布 <strong>Ternary Bonsai 2.5 27B</strong>，权重仅取 <strong>−1、0、+1</strong> 三值，模型体积 <strong>5.9GB</strong>，支持 <strong>262K token</strong> 上下文与文本、图像输入。</li>
+    <li>官方称新版本在编程、多轮工具调用与长时程任务上有提升，可在<strong>笔记本或单张 GPU</strong> 上运行。</li>
+    <li>同期端侧阵营密集动作：腾讯混元把 224B 的 Hy4 flash 以 GGUF 量化塞进 64GB Mac mini 且分数几乎不掉；蚂蚁 Ling-3.2-air 以 1,240 亿总参/激活 55 亿主打代码仓库修复（SWE-bench Pro 26.40→58.28）。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>三值量化把「参数规模」与「显存占用」解耦，价值在合规与隐私场景而非跑分。① 27B 级模型装进 5.9GB，意味着<strong>本地工具调用与文件处理不必上云</strong>，这是金融、医疗、政务采购的硬门槛；② 真正受限的是吞吐——三值权重对解码带宽友好、对精度敏感任务不友好，短期内是「端侧第二模型」而非主力；③ 与前几日 Loop 架构的路线一致，行业在用<strong>计算深度、量化位宽、循环层</strong>三条路同时替代「堆参数」，这直接压缩了高端 GPU 的长期需求弹性。</div>
+  <div class="src">来源：PrismML 官方发布 / Hugging Face / 头条 AI 技术进展早报（2026-11-25）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">12</div><h3>中国科大 EMO 框架：识别非关键计算并动态降频，训练 GPU 能耗降 15%—28%</h3></div>
+  <div class="tags"><span class="tag t-green">技术革新</span><span class="tag t-amber">电力约束</span><span class="tag t-blue">能效</span></div>
+  <ul class="facts">
+    <li>中国科大计算机学院孙广中、孙经纬团队与南方科技大学合作提出 <strong>EMO</strong> 能效建模与优化框架，成果发表于 <strong>SC 2026</strong>。</li>
+    <li>方法：把 CPU 事件、GPU 内核与通信操作建模为执行图，利用异步执行中的<strong>时间余量</strong>搜索降频策略，识别非关键计算并动态降频。</li>
+    <li>典型训练配置下可降低约 <strong>15%—28% 的 GPU 能耗</strong>，而运行时间仅增加 <strong>2%—5%</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>当电力成为算力扩张的第一约束，「每瓦 token」比「每美元 FLOPs」更接近真实成本。① 15%—28% 的能耗下降不需要更换硬件，属于纯粹的调度层收益，对已建成集群是<strong>即插即用的产能增量</strong>；② 2%—5% 的时间代价在电力紧张、PUE 受限的地区是可接受的交换，但在交付窗口极紧的训练任务里会被拒绝，落地取决于电费与工期的相对价格；③ 与今日的轨道数据中心、燃机排产一起看，算力成本正在从「芯片价格」拆成「芯片 + 电力 + 并网」三段，能效技术的估值权重会上升。</div>
+  <div class="src">来源：中国科学技术大学新闻网 / SC 2026 论文（2026-11-25）</div>
+</div>
+
+<!-- ============ 下游 ============ -->
+<div class="section-head"><div class="bar"></div><h2>下游 · AI 应用落地 / 商业化 / 需求侧大单 / 监管环境</h2><span class="cnt">5 条</span></div>
+
+<div class="item">
+  <div class="hd"><div class="num">13</div><h3>小鹏 IRON 定档 2027 年 1 月硬件量产、Q1 进门店实习，第二代 VLA 训练提速 10—12 倍</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-green">具身智能</span><span class="tag t-blue">量产爬坡</span></div>
+  <ul class="facts">
+    <li>11-25「Origin 原点」小鹏科技日：IRON 拥有 <strong>76 个自由度、超 1,500 个触点</strong>，核心区域<strong>触觉覆盖率超 80%</strong>，完全由大模型驱动，现场无遥控完成开场演讲、斟酒与自主充电。</li>
+    <li>时间表：<strong>2027 年 1 月硬件量产、2 月正式发布</strong>，<strong>2027 年 Q1 作为导购进入部分国内门店实习</strong>，第二代 VLA 目标 <strong>2027 年上半年全球首批交付</strong>，训练速度提升 <strong>10—12 倍</strong>。</li>
+    <li>数据与制造：数据工厂围绕 <strong>250 多个场景、15 类岗位</strong>采集训练；整机全自动组装线配套 <strong>600 多项</strong> AI 全息质检与 <strong>1,000 多项</strong>整机车规级测试。</li>
+    <li>同日蔚来发布世界模型 <strong>NWM3.0</strong> 与 NOMI Intelligence 4.0，披露 AI 原生组织六层架构、<strong>7,500 多个 Agent</strong> 由 9,750 余名员工通过内部助手调用。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>人形机器人从「演示」进入「排产 + 岗位定义」，关键变化是给出了<strong>可核查的岗位</strong>（门店导购）而非泛场景。① 76 自由度与 80% 触觉覆盖是硬件规格，但决定落地的是数据飞轮——250 场景/15 岗位的采集规模，决定 2027 年能否脱离遥操作；② 「先进门店实习、再量产」是降低早期故障社会成本的路径，也意味着 B 端订单会晚于人形机器人指数；③ 对供应链，价值量正在从「关节/减速器」向「触觉传感 + 整机质检」迁移，这一条在今日 A 股机器人板块「利好兑现回落」中尚未被定价。</div>
+  <div class="src">来源：小鹏科技日官方 / 新华财经 / 新浪财经 / 凤凰网科技 / 蔚来官方（2026-11-25）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">14</div><h3>千问 Go 开放免费代打电话：可订餐厅、查遗失物品、催快递，支持定时外呼</h3></div>
+  <div class="tags"><span class="tag t-up">产品发布</span><span class="tag t-blue">商业化落地</span><span class="tag t-green">智能体</span></div>
+  <ul class="facts">
+    <li>11-25 阿里旗下个人智能体<strong>千问 Go</strong> 开放代打电话服务：用户告知拨打对象与通话需求并授权后，千问可代为联系餐厅预订包间、向酒店查询遗失物品、联系快递员确认配送进度，并反馈沟通结果。</li>
+    <li>支持<strong>定时代打电话</strong>，即把「到点执行」的物理世界动作交给智能体。</li>
+    <li>同日豆包「豆包购物」在 App 首页一级入口灰测、个人助理「小豆」邀请制公测（健康数据汇总、价格监控等主动服务）；京东物流德国奥伯豪森 1 号仓投用 <strong>700 余台</strong>自研「智狼/天狼」机器人，单日出入库处理量达 <strong>35 万件</strong>、履约效率提升 <strong>3 倍</strong>。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>Agent 的竞争从「数字交互」进入「代理身份介入真实社会网络」，技术门槛不在语音识别，而在<strong>意图理解、对话策略与结果闭环</strong>。① 代打电话要解决对方不知道自己在与机器对话的合规问题，也要求失败可回滚，这会催生「代理身份声明」类标准；② 免费策略说明阿里把它当<strong>入口补贴</strong>而非收入项，与外卖/打车早期的补贴逻辑一致，短期会压低同类产品的定价预期；③ 对商家侧的真实影响是客服与预订系统要开始适配机器呼入，这一改造需求会先于 C 端付费出现。</div>
+  <div class="src">来源：阿里千问官方 / 每日经济新闻 / 凤凰网科技 / 京东物流公告（2026-11-25）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">15</div><h3>Character.AI 破产后拟拍卖 2,100 万美国账户聊天记录，42 州总检察长联手阻止</h3></div>
+  <div class="tags"><span class="tag t-amber">监管执法</span><span class="tag t-blue">数据资产化</span><span class="tag t-up">破产拍卖</span></div>
+  <ul class="facts">
+    <li>Character.AI 于 <strong>10 月</strong>依《破产法》第 11 章申请保护后，计划拍卖平台资产与用户数据，拟售数据集包含超 <strong>2,100 万个美国账户</strong>的聊天记录，其中超 <strong>210 万个</strong>账户登记为未成年人，另含 IP 地址等个人信息。</li>
+    <li><strong>42 个州及辖区总检察长</strong>联合向特拉华州破产法院提出异议；加州总检察长 Bonta 指出，公司此前明确承诺不出售用户信息，破产不应成为规避消费者保护法的途径。</li>
+    <li>唯一公开竞标方为 <strong>Smirks and Pangs Acquisition LLC</strong>，2026-11-13 在特拉华州注册、次日即被选为底价竞标方，背后由纽约机构 Octave Advisors 支持；拍卖定于 <strong>12 月 1 日</strong>。</li>
+    <li>此前迪士尼拟以 <strong>2,000 万美元</strong>取得非独家 IP 许可并聘用 CEO 及近 70 名前员工，同样遭多州反对；加州、科罗拉多、纽约、康涅狄格等地聊天机器人安全立法将于 <strong>2027-01-01</strong> 生效。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是「用户对话能否作为破产财产被出售」的第一个判例级争议，直接决定 AI 应用的数据资产估值方式。① 若拍卖获准，所有 AI 公司的隐私承诺在破产程序中都将被重新计价，<strong>隐私政策从合规文本变成资产负债表项目</strong>；② 2,100 万账户、210 万未成年人的结构，使案件同时落入未成年人保护与数据跨境两条监管线，买家即使成交也可能面临各州执法；③ 对投资端的含义是：C 端陪伴类产品的终值不应按用户数线性外推，需扣除「数据不可转让」的折价。</div>
+  <div class="src">来源：TechCrunch / 各州总检察长办公室声明 / 凤凰网科技 / 腾讯新闻（2026-11-26）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">16</div><h3>上海把「物理 AI」写入省级产业政策：2028 年应用普及率 85%，单项目最高补贴 2,000 万元</h3></div>
+  <div class="tags"><span class="tag t-blue">政策落地</span><span class="tag t-green">物理 AI</span><span class="tag t-violet">补贴</span></div>
+  <ul class="facts">
+    <li>《上海市加快推动人工智能赋能工业服务业高质量发展行动方案（2027—2028 年）》印发，以「模塑申服」为牵引，明确<strong>前瞻布局物理 AI</strong>，攻关世界模型构建、多模态物理感知、虚实交互与自主决策。</li>
+    <li>量化目标：到 2028 年工业服务业 AI 应用普及率达 <strong>85% 以上</strong>，培育 <strong>10 家</strong>数智原生独角兽、建设 <strong>5 个</strong>行业级协同设计平台、推动 <strong>500 家</strong>优质企业构建柔性制造服务体系。</li>
+    <li>补贴结构：研发设计、智能排产中枢（APS）、3D 视觉与 AI 检测装备、预测性运维、几何内核/求解器等攻关项目最高 <strong>2,000 万元</strong>；第三方模型 API 与私有部署最高 <strong>500 万元</strong>；非关联方智算租赁最高补贴 <strong>30%</strong>；标杆场景最高 <strong>1,000 万元</strong>；每年培养不少于 <strong>100 名</strong> FDE。</li>
+    <li>政策将<strong>智能体及其组合</strong>定义为新型制造模式的基本单元，并取消营收规模、成立年限与既往业绩限制。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>地方政策第一次把「物理 AI」放进省级产业清单，含义不是补贴额度，而是<strong>采购科目被建立</strong>。① 五大方向（研发设计/供应链/柔性制造/质检/运维）各自对应可招标的产品与验收标准，2027 年首个完整执行年才是订单验证窗口；② 取消营收与年限门槛，等于把预算向初创开放，但同时提高了「现场交付能力」的权重，集成商先于模型公司受益；③ 智算租赁补贴 30% 是隐性算力需求刺激，与超节点集采一起构成国产算力的需求侧双轨；④ 风险在于政策配套与资金拨付节奏，2026 年内不宜按补贴额倒推收入。</div>
+  <div class="src">来源：上海市政府办公厅文件 / 东吴证券研报 / 证券之星 / 腾讯新闻（2026-11-25）</div>
+</div>
+
+<div class="item">
+  <div class="hd"><div class="num">17</div><h3>京东德国「智狼」仓投用 700 余台机器人，单日出货 35 万件、效率提升 3 倍</h3></div>
+  <div class="tags"><span class="tag t-green">出海</span><span class="tag t-blue">商业化落地</span><span class="tag t-up">订单</span></div>
+  <ul class="facts">
+    <li>11-25 京东物流宣布完成德国<strong>奥伯豪森 1 号仓</strong>智能化设备规模部署，投用超 <strong>700 台</strong>自研「智狼」「天狼」等自动化设备。</li>
+    <li>单日出入库货物处理量可达 <strong>35 万件</strong>，相较传统操作模式<strong>全流程履约效率提升 3 倍</strong>。</li>
+    <li>选址位于德国鲁尔工业区核心、欧洲重要物流枢纽节点，是京东物流技术出海在欧洲市场的关键落子。</li>
+  </ul>
+  <div class="impact"><b>行业含义：</b>这是「AI + 机器人」在海外仓的一次规模化交付，而非演示。① 700 台设备、35 万件/日的组合说明仓内自动化已跨过<strong>单点设备</strong>阶段，进入系统集成与运维输出，毛利结构会从硬件转向服务；② 欧洲人力成本高、工会约束强，是自动化投资回报最确定的市场，中国厂商的竞争优势在「设备 + 系统 + 施工」的打包能力；③ 与今日小鹏、宇树的国内具身智能叙事形成对照——<strong>真正产生现金流的机器人仍在仓储与产线</strong>，人形机器人的收入验证要更晚。</div>
+  <div class="src">来源：京东物流官方 / 每日经济新闻（2026-11-25）</div>
+</div>
+
+<div class="extra">
+  <ul>
+    <li><b>镓锗锑对美管制暂停一个月：</b>商务部公告，自 <strong>2026-11-28 至 2027-01-27</strong> 暂停实施 2024 年第 46 号公告第二款，涉及镓、锗、锑与超硬材料。窗口短于幅度更值得留意，属阶段性安排而非方向改变，对化合物半导体与红外/光模块原料的短期供给是边际缓和。</li>
+    <li><b>亚马逊开源 Decider v2 决策模型：</b>一次放出 5 款面向智能体决策的轻量模型，官方称长程推理准确率显著提升。与此前 LangChain Harness 的 Jev「系统一」思路一致——把路由、风险评估、工具选择等分类判断从大模型中剥离，成本与延迟可降一到两个数量级。</li>
+    <li><b>Claude Artifacts 支持 Install as app：</b>Anthropic 让用户在对话中生成的小工具可一键安装为独立桌面应用，同期公测 MCP 技能分发。含义是「一次对话产出一个软件」的分发链路被打通，SaaS 的长尾供给可能被重写。</li>
+    <li><b>高德 ABot-World 0.5：</b>世界模型首次支持实时交互与声音生成，从「生成画面」走向「可操作环境」，是具身智能仿真训练与自动驾驶闭环的关键中间件。</li>
+    <li><b>Neuralink 获 FDA 关键性临床试验批准：</b>11-25 获批启动 LINK 试验，系美国首项针对可植入式脑机接口的关键性临床试验，针对 ALS 严重瘫痪患者，距离上市许可更近一步；与 AI 的交叉点在解码模型而非植入本身。</li>
+    <li><b>Tidal 12-09 起封禁纯 AI 生成音乐：</b>平台已有约 <strong>2,700 万首</strong>曲目被标记为 AI 生成（占曲库 6.3%），近 90 天提交曲目中超 <strong>43%</strong> 被检测为 AI 生成，年底前移除量可能超 2,900 万首。这是内容平台第一次以「清理」而非「标注」应对生成内容，版权分成规则将随之重写。</li>
+  </ul>
+</div>
+
+<footer>
+  <h4>信源清单与校验说明</h4>
+  <ol>
+    <li><b>上游</b>：标普全球评级公告与路透社、中央社、第一财经；ICE Data Services 与标普全球市场财智 CDS 数据、财联社、凤凰网财经、同花顺；韩国交易所行情、工商时报、TrendForce、法国巴黎银行研报转述；台湾工商时报与科创板日报（交期）、Counterpoint Research；FCC 公告与路透社、NBC News、CTV News；韩国 Economy Tribune、同花顺财经；华为创新和知识产权论坛与行芯科技官方、IT之家。</li>
+    <li><b>中游</b>：OpenAI 官方博客与预印本 PDF、Onava、科创板日报；Sand.ai 官方与 Artificial Analysis 榜单、腾讯新闻 AI 日报；TechCrunch 与 OpenAI 发言人表述；PrismML 官方与 Hugging Face；中国科学技术大学新闻网与 SC 2026 论文。</li>
+    <li><b>下游</b>：小鹏科技日官方与新华财经、新浪财经、凤凰网科技；阿里千问官方、每日经济新闻；TechCrunch 与各州总检察长办公室声明、凤凰网科技；上海市政府办公厅文件与东吴证券研报、证券之星；京东物流官方与每日经济新闻。</li>
+    <li>已剔除范围：自媒体爆料、小道传闻、纯营销软文、无原始信源的二次转载；同一事件的多家转载合并为一条，不做重复计入。前一日（11-25 期）已覆盖的戴尔财报、甲骨文 200 亿美元融资、台积电客户授信、光模块 2027 订单、Claude VP≠VNP、文心 5.5 Flash、HyMT3、SenseNova U1.6、ShellBench、Anthropic 破发、Meta Muse 英国、78 项 AI 国际标准、豆包「小豆」等一律不入主榜。</li>
+  </ol>
+  <div class="disc">
+    <b>免责与不确定性提示：</b>本报告为公开信息汇编，仅供研究参考，不构成任何投资建议。<br>
+    ① 标普负面观察期为 90 天，降级幅度与是否触发更大幅度取决于调查与后续披露；标普明确表示截至报告发布尚不清楚董事会的补救措施，穆迪结论相反，评级路径不宜线性外推。<br>
+    ② CoreWeave 的 70% 隐含违约概率由 CDS 价格反推、包含投资者要求的风险补偿，通常显著高于实际违约概率，不可直接当作违约预期使用。<br>
+    ③ 三星「2027 年 DRAM 全售罄、合约延至 2029—2031 年、HBM 配额按约定价售罄」源自韩国《Economy Tribune》转述，三星未发布正式公告；韩国存储股单日大跌同时包含前期涨幅兑现与单一机构评级调整，不宜全部归因于基本面。<br>
+    ④ B300 26—40 周、GB300 14—26 周交期为 ODM 厂商口径并经台湾《工商时报》转述，英伟达未官方确认具体周数；Hopper 重签价 2 倍、B300 涨超 60% 为公司财报会口径。<br>
+    ⑤ FCC 批准的 100 万颗是长期部署上限、2033 年才开始计时，SpaceX 实际部署规模、星舰成本与在轨芯片辐射加固均未验证；卫星运营商历史上存在超额申请换取设计弹性的做法。<br>
+    ⑥ GPT-6 蛋白质设计为预印本、未经同行评审；10.9% 命中率低于 RFdiffusion 原始报告的 19%，两者在送测前筛选严格度与「结合」定义上不可直接横比，且序列重设计环节仍使用了专用模型与筛选工具。<br>
+    ⑦ 小鹏 IRON 的量产与交付时点为公司计划（2027 年 1 月硬件量产、Q1 门店实习、2027H1 全球首批交付），售价、部署规模与长期稳定性均未披露；发布会现场演示不构成量产能力证明。<br>
+    ⑧ Character.AI 拍卖定于 12 月 1 日，法院尚未就 42 州总检察长的异议作出裁决，数据最终处置方式取决于破产程序；竞标方信息仅有注册地与背后机构，实际控制人未公开。<br>
+    ⑨ 上海物理 AI 方案执行期为 2027—2028 年，补贴拨付、场景清单发布与项目验收进度均存在不确定性，2026 年内不宜按补贴上限倒推企业收入；MAGI-2 的「全球第二」为 Artificial Analysis 特定榜单口径，与主观画质评价不等价。
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
